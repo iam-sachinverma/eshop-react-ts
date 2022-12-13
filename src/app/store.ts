@@ -18,6 +18,11 @@ import mediaRunningReducer from "./mediaRunning/mediaRunning";
 import productReducer from "./productSlice.js"
 import cartReducer from "./cartSlice.js"
 import authReducer from "./authSlice"
+import categoryReducer from "./categorySlice";
+import checkoutReducer from "./checkoutSlice"
+
+import { productApi } from "./productApi";
+import { customersApi } from "./customerSlice";
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -32,6 +37,10 @@ const reducers = combineReducers({
   product: productReducer,
   cart: cartReducer,
   auth: authReducer,
+  category: categoryReducer,
+  checkout: checkoutReducer,
+  [productApi.reducerPath]: productApi.reducer,
+  [customersApi.reducerPath]: customersApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);
@@ -44,7 +53,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(middlewareLogger),
+    }).concat(middlewareLogger, productApi.middleware, customersApi.middleware),
 });
 
 export let persistor = persistStore(store);

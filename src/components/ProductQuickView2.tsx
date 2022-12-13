@@ -1,6 +1,6 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
-import LikeButton from "components/LikeButton";
+// import LikeButton from "components/LikeButton";
 import { StarIcon } from "@heroicons/react/24/solid";
 import BagIcon from "components/BagIcon";
 import NcInputNumber from "components/NcInputNumber";
@@ -13,30 +13,37 @@ import {
 import IconDiscount from "components/IconDiscount";
 import Prices from "components/Prices";
 import toast from "react-hot-toast";
-import detail1JPG from "images/products/detail1.jpg";
-import detail2JPG from "images/products/detail2.jpg";
-import detail3JPG from "images/products/detail3.jpg";
+// import detail1JPG from "images/products/detail1.jpg";
+// import detail2JPG from "images/products/detail2.jpg";
+// import detail3JPG from "images/products/detail3.jpg";
 import NotifyAddTocart from "./NotifyAddTocart";
+
 import { Link } from "react-router-dom";
+import { useAppDispatch } from "app/hooks";
+import { addProductToCart } from "app/cartSlice";
 
 export interface ProductQuickView2Props {
   className?: string;
+  data?: any;
 }
 
-const ProductQuickView2: FC<ProductQuickView2Props> = ({ className = "" }) => {
-  const { sizes, variants, status, allOfSizes } = PRODUCTS[0];
-  const LIST_IMAGES_DEMO = [detail1JPG, detail2JPG, detail3JPG];
+const ProductQuickView2: FC<ProductQuickView2Props> = ({ className = "", data }) => {
+  const dispatch = useAppDispatch();
 
-  const [variantActive, setVariantActive] = React.useState(0);
-  const [sizeSelected, setSizeSelected] = React.useState(sizes ? sizes[0] : "");
-  const [qualitySelected, setQualitySelected] = React.useState(1);
+  const [productDetails, setProductDetails] = useState<any>(data);
 
-  const notifyAddTocart = () => {
+  useEffect(() => {
+    setProductDetails(data);
+  },[data])  
+
+  const addToCartHandler = () => {
+    dispatch(addProductToCart({...productDetails, quantitySelected}));
     toast.custom(
       (t) => (
         <NotifyAddTocart
-          productImage={LIST_IMAGES_DEMO[0]}
-          qualitySelected={qualitySelected}
+          productImage={productDetails?.images?.[0]?.src}
+          qualitySelected={quantitySelected}
+          productName={productDetails?.name}
           show={t.visible}
           sizeSelected={sizeSelected}
           variantActive={variantActive}
@@ -45,6 +52,28 @@ const ProductQuickView2: FC<ProductQuickView2Props> = ({ className = "" }) => {
       { position: "top-right", id: "nc-product-notify", duration: 3000 }
     );
   };
+
+  const { sizes, variants, status, allOfSizes } = PRODUCTS[0];
+  // const LIST_IMAGES_DEMO = [detail1JPG, detail2JPG, detail3JPG];
+
+  const [variantActive, setVariantActive] = React.useState(0);
+  const [sizeSelected, setSizeSelected] = React.useState(sizes ? sizes[0] : "");
+  const [quantitySelected, setQuantitySelected] = React.useState(1);
+
+  // const notifyAddTocart = () => {
+  //   toast.custom(
+  //     (t) => (
+  //       <NotifyAddTocart
+  //         productImage={LIST_IMAGES_DEMO[0]}
+  //         qualitySelected={qualitySelected}
+  //         show={t.visible}
+  //         sizeSelected={sizeSelected}
+  //         variantActive={variantActive}
+  //       />
+  //     ),
+  //     { position: "top-right", id: "nc-product-notify", duration: 3000 }
+  //   );
+  // };
 
   const renderVariants = () => {
     if (!variants || !variants.length) {
@@ -188,14 +217,14 @@ const ProductQuickView2: FC<ProductQuickView2Props> = ({ className = "" }) => {
         {/* ---------- 1 HEADING ----------  */}
         <div>
           <h2 className="text-2xl 2xl:text-3xl font-semibold">
-            <Link to="/product-detail">Heavy Weight Shoes</Link>
+            <Link to={`product/${productDetails?.id}`}>{productDetails?.name}</Link>
           </h2>
 
           <div className="flex items-center mt-5 space-x-4 sm:space-x-5">
             {/* <div className="flex text-xl font-semibold">$112.00</div> */}
             <Prices
               contentClass="py-1 px-2 md:py-1.5 md:px-3 text-lg font-semibold"
-              price={112}
+              price={+productDetails?.price}
             />
 
             <div className="h-6 border-l border-slate-300 dark:border-slate-700"></div>
@@ -215,6 +244,8 @@ const ProductQuickView2: FC<ProductQuickView2Props> = ({ className = "" }) => {
                 </div>
               </a>
               <span className="hidden sm:block mx-2.5">·</span>
+
+              {/* Status */}
               <div className="hidden sm:flex items-center text-sm">
                 <SparklesIcon className="w-3.5 h-3.5" />
                 <span className="ml-1 leading-none">{status}</span>
@@ -231,13 +262,13 @@ const ProductQuickView2: FC<ProductQuickView2Props> = ({ className = "" }) => {
         <div className="flex space-x-3.5">
           <div className="flex items-center justify-center bg-slate-100/70 dark:bg-slate-800/70 px-2 py-3 sm:p-3.5 rounded-full">
             <NcInputNumber
-              defaultValue={qualitySelected}
-              onChange={setQualitySelected}
+              defaultValue={quantitySelected}
+              onChange={setQuantitySelected}
             />
           </div>
           <ButtonPrimary
             className="flex-1 flex-shrink-0"
-            onClick={notifyAddTocart}
+            onClick={addToCartHandler}
           >
             <BagIcon className="hidden sm:inline-block w-5 h-5 mb-0.5" />
             <span className="ml-3">Add to cart</span>
@@ -251,7 +282,7 @@ const ProductQuickView2: FC<ProductQuickView2Props> = ({ className = "" }) => {
         <div className="text-center">
           <Link
             className="text-primary-6000 hover:text-primary-500 font-medium"
-            to="/product-detail"
+            to={`product/${productDetails?.id}`}
           >
             View full details
           </Link>
@@ -270,7 +301,7 @@ const ProductQuickView2: FC<ProductQuickView2Props> = ({ className = "" }) => {
           <div className="relative">
             <div className="aspect-w-1 aspect-h-1">
               <img
-                src={LIST_IMAGES_DEMO[0]}
+                src={productDetails?.images?.[0]?.src}
                 className="w-full rounded-xl object-cover"
                 alt="product detail 1"
               />
@@ -278,8 +309,9 @@ const ProductQuickView2: FC<ProductQuickView2Props> = ({ className = "" }) => {
 
             {/* STATUS */}
             {renderStatus()}
+
             {/* META FAVORITES */}
-            <LikeButton className="absolute right-3 top-3 " />
+            {/* <LikeButton className="absolute right-3 top-3 " /> */}
           </div>
         </div>
 

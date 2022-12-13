@@ -2,26 +2,28 @@ import React, { FC } from "react";
 import NcImage from "shared/NcImage/NcImage";
 import { Link } from "react-router-dom";
 import ButtonSecondary from "shared/Button/ButtonSecondary";
-import { CATS_DISCOVER } from "components/DiscoverMoreSlider";
+// import { CATS_DISCOVER } from "components/DiscoverMoreSlider";
 
 export interface CardCategory3Props {
   className?: string;
   featuredImage?: string;
   name?: string;
-  desc?: string;
+  description?: string;
   color?: string;
+  slug?: string;
 }
 
 const CardCategory3: FC<CardCategory3Props> = ({
   className = "",
-  featuredImage = CATS_DISCOVER[2].featuredImage,
-  name = CATS_DISCOVER[2].name,
-  desc = CATS_DISCOVER[2].desc,
-  color = CATS_DISCOVER[2].color,
+  featuredImage,
+  name,
+  description,
+  color,
+  slug,
 }) => {
   return (
     <Link
-      to={"/page-collection"}
+      to={`products/${slug}`}
       className={`nc-CardCategory3 block ${className}`}
       data-nc-id="CardCategory3"
     >
@@ -43,21 +45,22 @@ const CardCategory3: FC<CardCategory3Props> = ({
               <span className={`block mb-2 text-sm text-slate-700`}>
                 {name}
               </span>
-              {desc && (
+              {description && (
                 <h2
                   className={`text-xl md:text-2xl text-slate-900 font-semibold`}
-                  dangerouslySetInnerHTML={{ __html: desc }}
+                  dangerouslySetInnerHTML={{ __html: description }}
                 ></h2>
               )}
             </div>
             <div className="mt-auto">
-              <ButtonSecondary
-                sizeClass="py-3 px-4 sm:py-3.5 sm:px-6"
-                fontSize="text-sm font-medium"
-                className="nc-shadow-lg"
-              >
-                Show me all
-              </ButtonSecondary>
+              
+                <ButtonSecondary
+                  sizeClass="py-3 px-4 sm:py-3.5 sm:px-6"
+                  fontSize="text-sm font-medium"
+                  className="nc-shadow-lg"
+                >
+                  Show me all
+                </ButtonSecondary>
             </div>
           </div>
         </div>

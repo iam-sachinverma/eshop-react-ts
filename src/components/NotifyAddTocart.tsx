@@ -7,8 +7,10 @@ interface Props {
   show: boolean;
   productImage: string;
   productName?: string,
-  variantActive: number;
-  sizeSelected: string;
+  productPrice?: number;
+  variantActive?: number;
+  sizeSelected?: string;
+  colorSelected?: string;
   qualitySelected: number;
 }
 
@@ -16,9 +18,11 @@ const NotifyAddTocart: FC<Props> = ({
   show,
   productImage,
   productName,
+  productPrice,
   variantActive,
   qualitySelected,
   sizeSelected,
+  colorSelected,
 }) => {
   const { name, price, variants } = PRODUCTS[0];
 
@@ -29,7 +33,7 @@ const NotifyAddTocart: FC<Props> = ({
           <img
             src={productImage}
             alt={productName}
-            className="h-full w-full object-contain object-center"
+            className="h-full w-full object-fit object-center"
           />
         </div>
 
@@ -39,26 +43,31 @@ const NotifyAddTocart: FC<Props> = ({
               <div>
                 <h3 className="text-base font-medium ">{productName}</h3>
                 <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                  <span>
+                  {/* <span>
                     {variants ? variants[variantActive].name : `Natural`}
+                  </span> */}
+                  <span>
+                    {colorSelected || `Natural`}
                   </span>
                   <span className="mx-2 border-l border-slate-200 dark:border-slate-700 h-4"></span>
                   <span>{sizeSelected || "XL"}</span>
                 </p>
               </div>
-              <Prices price={price} className="mt-0.5" />
+              <Prices price={productPrice} className="mt-0.5" />
             </div>
           </div>
           <div className="flex flex-1 items-end justify-between text-sm">
             <p className="text-gray-500 dark:text-slate-400">{`Qty ${qualitySelected}`}</p>
 
             <div className="flex">
-              <button
-                type="button"
-                className="font-medium text-primary-6000 dark:text-primary-500"
-              >
-                View cart
-              </button>
+              <a href="/cart">
+                <button
+                  type="button"
+                  className="font-medium text-primary-6000 dark:text-primary-500"
+                >
+                  View cart
+                </button>
+              </a>
             </div>
           </div>
         </div>

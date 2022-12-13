@@ -21,16 +21,13 @@ import detail3JPG from "images/products/detail3.jpg";
 import Policy from "./Policy";
 import ReviewItem from "components/ReviewItem";
 import ButtonSecondary from "shared/Button/ButtonSecondary";
-import SectionPromo2 from "components/SectionPromo2";
 import ModalViewAllReviews from "./ModalViewAllReviews";
 import NotifyAddTocart from "components/NotifyAddTocart";
 
-// 
-import { addProductToCart } from "app/cartSlice";
-import { useGetProductQuery, useGetProductVariationsQuery } from "app/productApi";
 import { useLocation } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "app/hooks";
-
+import { addProductToCart } from "app/cartSlice";
+import { useGetProductQuery } from "app/productApi";
 
 export interface ProductDetailPageProps {
   className?: string;
@@ -38,70 +35,75 @@ export interface ProductDetailPageProps {
 
 const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
   const location = useLocation();
-  // const product_id = location.pathname.split('/')[2];  
+  const product_id = location.pathname.split('/')[2];  
   const dispatch = useAppDispatch();
-
-  const [productId, setProductId] = useState(location.pathname.split('/')[2]);
-  // const [skip, setSkip] = React.useState(true)
-   
+  
   // Rtk query hook
-  const { data:product, isSuccess, error } = useGetProductQuery(productId);
-  // const { data:productVariation } = useGetProductVariationsQuery(productId, {
-  //   skip
-  // });
-  const { data:productVariations } = useGetProductVariationsQuery(productId);
-
-  // Component States
-  const { sizes, variants, allOfSizes } = PRODUCTS[0];
-  const LIST_IMAGES_DEMO = [detail1JPG, detail2JPG, detail3JPG];
+  const { data:product, isSuccess } = useGetProductQuery(product_id);
   
+  const fetchProducts = useAppSelector((state) => state.product.products)
+  
+  const [productDetails, setProductDetails] = useState<any>({});
   const [quantitySelected, setQuantitySelected] = React.useState(1);
+  const [allColors, setAllColors] = React.useState<any>([]);
+  const [allSizes, setAllSizes] = React.useState<any>([]);
 
+  // Dummy Data
+  const LIST_IMAGES_DEMO = [detail1JPG, detail2JPG, detail3JPG];
+  const { sizes, variants, status, allOfSizes } = PRODUCTS[0];
+  
   const [variantActive, setVariantActive] = React.useState(0);
+  const [sizeSelected, setSizeSelected] = React.useState(allSizes ? allSizes?.[0]?.options[0] : "");
+  const [colorSelected, setColorSelected] = React.useState(allColors ? allColors?.[0]?.options[0] : "");
 
-  // variant state
-  const [attributeVariant, setAttributeVariant] = useState<any>([]);
-  console.log(attributeVariant);
-  
-  const [sizeSelected, setSizeSelected] = React.useState("");
-  const [colorSelected, setColorSelected] = React.useState("");
-  const [packSetSelected, setPackSetSelected] = React.useState("");
-  
-  const [colorSizeVariant, setcolorSizeVariant] = useState<string[]>([]);
-  // console.log(typeof colorSizeVariant);
-  // console.log( colorSizeVariant);
-  
   const [isOpenModalViewAllReviews, setIsOpenModalViewAllReviews] =
-    useState(false);
+  useState(false);
 
-  useEffect(() => {
-    const variation = productVariations?.filter((v:any) => v.attributes.some((attr: any) => attr.option === packSetSelected ))
-    setAttributeVariant(variation);
-  }, [packSetSelected]);
-
-  useEffect(() => {
-    const variation = productVariations?.filter((v:any) => v.attributes.some((attr: any) => attr.option === sizeSelected ))
-    setAttributeVariant(variation);
-  }, [sizeSelected]);
-
-  const addRemoveVariant = (variant: string) => {
-    let arr:any = [...colorSizeVariant];
-    
-    let isColorContain = arr.includes(variant);
-    let isSizeContain = arr.includes(variant);
-
-    if(!isColorContain || !isSizeContain ){
-      arr.push(variant);
-      setcolorSizeVariant(arr);
-    }
+  const getProduct = () => {
+    const product = fetchProducts.filter((item: any) => item.id === +product_id);
+    setProductDetails(product[0]);
   }
+
+  const getProductsAttributes = () => {
+    const allColors = productDetails?.attributes?.filter((attr: any) => attr?.name === 'Color')
+    setAllColors(allColors);
+    const allSizes = productDetails?.attributes?.filter((attr: any) => attr?.name === 'Size')
+    setAllSizes(allSizes)
+  }
+  
+  useEffect(() => {
+    getProduct();
+  }, [fetchProducts]);
+
+  useEffect(() => {
+    getProductsAttributes();
+  },[productDetails])
+
+  const addToCartHandler = () => {
+    dispatch(addProductToCart({...productDetails, quantitySelected}));
+    toast.custom(
+      (t) => (
+        <NotifyAddTocart
+        productImage={productDetails?.images?.[0]?.src}
+        qualitySelected={quantitySelected}
+          productName={productDetails?.name}
+          show={t.visible}
+          sizeSelected={sizeSelected}
+          colorSelected={colorSelected}
+          variantActive={variantActive}
+          productPrice={+productDetails?.price}
+        />
+      ),
+      { position: "top-right", id: "nc-product-notify", duration: 3000 }
+    );
+  };
   
   const DescriptionData = [
     {
       name: "Description",
       content: isSuccess && product?.description
     }
-  ]  
+  ]
 
   const notifyAddTocart = () => {
     toast.custom(
@@ -122,7 +124,7 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
     if (!variants || !variants.length) {
       return null;
     }
-    
+
     return (
       <div>
         <label htmlFor="">
@@ -158,87 +160,26 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
     );
   };
 
-  const addToCartHandler = () => {
-    if(product?.type === 'variable'){
-      const variantID = attributeVariant?.[0]?.id;
-      const variant = attributeVariant;
-      dispatch(addProductToCart({...product, quantitySelected, variantID, variant}));
-      toast.custom(
-        (t) => (
-          <NotifyAddTocart
-          productImage={isSuccess && product?.images?.[0]?.src}
-          qualitySelected={quantitySelected}
-            productName={product?.name}
-            show={t.visible}
-            sizeSelected={sizeSelected}
-            colorSelected={colorSelected}
-            variantActive={variantActive}
-            productPrice={+attributeVariant?.[0]?.price}
-          />
-        ),
-        { position: "top-right", id: "nc-product-notify", duration: 3000 }
-      );
-    }else{
-      dispatch(addProductToCart({...product, quantitySelected}));
-      toast.custom(
-        (t) => (
-          <NotifyAddTocart
-          productImage={isSuccess && product?.images?.[0]?.src}
-          qualitySelected={quantitySelected}
-            productName={product?.name}
-            show={t.visible}
-            productPrice={+product?.price}
-          />
-        ),
-        { position: "top-right", id: "nc-product-notify", duration: 3000 }
-      );
-    }
-  };
-
-  const renderV = () => {
-    if(isSuccess && product?.type !== "variable"){
-      return;
-    }
-
-    const isSize = product?.attributes?.some((attr: any) => attr.name === 'Size')
-    if(isSize) {
-      return (
-        <div className="">{renderSizeList()}</div>
-      )
-    }
-
-    const isPackSet = product?.attributes?.some((attr: any) => attr.name === 'Pack Set')
-    return (      
-      <div className="">{renderPackSet()}</div>
-    )
-    
-    const isColor = product.attributes.some((attr: any) => attr.name === 'Color') 
-    return (
-      <div></div>
-    )
-    
-  }
-
   const renderColorList = () => {
-    if(isSuccess && product?.type !== "variable"){
+    if(!allColors || !allColors.length){
       return;
     }
-    const colors = product?.attributes?.filter((attr: any) => attr?.name === 'Color');
-
+    
     return (
-      <div className="my-4">
+      <div>
         <div className="flex justify-between font-medium text-sm">
-        <span className="text-sm font-medium">
-            Color:
-            <span className="ml-1 font-semibold">
-              {colorSelected}
+          <label htmlFor="">
+            <span className="">
+              Color:
+              <span className="ml-1 font-semibold">{colorSelected}</span>
             </span>
-          </span>
+          </label>
         </div>
         <div className="grid grid-cols-5 sm:grid-cols-7 gap-2 mt-3">
-          {colors?.[0]?.options?.map((color: any, index: number) => {
+          {allColors?.[0]?.options?.map((color:any, index:any) => {
+            console.log(color);
+            
             const isActive = color === colorSelected;
-            // const sizeOutStock = !sizes.includes(size);
             return (
               <div
                 key={index}
@@ -253,10 +194,6 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
                     : "border-slate-300 dark:border-slate-600 text-slate-900 dark:text-slate-200 hover:bg-neutral-50 dark:hover:bg-neutral-700"
                 }`}
                 onClick={() => {
-                  // if (sizeOutStock) {
-                  //   return;
-                  // }
-                  addRemoveVariant(color);
                   setColorSelected(color);
                 }}
               >
@@ -266,27 +203,36 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
           })}
         </div>
       </div>
-    )
+    );
   }
 
   const renderSizeList = () => {
-    if(isSuccess && product?.type !== "variable"){
-      return;
+    if(!allSizes || !allSizes.length){
+      return null;
     }
-    const sizes = product?.attributes?.filter((attr: any) => attr?.name === 'Size');
-    
+   
     return (
       <div>
         <div className="flex justify-between font-medium text-sm">
           <label htmlFor="">
             <span className="">
-              Size: 
+              Size:
               <span className="ml-1 font-semibold">{sizeSelected}</span>
             </span>
           </label>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="##"
+            className="text-primary-6000 hover:text-primary-500"
+          >
+            See sizing chart
+          </a>
         </div>
-        <div className="grid grid-cols-4 gap-2 mt-3">
-          {sizes?.[0]?.options?.map((size: any, index: number) => {
+        <div className="grid grid-cols-5 sm:grid-cols-7 gap-2 mt-3">
+          {allSizes?.[0]?.options?.map((size:any, index:any) => {
+            console.log(size);
+            
             const isActive = size === sizeSelected;
             // const sizeOutStock = !sizes.includes(size);
             return (
@@ -306,7 +252,6 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
                   // if (sizeOutStock) {
                   //   return;
                   // }
-                  addRemoveVariant(size);
                   setSizeSelected(size);
                 }}
               >
@@ -316,95 +261,49 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
           })}
         </div>
       </div>
-    )
+    );
   };
 
-  const renderPackSet = () => {
-    if(isSuccess && product?.type !== "variable"){
-      return;
+  const renderStatus = () => {
+    if (!status) {
+      return null;
     }
-    
-    const pack_sets = product?.attributes?.filter((attr: any) => attr?.name === 'Pack Set');
-    return (
-      <div className="my-4">
-        <div className="flex justify-between font-medium text-sm">
-          <label htmlFor="">
-            <span className="">
-              Pack Set: 
-              <span className="ml-1 font-semibold">{packSetSelected}</span>
-            </span>
-          </label>
+    const CLASSES =
+      "absolute top-3 left-3 px-2.5 py-1.5 text-xs bg-white dark:bg-slate-900 nc-shadow-lg rounded-full flex items-center justify-center text-slate-700 text-slate-900 dark:text-slate-300";
+    if (status === "New in") {
+      return (
+        <div className={CLASSES}>
+          <SparklesIcon className="w-3.5 h-3.5" />
+          <span className="ml-1 leading-none">{status}</span>
         </div>
-        <div className="grid grid-cols-5 sm:grid-cols-7 gap-2 mt-3">
-          {pack_sets?.[0]?.options?.map((pack_set: any, index: number) => {
-            const isActive = pack_set === packSetSelected;
-            // const sizeOutStock = !sizes.includes(size);
-            return (
-              <div
-                key={index}
-                className={`relative h-10 sm:h-11 rounded-2xl border flex items-center justify-center 
-                text-sm sm:text-base uppercase font-semibold select-none overflow-hidden z-0 cursor-pointer
-                ${
-                  isActive
-                    ? "bg-primary-6000 border-primary-6000 text-white hover:bg-primary-6000"
-                    : "border-slate-300 dark:border-slate-600 text-slate-900 dark:text-slate-200 hover:bg-neutral-50 dark:hover:bg-neutral-700"
-                }`}
-                onClick={() => {
-                  // if (sizeOutStock) {
-                  //   return;
-                  // }
-                  setPackSetSelected(pack_set);
-                }}
-              >
-                {pack_set}
-              </div>
-            );
-          })}
+      );
+    }
+    if (status === "50% Discount") {
+      return (
+        <div className={CLASSES}>
+          <IconDiscount className="w-3.5 h-3.5" />
+          <span className="ml-1 leading-none">{status}</span>
         </div>
-      </div>
-    )
-  }
-
-  // const renderStatus = () => {
-  //   if (!status) {
-  //     return null;
-  //   }
-  //   const CLASSES =
-  //     "absolute top-3 left-3 px-2.5 py-1.5 text-xs bg-white dark:bg-slate-900 nc-shadow-lg rounded-full flex items-center justify-center text-slate-700 text-slate-900 dark:text-slate-300";
-  //   if (status === "New in") {
-  //     return (
-  //       <div className={CLASSES}>
-  //         <SparklesIcon className="w-3.5 h-3.5" />
-  //         <span className="ml-1 leading-none">{status}</span>
-  //       </div>
-  //     );
-  //   }
-  //   if (status === "50% Discount") {
-  //     return (
-  //       <div className={CLASSES}>
-  //         <IconDiscount className="w-3.5 h-3.5" />
-  //         <span className="ml-1 leading-none">{status}</span>
-  //       </div>
-  //     );
-  //   }
-  //   if (status === "Sold Out") {
-  //     return (
-  //       <div className={CLASSES}>
-  //         <NoSymbolIcon className="w-3.5 h-3.5" />
-  //         <span className="ml-1 leading-none">{status}</span>
-  //       </div>
-  //     );
-  //   }
-  //   if (status === "limited edition") {
-  //     return (
-  //       <div className={CLASSES}>
-  //         <ClockIcon className="w-3.5 h-3.5" />
-  //         <span className="ml-1 leading-none">{status}</span>
-  //       </div>
-  //     );
-  //   }
-  //   return null;
-  // };
+      );
+    }
+    if (status === "Sold Out") {
+      return (
+        <div className={CLASSES}>
+          <NoSymbolIcon className="w-3.5 h-3.5" />
+          <span className="ml-1 leading-none">{status}</span>
+        </div>
+      );
+    }
+    if (status === "limited edition") {
+      return (
+        <div className={CLASSES}>
+          <ClockIcon className="w-3.5 h-3.5" />
+          <span className="ml-1 leading-none">{status}</span>
+        </div>
+      );
+    }
+    return null;
+  };
 
   const renderSectionContent = () => {
     return (
@@ -412,33 +311,18 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
         {/* ---------- 1 HEADING ----------  */}
         <div>
           <h2 className="text-2xl sm:text-3xl font-semibold">
-            {isSuccess && product?.name}
+            {/* {productDetails?.name} */}
+            { isSuccess && product?.name}
           </h2>
 
           <div className="flex items-center mt-5 space-x-4 sm:space-x-5">
             {/* <div className="flex text-xl font-semibold">$112.00</div> */}
-            {
-              isSuccess && product?.type === 'variable' ?
-               (
-                attributeVariant?.length === 0 ? (
-                  <Prices
-                  contentClass="py-1 px-2 md:py-1.5 md:px-3 text-lg font-semibold"
-                  price={+product?.price}
-                  />
-                ) : ( <Prices
-                contentClass="py-1 px-2 md:py-1.5 md:px-3 text-lg font-semibold"
-                price={+attributeVariant?.[0]?.price}
-                />)
-               ) 
-               : 
-               (
-                <Prices
-                contentClass="py-1 px-2 md:py-1.5 md:px-3 text-lg font-semibold"
-                price={+product?.price}
-                />
-               )
-            }
-            
+            <Prices
+              contentClass="py-1 px-2 md:py-1.5 md:px-3 text-lg font-semibold"
+              // price={+productDetails?.price}
+              price={+product?.price}
+            />
+
             <div className="h-7 border-l border-slate-300 dark:border-slate-700"></div>
 
             <div className="flex items-center">
@@ -455,20 +339,19 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
                   </span>
                 </div>
               </a>
-              {/* <span className="hidden sm:block mx-2.5">·</span> */}
-              {/* Status */}
-              {/* <div className="hidden sm:flex items-center text-sm">
+              <span className="hidden sm:block mx-2.5">·</span>
+              <div className="hidden sm:flex items-center text-sm">
                 <SparklesIcon className="w-3.5 h-3.5" />
                 <span className="ml-1 leading-none">{status}</span>
-              </div> */}
+              </div>
             </div>
           </div>
         </div>
 
         {/* ---------- 3 VARIANTS AND SIZE LIST ----------  */}
-        {/* <div className="">{renderVariants()}</div>
-        <div className="">{renderSizeList()}</div> */}
-        <div className="">{renderV()}</div>
+        {/* <div className="">{renderVariants()}</div> */}
+        <div className="">{renderColorList()}</div>
+        <div className="">{renderSizeList()}</div>
 
         {/*  ---------- 4  QTY AND ADD TO CART BUTTON */}
         <div className="flex space-x-3.5">
@@ -492,7 +375,7 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
         {/*  */}
 
         {/* ---------- 5 ----------  */}
-        <AccordionInfo data={isSuccess === true ? DescriptionData : []}/>
+        <AccordionInfo data={DescriptionData}/>
 
         {/* ---------- 6 ----------  */}
         <div className="hidden xl:block">
@@ -596,24 +479,22 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
             <div className="relative">
               <div className="aspect-w-16 aspect-h-16">
                 <img
-                  src={product?.images?.[0]?.src}
+                  src={productDetails?.images?.[0]?.src}
                   className="w-full rounded-2xl object-cover"
                   alt="product detail 1"
                 />
               </div>
-              {/* Render Status */}
-              {/* {renderStatus()} */}
-
+              {renderStatus()}
               {/* META FAVORITES */}
               <LikeButton className="absolute right-3 top-3 " />
             </div>
             <div className="grid grid-cols-2 gap-3 mt-3 sm:gap-6 sm:mt-6 xl:gap-8 xl:mt-8">
-              {isSuccess && product.images?.map((item: any, index: number) => {
-                if(index >= 1) {
+              {productDetails?.images?.map((item: any, index: number) => {
+                if(index >= 1){
                   return (
                     <div
                       key={index}
-                      className="aspect-w-11 xl:aspect-w-10 2xl:aspect-w-11 aspect-h-16"
+                      className="aspect-w-11 xl:aspect-w-10 2xl:aspect-w-11 aspect-h-12"
                     >
                       <img
                         src={item?.src}
@@ -653,8 +534,10 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
             subHeading=""
             headingFontClassName="text-2xl font-semibold"
             headingClassName="mb-10 text-neutral-900 dark:text-neutral-50"
+            data={fetchProducts}
           />
 
+         
         </div>
       </main>
 

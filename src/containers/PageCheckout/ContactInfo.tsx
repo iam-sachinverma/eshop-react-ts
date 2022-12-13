@@ -2,16 +2,38 @@ import Label from "components/Label/Label";
 import React, { FC } from "react";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
 import ButtonSecondary from "shared/Button/ButtonSecondary";
-import Checkbox from "shared/Checkbox/Checkbox";
+// import Checkbox from "shared/Checkbox/Checkbox";
 import Input from "shared/Input/Input";
+
+import { useForm, SubmitHandler } from "react-hook-form"
+import { useAppSelector, useAppDispatch } from "app/hooks";
+import { checkoutSetFormValue } from 'app/checkoutSlice'
+
+// type ContactInfo = {
+//   email: string,
+//   phone: number
+// }
 
 interface Props {
   isActive: boolean;
   onOpenActive: () => void;
   onCloseActive: () => void;
+  isMail?: string;
 }
 
-const ContactInfo: FC<Props> = ({ isActive, onCloseActive, onOpenActive }) => {
+const ContactInfo: FC<Props> = ({ isActive, onCloseActive, onOpenActive, isMail }) => {
+  const dispatch = useAppDispatch();
+  const checkoutFormValue  = useAppSelector((state) => state.checkout);
+  
+  // const {register, handleSubmit} = useForm<any>({defaultValues: checkoutFormValue, mode: "onSubmit"});
+  const {register, handleSubmit} = useForm<any>();
+
+  const onSubmit: SubmitHandler<any> = data => {
+    console.log(data);
+    dispatch(checkoutSetFormValue(data));
+    console.log(checkoutFormValue);
+  }; 
+
   const renderAccount = () => {
     return (
       <div className="border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden z-0">
@@ -84,45 +106,65 @@ const ContactInfo: FC<Props> = ({ isActive, onCloseActive, onOpenActive }) => {
         >
           <div className="flex justify-between flex-wrap items-baseline">
             <h3 className="text-lg font-semibold">Contact infomation</h3>
-            <span className="block text-sm my-1 md:my-0">
+            {/* <span className="block text-sm my-1 md:my-0">
               Do not have an account?{` `}
               <a href="##" className="text-primary-500 font-medium">
                 Log in
               </a>
-            </span>
+            </span> */}
           </div>
-          <div className="max-w-lg">
-            <Label className="text-sm">Your phone number</Label>
-            <Input className="mt-1.5" defaultValue={"+808 xxx"} type={"tel"} />
-          </div>
-          <div className="max-w-lg">
-            <Label className="text-sm">Email address</Label>
-            <Input className="mt-1.5" type={"email"} />
-          </div>
-          <div>
-            <Checkbox
-              className="!text-sm"
-              name="uudai"
-              label="Email me news and offers"
-              defaultChecked
-            />
-          </div>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <fieldset>
 
-          {/* ============ */}
-          <div className="flex flex-col sm:flex-row pt-6">
-            <ButtonPrimary
-              className="sm:!px-7 shadow-none"
-              onClick={() => onCloseActive()}
-            >
-              Save and next to Shipping
-            </ButtonPrimary>
-            <ButtonSecondary
-              className="mt-3 sm:mt-0 sm:ml-3"
-              onClick={() => onCloseActive()}
-            >
-              Cancel
-            </ButtonSecondary>
-          </div>
+              <div className="max-w-lg my-2">
+                <Label className="text-sm">Email address</Label>
+                <Input
+                {...register("email")}
+                defaultValue={isMail}
+                id="email"
+                name="email"
+                className="mt-1.5" type={"email"} />
+              </div>
+
+              <div className="max-w-lg my-2">
+                <Label className="text-sm">Your phone number</Label>
+                <Input 
+                 {...register("phone")}
+                 id="phone"
+                 name="phone"
+                 className="mt-1.5" placeholder="Enter your phone number" type={"tel"} />
+              </div>
+
+              {/* <div>
+                <Checkbox
+                  className="!text-sm"
+                  name="uudai"
+                  label="Email me news and offers"
+                  defaultChecked
+                />
+              </div> */}
+
+              {/* ============ */}
+              <div className="flex flex-col sm:flex-row pt-6">
+                <ButtonPrimary
+                  className="sm:!px-7 shadow-none"
+                  onClick={() => onCloseActive()}
+                  type="submit"
+                >
+                  Save and next to Shipping
+                </ButtonPrimary>
+                <ButtonSecondary
+                  className="mt-3 sm:mt-0 sm:ml-3"
+                  onClick={() => onCloseActive()}
+                >
+                  Cancel
+                </ButtonSecondary>
+              </div>
+
+            </fieldset>
+
+          </form>
+
         </div>
       </div>
     );

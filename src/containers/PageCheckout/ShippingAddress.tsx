@@ -1,10 +1,15 @@
 import Label from "components/Label/Label";
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
 import ButtonSecondary from "shared/Button/ButtonSecondary";
 import Input from "shared/Input/Input";
 import Radio from "shared/Radio/Radio";
 import Select from "shared/Select/Select";
+
+import { useForm, SubmitHandler } from "react-hook-form"
+import { useAppSelector, useAppDispatch } from "app/hooks";
+import { checkoutSetFormValue } from 'app/checkoutSlice'
+import { useCreateCustomerMutation } from "app/customerSlice";
 
 interface Props {
   isActive: boolean;
@@ -17,6 +22,49 @@ const ShippingAddress: FC<Props> = ({
   onCloseActive,
   onOpenActive,
 }) => {
+
+  const dispatch = useAppDispatch();
+
+  const checkoutFormValue : any = useAppSelector((state) => state.checkout);
+
+  const {register, handleSubmit} = useForm<any>();
+
+  // Create Customer Api
+  const [ createCustomer ] = useCreateCustomerMutation();
+
+  const createCustomerData = async() => {
+    try {
+      const data = {
+        email: checkoutFormValue?.checkoutFormValue?.email,
+        first_name: checkoutFormValue?.checkoutFormValue?.shipping?.first_name,
+        last_name: checkoutFormValue?.checkoutFormValue?.shipping?.last_name,
+        shipping: {
+          ...checkoutFormValue?.checkoutFormValue?.shipping,
+        },
+        billing: {
+          ...checkoutFormValue?.checkoutFormValue?.shipping,
+          phone: checkoutFormValue?.checkoutFormValue?.phone,
+          email: checkoutFormValue?.checkoutFormValue?.email,
+        }
+      }
+      await createCustomer(data);
+    } catch (error) {
+      console.log(error);
+    } 
+  }
+
+  // useEffect(() => {
+  //   createCustomerData();
+  // },[checkoutFormValue])
+
+  // Create WooCommerce Customer
+  const onSubmit: SubmitHandler<any> = data => {
+    const shipping = {
+      ...data,
+    }
+    dispatch(checkoutSetFormValue({ shipping: shipping }));
+  }; 
+
   const renderShippingAddress = () => {
     return (
       <div className="border border-slate-200 dark:border-slate-700 rounded-xl ">
@@ -103,105 +151,136 @@ const ShippingAddress: FC<Props> = ({
             isActive ? "block" : "hidden"
           }`}
         >
-          {/* ============ */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-3">
-            <div>
-              <Label className="text-sm">First name</Label>
-              <Input className="mt-1.5" defaultValue="Cole" />
-            </div>
-            <div>
-              <Label className="text-sm">Last name</Label>
-              <Input className="mt-1.5" defaultValue="Enrico " />
-            </div>
-          </div>
 
-          {/* ============ */}
-          <div className="sm:flex space-y-4 sm:space-y-0 sm:space-x-3">
-            <div className="flex-1">
-              <Label className="text-sm">Address</Label>
-              <Input
-                className="mt-1.5"
-                placeholder=""
-                defaultValue={"123, Dream Avenue, USA"}
-                type={"text"}
-              />
-            </div>
-            <div className="sm:w-1/3">
-              <Label className="text-sm">Apt, Suite *</Label>
-              <Input className="mt-1.5" defaultValue="55U - DD5 " />
-            </div>
-          </div>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <fieldset>
 
-          {/* ============ */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-3">
-            <div>
-              <Label className="text-sm">City</Label>
-              <Input className="mt-1.5" defaultValue="Norris" />
-            </div>
-            <div>
-              <Label className="text-sm">Country</Label>
-              <Select className="mt-1.5" defaultValue="United States ">
-                <option value="United States">United States</option>
-                <option value="United States">Canada</option>
-                <option value="United States">Mexico</option>
-                <option value="United States">Israel</option>
-                <option value="United States">France</option>
-                <option value="United States">England</option>
-                <option value="United States">Laos</option>
-                <option value="United States">China</option>
-              </Select>
-            </div>
-          </div>
+              {/* ============ */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-3 my-2">
+                <div>
+                  <Label className="text-sm">First name</Label>
+                  <Input 
+                   {...register("first_name")}
+                   id="first_name"
+                   className="mt-1.5" 
+                  />
+                </div>
+                <div>
+                  <Label className="text-sm">Last name</Label>
+                  <Input 
+                    {...register("last_name")}
+                    id="last_name"
+                    className="mt-1.5" 
+                  />
+                </div>
+              </div>
 
-          {/* ============ */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-3">
-            <div>
-              <Label className="text-sm">State/Province</Label>
-              <Input className="mt-1.5" defaultValue="Texas" />
-            </div>
-            <div>
-              <Label className="text-sm">Postal code</Label>
-              <Input className="mt-1.5" defaultValue="2500 " />
-            </div>
-          </div>
+              {/* ============ */}
+              <div className="sm:flex space-y-4 sm:space-y-0 sm:space-x-3 my-2">
+                <div className="flex-1">
+                  <Label className="text-sm">Address</Label>
+                  <Input
+                    {...register("address_1")}
+                    id="address_1"
+                    className="mt-1.5"
+                    placeholder=""
+                    defaultValue={"123, Dream Avenue, USA"}
+                    type={"text"}
+                  />
+                </div>
+              </div>
 
-          {/* ============ */}
-          <div>
-            <Label className="text-sm">Address type</Label>
-            <div className="mt-1.5 grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
-              <Radio
-                label={`<span class="text-sm font-medium">Home <span class="font-light">(All Day Delivery)</span></span>`}
-                id="Address-type-home"
-                name="Address-type"
-                defaultChecked
-              />
-              <Radio
-                label={`<span class="text-sm font-medium">Office <span class="font-light">(Delivery <span class="font-medium">9 AM - 5 PM</span>)</span> </span>`}
-                id="Address-type-office"
-                name="Address-type"
-              />
-            </div>
-          </div>
+              {/* ============ */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-3 my-4">
+                <div>
+                  <Label className="text-sm">City</Label>
+                  <Input 
+                   {...register("city")}
+                   id="city"
+                   className="mt-1.5" 
+                   defaultValue="Norris" 
+                  />
+                </div>
+                
+                <div>
+                  <Label className="text-sm">State</Label>
+                  <Input 
+                   {...register("state")}
+                   id="state"
+                   className="mt-1.5" 
+                   defaultValue="Texas" 
+                  />
+                </div>
+              </div>
 
-          {/* ============ */}
-          <div className="flex flex-col sm:flex-row pt-6">
-            <ButtonPrimary
-              className="sm:!px-7 shadow-none"
-              onClick={onCloseActive}
-            >
-              Save and next to Payment
-            </ButtonPrimary>
-            <ButtonSecondary
-              className="mt-3 sm:mt-0 sm:ml-3"
-              onClick={onCloseActive}
-            >
-              Cancel
-            </ButtonSecondary>
-          </div>
+              {/* ============ */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-3 my-4">
+                
+                <div>
+                  <Label className="text-sm">Pin code</Label>
+                  <Input 
+                   {...register("postcode")}
+                   id="postcode"
+                   className="mt-1.5" 
+                   defaultValue="2500 " 
+                  />
+                </div>
+
+                <div>
+                  <Label className="text-sm">Country</Label>
+                  <Input 
+                   {...register("country")}
+                   id="country"
+                   className="mt-1.5" 
+                   defaultValue="India" 
+                  />
+                </div>
+
+              </div>
+
+              {/* ============ */}
+              {/* <div> 
+                <Label className="text-sm">Address type</Label>
+                <div className="mt-1.5 grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
+                  <Radio
+                    label={`<span class="text-sm font-medium">Home <span class="font-light">(All Day Delivery)</span></span>`}
+                    id="Address-type-home"
+                    name="Address-type"
+                    defaultChecked
+                  />
+                  <Radio
+                    label={`<span class="text-sm font-medium">Office <span class="font-light">(Delivery <span class="font-medium">9 AM - 5 PM</span>)</span> </span>`}
+                    id="Address-type-office"
+                    name="Address-type"
+                  />
+                </div>
+              </div> */}
+
+              {/* ============ */}
+              <div className="flex flex-col sm:flex-row pt-6 my-2">
+                <ButtonPrimary
+                  className="sm:!px-7 shadow-none"
+                  onClick={onCloseActive}
+                  type="submit"
+                >
+                  Save and next to Payment
+                </ButtonPrimary>
+                <ButtonSecondary
+                  className="mt-3 sm:mt-0 sm:ml-3"
+                  onClick={onCloseActive}
+                >
+                  Cancel
+                </ButtonSecondary>
+              </div>
+
+            </fieldset>
+          </form>
+
         </div>
       </div>
     );
   };
+
   return renderShippingAddress();
 };
 

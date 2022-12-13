@@ -8,7 +8,20 @@ export interface LocationStates {
 
   //
   "/product/:id"?: {};
+  "/products/:category"?: {};
   
+  
+  //
+  "products/personal-care"?: {},
+  "products/body-care"?: {},
+  "oral-care"?: {},
+  "hair-care"?: {},
+  "products/sanitary-care"?: {},
+  "products/body-hygiene"?: {},
+  "products/fashion"?: {},
+  "products/t-shirts"?: {},
+  "products/stationery"?: {},
+
 
   //
   "/product-detail"?: {};

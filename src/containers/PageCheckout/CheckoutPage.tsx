@@ -1,20 +1,37 @@
 import Label from "components/Label/Label";
-import NcInputNumber from "components/NcInputNumber";
+// import NcInputNumber from "components/NcInputNumber";
 import Prices from "components/Prices";
-import { Product, PRODUCTS } from "data/data";
-import { useState } from "react";
+// import { Product, PRODUCTS } from "data/data";
+import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
+import { MinusIcon, PlusIcon } from "@heroicons/react/24/solid";
 import Input from "shared/Input/Input";
 import ContactInfo from "./ContactInfo";
 import PaymentMethod from "./PaymentMethod";
 import ShippingAddress from "./ShippingAddress";
 
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import { removeProduct, decreaseProduct, addProductToCart } from "app/cartSlice";
+
 const CheckoutPage = () => {
+  const dispatch = useAppDispatch();
+  // const history = useHistory();
+
+  // const { userInfo } = useAppSelector((state) => state.auth);
+  
+  const cartItems = useAppSelector((state) => state.cart);
+
+  // useEffect(() => {
+  //   if (userInfo === null) history.push('/login')
+  // }, [history, userInfo])
+
+  const quantitySelected = 1;
+
   const [tabActive, setTabActive] = useState<
     "ContactInfo" | "ShippingAddress" | "PaymentMethod"
-  >("ShippingAddress");
+  >("ContactInfo");
 
   const handleScrollToEl = (id: string) => {
     const element = document.getElementById(id);
@@ -23,18 +40,18 @@ const CheckoutPage = () => {
     }, 80);
   };
 
-  const renderProduct = (item: Product, index: number) => {
+  const renderProduct = (item: any, index: number) => {
     const { image, price, name } = item;
 
     return (
       <div key={index} className="relative flex py-7 first:pt-0 last:pb-0">
         <div className="relative h-36 w-24 sm:w-28 flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
           <img
-            src={image}
-            alt={name}
-            className="h-full w-full object-contain object-center"
+            src={item?.images?.[0]?.src}
+            alt={item?.name}
+            className="h-full w-full object-fit object-center"
           />
-          <Link to="/product-detail" className="absolute inset-0"></Link>
+          <Link to={`/product/${item?.id}`} className="absolute inset-0"></Link>
         </div>
 
         <div className="ml-3 sm:ml-6 flex flex-1 flex-col">
@@ -42,7 +59,7 @@ const CheckoutPage = () => {
             <div className="flex justify-between ">
               <div className="flex-[1.5] ">
                 <h3 className="text-base font-semibold">
-                  <Link to="/product-detail">{name}</Link>
+                  <Link to={`/product/${item?.id}`}>{item?.name}</Link>
                 </h3>
                 <div className="mt-1.5 sm:mt-2.5 flex text-sm text-slate-600 dark:text-slate-300">
                   <div className="flex items-center space-x-1.5">
@@ -128,40 +145,78 @@ const CheckoutPage = () => {
                 </div>
 
                 <div className="mt-3 flex justify-between w-full sm:hidden relative">
-                  <select
-                    name="qty"
-                    id="qty"
-                    className="form-select text-sm rounded-md py-1 border-slate-200 dark:border-slate-700 relative z-10 dark:bg-slate-800 "
-                  >
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                  </select>
+                  {/* Increment and Decrement Button Mobile */}
+                  <div className={`nc-NcInputNumber flex items-center justify-between space-x-5 relative z-10`}>
+                    <div
+                      className={`nc-NcInputNumber__content flex items-center justify-between w-[104px] sm:w-28`}
+                    >
+                      <button
+                        className="w-8 h-8 rounded-full flex items-center justify-center border border-neutral-400 dark:border-neutral-500 bg-white dark:bg-neutral-900 focus:outline-none hover:border-neutral-700 dark:hover:border-neutral-400 disabled:hover:border-neutral-400 dark:disabled:hover:border-neutral-500 disabled:opacity-50 disabled:cursor-default"
+                        type="button"
+                        onClick={() => dispatch(decreaseProduct(item))}
+                      >
+                        <MinusIcon className="w-4 h-4" />
+                      </button>
+                        <span className="select-none block flex-1 text-center leading-none">
+                          {item?.quantitySelected}
+                        </span>
+                      <button
+                        className="w-8 h-8 rounded-full flex items-center justify-center border border-neutral-400 dark:border-neutral-500 bg-white dark:bg-neutral-900 focus:outline-none hover:border-neutral-700 dark:hover:border-neutral-400 disabled:hover:border-neutral-400 dark:disabled:hover:border-neutral-500 disabled:opacity-50 disabled:cursor-default"
+                        type="button"
+                        onClick={() => dispatch(addProductToCart({...item, quantitySelected})) }
+                      >
+                        <PlusIcon className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+
                   <Prices
                     contentClass="py-1 px-2 md:py-1.5 md:px-2.5 text-sm font-medium h-full"
-                    price={price}
+                    price={+item?.price}
                   />
                 </div>
               </div>
 
               <div className="hidden flex-1 sm:flex justify-end">
-                <Prices price={price} className="mt-0.5" />
+                <Prices price={+item?.price} className="mt-0.5" />
               </div>
             </div>
           </div>
 
           <div className="flex mt-auto pt-4 items-end justify-between text-sm">
             <div className="hidden sm:block text-center relative">
-              <NcInputNumber className="relative z-10" />
+
+              {/* Increment and Decrement Button Desktop */}
+              <div className={`nc-NcInputNumber flex items-center justify-between space-x-5 relative z-10`}>
+                <div
+                  className={`nc-NcInputNumber__content flex items-center justify-between w-[104px] sm:w-28`}
+                >
+                  <button
+                    className="w-8 h-8 rounded-full flex items-center justify-center border border-neutral-400 dark:border-neutral-500 bg-white dark:bg-neutral-900 focus:outline-none hover:border-neutral-700 dark:hover:border-neutral-400 disabled:hover:border-neutral-400 dark:disabled:hover:border-neutral-500 disabled:opacity-50 disabled:cursor-default"
+                    type="button"
+                    onClick={() => dispatch(decreaseProduct(item))}
+                  >
+                    <MinusIcon className="w-4 h-4" />
+                  </button>
+                    <span className="select-none block flex-1 text-center leading-none">
+                      {item?.quantitySelected}
+                    </span>
+                  <button
+                    className="w-8 h-8 rounded-full flex items-center justify-center border border-neutral-400 dark:border-neutral-500 bg-white dark:bg-neutral-900 focus:outline-none hover:border-neutral-700 dark:hover:border-neutral-400 disabled:hover:border-neutral-400 dark:disabled:hover:border-neutral-500 disabled:opacity-50 disabled:cursor-default"
+                    type="button"
+                    onClick={() => dispatch(addProductToCart({...item, quantitySelected})) }
+                  >
+                    <PlusIcon className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+
             </div>
 
             <a
               href="##"
               className="relative z-10 flex items-center mt-3 font-medium text-primary-6000 hover:text-primary-500 text-sm "
+              onClick={() => dispatch(removeProduct(item))}
             >
               <span>Remove</span>
             </a>
@@ -176,6 +231,7 @@ const CheckoutPage = () => {
       <div className="space-y-8">
         <div id="ContactInfo" className="scroll-mt-24">
           <ContactInfo
+            // isMail={userInfo !== null ? userInfo['email'] : ""}
             isActive={tabActive === "ContactInfo"}
             onOpenActive={() => {
               setTabActive("ContactInfo");
@@ -219,7 +275,7 @@ const CheckoutPage = () => {
   return (
     <div className="nc-CheckoutPage">
       <Helmet>
-        <title>Checkout || Ciseco Ecommerce Template</title>
+        <title>Checkout || EcoFreaky</title>
       </Helmet>
 
       <main className="container py-16 lg:pb-28 lg:pt-20 ">
@@ -227,7 +283,7 @@ const CheckoutPage = () => {
           <h2 className="block text-2xl sm:text-3xl lg:text-4xl font-semibold ">
             Checkout
           </h2>
-          <div className="block mt-3 sm:mt-5 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-400">
+          {/* <div className="block mt-3 sm:mt-5 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-400">
             <Link to={"/#"} className="">
               Homepage
             </Link>
@@ -237,7 +293,7 @@ const CheckoutPage = () => {
             </Link>
             <span className="text-xs mx-1 sm:mx-1.5">/</span>
             <span className="underline">Checkout</span>
-          </div>
+          </div> */}
         </div>
 
         <div className="flex flex-col lg:flex-row">
@@ -248,7 +304,7 @@ const CheckoutPage = () => {
           <div className="w-full lg:w-[36%] ">
             <h3 className="text-lg font-semibold">Order summary</h3>
             <div className="mt-8 divide-y divide-slate-200/70 dark:divide-slate-700 ">
-              {[PRODUCTS[0], PRODUCTS[2], PRODUCTS[3]].map(renderProduct)}
+              {cartItems?.products?.map(renderProduct)}
             </div>
 
             <div className="mt-10 pt-6 text-sm text-slate-500 dark:text-slate-400 border-t border-slate-200/70 dark:border-slate-700 ">
@@ -265,24 +321,24 @@ const CheckoutPage = () => {
               <div className="mt-4 flex justify-between py-2.5">
                 <span>Subtotal</span>
                 <span className="font-semibold text-slate-900 dark:text-slate-200">
-                  $249.00
+                 ₹ {cartItems?.total}
                 </span>
               </div>
               <div className="flex justify-between py-2.5">
                 <span>Shipping estimate</span>
                 <span className="font-semibold text-slate-900 dark:text-slate-200">
-                  $5.00
+                  ₹ 0.00
                 </span>
               </div>
               <div className="flex justify-between py-2.5">
                 <span>Tax estimate</span>
                 <span className="font-semibold text-slate-900 dark:text-slate-200">
-                  $24.90
+                 ₹ 0.00
                 </span>
               </div>
               <div className="flex justify-between font-semibold text-slate-900 dark:text-slate-200 text-base pt-4">
                 <span>Order total</span>
-                <span>$276.00</span>
+                <span>₹ {cartItems?.total}</span>
               </div>
             </div>
             <ButtonPrimary className="mt-8 w-full">Confirm order</ButtonPrimary>

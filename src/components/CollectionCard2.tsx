@@ -7,7 +7,7 @@ import Prices from "./Prices";
 
 export interface CollectionCard2Props {
   className?: string;
-  imgs?: string[];
+  imgs?: any[];
   name?: string;
   price?: number;
   description?: string;
@@ -15,35 +15,37 @@ export interface CollectionCard2Props {
 
 const CollectionCard2: FC<CollectionCard2Props> = ({
   className,
-  imgs = [productImgs[9], productImgs[10], productImgs[11], productImgs[8]],
-  name = "Product Name",
+  imgs,
+  name,
   description = "Product Description",
   price,
 }) => {
+  console.log(imgs)
   return (
+  
     <div className={`CollectionCard2 group relative ${className}`}>
       <div className="relative flex flex-col">
         <NcImage
           containerClassName="aspect-w-8 aspect-h-5 bg-neutral-100 rounded-2xl overflow-hidden"
           className="object-contain w-full h-full rounded-2xl"
-          src={imgs[0]}
+          src={imgs?.[0]?.src}
         />
         <div className="grid grid-cols-3 gap-2.5 mt-2.5">
           <NcImage
             containerClassName="w-full h-24 sm:h-28"
             className="object-cover w-full h-full rounded-2xl"
-            src={imgs[1]}
+            src={imgs?.[1]?.src}
           />
           <NcImage
             containerClassName="w-full h-24 sm:h-28"
             className="object-cover w-full h-full rounded-2xl"
-            src={imgs[2]}
+            src={imgs?.[2]?.src}
           />
-          <NcImage
+          {/* <NcImage
             containerClassName="w-full h-24 sm:h-28"
             className="object-cover w-full h-full rounded-2xl"
             src={imgs[3]}
-          />
+          /> */}
         </div>
       </div>
 

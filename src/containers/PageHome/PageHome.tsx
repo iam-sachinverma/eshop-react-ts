@@ -39,16 +39,18 @@ function PageHome() {
       {/* SECTION HERO */}
       <SectionHero2 />
 
-      <div className="container relative space-y-24 my-6 lg:space-y-32 lg:my-16">
+      <div className="mt-20 lg:mt-30">
+        <DiscoverMoreSlider />
+      </div>
+
+      <div className="container relative space-y-24 my-24 lg:space-y-32 lg:my-32">
+        
 
         {/* SECTION */}
         <SectionSliderProductCard
           data={products}
         />
 
-        <div className="mt-20 lg:mt-30">
-          <DiscoverMoreSlider />
-        </div>
 
         {/* <div className="py-24 lg:py-32 border-t border-b border-slate-200 dark:border-slate-700">
           <SectionHowItWork />
@@ -63,20 +65,23 @@ function PageHome() {
           <SectionGridMoreExplore />
         </div> */}
 
+        {/*  */}
+        {/* <SectionSliderCategories /> */}
+
         <SectionSliderProductCard
           heading="Best Sellers"
           subHeading="Best selling of the month"
-          data={products}
+          data={[...products].reverse()}
         />
+        
 
         {/*  */}
         {/* <SectionPromo2 /> */}
 
         {/* SECTION 3 */}
-        <SectionSliderLargeProduct cardStyle="style2" />
+        <SectionSliderLargeProduct data={products} cardStyle="style2" />
 
-        {/*  */}
-        <SectionSliderCategories />
+       
 
         {/* SECTION */}
         <SectionPromo3 />

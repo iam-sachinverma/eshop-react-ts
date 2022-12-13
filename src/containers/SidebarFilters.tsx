@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import Checkbox from "shared/Checkbox/Checkbox";
 import Slider from "rc-slider";
 import Radio from "shared/Radio/Radio";
 import MySwitch from "components/MySwitch";
+
+import { useAttributesQuery, useAttributeTermsQuery } from "app/productApi";
 
 // DEMO DATA
 const DATA_categories = [
@@ -47,27 +49,66 @@ const DATA_sortOrderRadios = [
   { name: "Most Popular", id: "Most-Popular" },
   { name: "Best Rating", id: "Best-Rating" },
   { name: "Newest", id: "Newest" },
-  { name: "Price Low - Hight", id: "Price-low-hight" },
-  { name: "Price Hight - Low", id: "Price-hight-low" },
+  { name: "Price Low - High", id: "Price-low-high" },
+  { name: "Price High - Low", id: "Price-high-low" },
 ];
 
 const PRICE_RANGE = [1, 500];
-//
+
+export interface SidebarProps {
+  isOnSale?: boolean;
+  rangePrices?: Array<number>;
+  colorsState?: Array<string>;
+  sizesState?: Array<string>;
+  sortOrderStates?: string;
+}
+
 const SidebarFilters = () => {
+  //
+  const { data:allAttributes, isSuccess:attributesFullfilled } = useAttributesQuery();
+  console.log(allAttributes);
+  
+  //
+  const [ colorTerms, setColorTerms] = useState(false);
+  
+  const [ productFiltersData, setproductFiltersData ] = useState([]);
+  const [ allColors, setAllColors ] = useState([]);
+  const [ allSizes, setAllSizes] = useState([]);
+
   //
   const [isOnSale, setIsIsOnSale] = useState(true);
   const [rangePrices, setRangePrices] = useState([100, 500]);
-  const [categoriesState, setCategoriesState] = useState<string[]>([]);
   const [colorsState, setColorsState] = useState<string[]>([]);
   const [sizesState, setSizesState] = useState<string[]>([]);
   const [sortOrderStates, setSortOrderStates] = useState<string>("");
+  // const [categoriesState, setCategoriesState] = useState<string[]>([]);
 
+  const createFiltersData = () => {
+    const colors = allAttributes.filter((attr: any) => attr?.name === 'Color')
+    setAllColors(colors);
+    const sizes = allAttributes.filter((attr: any) => attr?.name === 'Size')
+    setAllSizes(sizes);
+  } 
+  
+  useEffect(() => {
+    createFiltersData();
+  },[attributesFullfilled])
+
+  console.log(allColors);
+  console.log(allSizes);
+  
+  // console.log('Color Filter', typeof colorsState,);
+  // console.log('Size Filter', typeof sizesState);
+  // console.log('Price Range', typeof rangePrices);
+  // console.log('On Sale', typeof isOnSale);
+  // console.log('Sort ', typeof sortOrderStates);
+  
   //
-  const handleChangeCategories = (checked: boolean, name: string) => {
-    checked
-      ? setCategoriesState([...categoriesState, name])
-      : setCategoriesState(categoriesState.filter((i) => i !== name));
-  };
+  // const handleChangeCategories = (checked: boolean, name: string) => {
+  //   checked
+  //     ? setCategoriesState([...categoriesState, name])
+  //     : setCategoriesState(categoriesState.filter((i) => i !== name));
+  // };
 
   const handleChangeColors = (checked: boolean, name: string) => {
     checked
@@ -84,25 +125,25 @@ const SidebarFilters = () => {
   //
 
   // OK
-  const renderTabsCategories = () => {
-    return (
-      <div className="relative flex flex-col pb-8 space-y-4">
-        <h3 className="font-semibold mb-2.5">Categories</h3>
-        {DATA_categories.map((item) => (
-          <div key={item.name} className="">
-            <Checkbox
-              name={item.name}
-              label={item.name}
-              defaultChecked={categoriesState.includes(item.name)}
-              sizeClassName="w-5 h-5"
-              labelClassName="text-sm font-normal"
-              onChange={(checked) => handleChangeCategories(checked, item.name)}
-            />
-          </div>
-        ))}
-      </div>
-    );
-  };
+  // const renderTabsCategories = () => {
+  //   return (
+  //     <div className="relative flex flex-col pb-8 space-y-4">
+  //       <h3 className="font-semibold mb-2.5">Categories</h3>
+  //       {DATA_categories.map((item) => (
+  //         <div key={item.name} className="">
+  //           <Checkbox
+  //             name={item.name}
+  //             label={item.name}
+  //             defaultChecked={categoriesState.includes(item.name)}
+  //             sizeClassName="w-5 h-5"
+  //             labelClassName="text-sm font-normal"
+  //             onChange={(checked) => handleChangeCategories(checked, item.name)}
+  //           />
+  //         </div>
+  //       ))}
+  //     </div>
+  //   );
+  // };
 
   // OK
   const renderTabsColor = () => {
@@ -236,7 +277,7 @@ const SidebarFilters = () => {
 
   return (
     <div className="divide-y divide-slate-200 dark:divide-slate-700">
-      {renderTabsCategories()}
+      {/* {renderTabsCategories()} */}
       {renderTabsColor()}
       {renderTabsSize()}
       {renderTabsPriceRage()}

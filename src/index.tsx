@@ -15,20 +15,22 @@ import { persistor, store } from "app/store";
 import { PersistGate } from "redux-persist/integration/react";
 
 import { fetchProducts } from "app/productSlice.js";
+import { fetchCategories } from "app/categorySlice";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
   );
 
 store.dispatch(fetchProducts());
+store.dispatch(fetchCategories());
 
 root.render(
   // <React.StrictMode>
-  <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-      <App />
-    </PersistGate>
-  </Provider>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <App />
+      </PersistGate>
+    </Provider>
   // </React.StrictMode>
 );
 

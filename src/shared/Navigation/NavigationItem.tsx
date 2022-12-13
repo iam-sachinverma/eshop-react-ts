@@ -53,7 +53,7 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
                   {menu.children.map((item, index) => (
                     <div key={index}>
                       <p className="font-medium text-slate-900 dark:text-neutral-200">
-                        {item.name}
+                        {item.name}ss
                       </p>
                       <ul className="grid space-y-4 mt-4">
                         {item.children?.map(renderMegaMenuNavlink)}

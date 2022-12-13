@@ -1,4 +1,4 @@
-import React, { useEffect, useId } from "react";
+import React, { useEffect, useId, useState } from "react";
 import Heading from "./Heading/Heading";
 import img1 from "images/collections/1.png";
 import img2 from "images/collections/5.png";
@@ -9,36 +9,51 @@ import CardCategory3, {
 } from "./CardCategories/CardCategory3";
 import Glide from "@glidejs/glide";
 
-export const CATS_DISCOVER: CardCategory3Props[] = [
-  {
-    name: "Explore new arrivals",
-    desc: "Shop the latest <br /> from top brands",
-    featuredImage: img1,
-    color: "bg-yellow-50",
-  },
-  {
-    name: "Digital gift cards",
-    desc: "Give the gift <br /> of choice",
-    featuredImage: img2,
-    color: "bg-red-50",
-  },
-  {
-    name: "Sale collection",
-    desc: "Up to <br /> 80% off retail",
-    featuredImage: img3,
-    color: "bg-blue-50",
-  },
-  {
-    name: "Sale collection",
-    desc: "Up to <br /> 80% off retail",
-    featuredImage: img4,
-    color: "bg-green-50",
-  },
-];
+import { useAppSelector } from "app/hooks";
+
+interface CardCategory {
+  className?: string;
+  image?: any;
+  name?: string;
+  description?: string;
+  color?: string;
+  slug?: string;
+}
+
+// export const CATS_DISCOVER: CardCategory3Props[] = [
+//   {
+//     name: "Explore new arrivals",
+//     desc: "Shop the latest <br /> from top brands",
+//     featuredImage: img1,
+//     color: "bg-yellow-50",
+//   },
+//   {
+//     name: "Digital gift cards",
+//     desc: "Give the gift <br /> of choice",
+//     featuredImage: img2,
+//     color: "bg-red-50",
+//   },
+//   {
+//     name: "Sale collection",
+//     desc: "Up to <br /> 80% off retail",
+//     featuredImage: img3,
+//     color: "bg-blue-50",
+//   },
+//   {
+//     name: "Sale collection",
+//     desc: "Up to <br /> 80% off retail",
+//     featuredImage: img4,
+//     color: "bg-green-50",
+//   },
+// ];
 
 const DiscoverMoreSlider = () => {
   const id = useId();
   const UNIQUE_CLASS = "glidejs" + id.replace(/:/g, "_");
+
+  const categoriesArray = useAppSelector((state)=> state.category.categories) 
+
+  const [categories, setCategories] = useState<CardCategory[]>(categoriesArray);
 
   useEffect(() => {
     const OPTIONS: Glide.Options = {
@@ -73,10 +88,10 @@ const DiscoverMoreSlider = () => {
     slider.mount();
     // @ts-ignore
     return () => slider.destroy();
-  }, [UNIQUE_CLASS]);
+  }, [UNIQUE_CLASS, categories]);
 
   return (
-    <div className={`nc-DiscoverMoreSlider ${UNIQUE_CLASS} `}>
+    <div className={`nc-DiscoverMoreSlider nc-p-l-container ${UNIQUE_CLASS} `}>
       <Heading
         className="mb-12 lg:mb-14 text-neutral-900 dark:text-neutral-50 nc-p-r-container "
         desc=""
@@ -87,13 +102,14 @@ const DiscoverMoreSlider = () => {
       </Heading>
       <div className="" data-glide-el="track">
         <ul className="glide__slides">
-          {CATS_DISCOVER.map((item, index) => (
+          {categories?.map((item, index) => (
             <li key={index} className={`glide__slide`}>
               <CardCategory3
-                name={item.name}
-                desc={item.desc}
-                featuredImage={item.featuredImage}
-                color={item.color}
+                name={item?.name}
+                description={item?.description}
+                featuredImage={item?.image?.src}
+                color={"bg-blue-50"}
+                slug={item?.slug}
               />
             </li>
           ))}

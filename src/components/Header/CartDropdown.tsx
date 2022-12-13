@@ -14,7 +14,7 @@ export default function CartDropdown() {
   const cartItems = useAppSelector((state) => state.cart);
 
   const renderProduct = (item: any, index: number, close: () => void) => {
-    const { name, price, image } = item;
+    // const { name, price, image } = item;
 
     return (
       <div key={index} className="flex py-5 last:pb-0">
@@ -22,7 +22,7 @@ export default function CartDropdown() {
           <img
             src={item?.images?.[0]?.src}
             alt={item?.name}
-            className="h-full w-full object-contain object-center"
+            className="h-full w-full object-fit object-center"
           />
           <Link
             onClick={close}

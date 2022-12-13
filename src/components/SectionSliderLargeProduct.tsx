@@ -10,11 +10,13 @@ export interface SectionSliderLargeProductProps {
   className?: string;
   itemClassName?: string;
   cardStyle?: "style1" | "style2";
+  data?: any[];
 }
 
 const SectionSliderLargeProduct: FC<SectionSliderLargeProductProps> = ({
   className = "",
   cardStyle = "style2",
+  data,
 }) => {
   const id = useId();
   const UNIQUE_CLASS = "glidejs" + id.replace(/:/g, "_");
@@ -49,7 +51,7 @@ const SectionSliderLargeProduct: FC<SectionSliderLargeProductProps> = ({
     slider.mount();
     // @ts-ignore
     return () => slider.destroy();
-  }, [UNIQUE_CLASS]);
+  }, [UNIQUE_CLASS, data]);
 
   const MyCollectionCard =
     cardStyle === "style1" ? CollectionCard : CollectionCard2;
@@ -62,16 +64,22 @@ const SectionSliderLargeProduct: FC<SectionSliderLargeProductProps> = ({
         </Heading>
         <div className="glide__track" data-glide-el="track">
           <ul className="glide__slides">
-            {DEMO_LARGE_PRODUCTS.map((product, index) => (
-              <li className={`glide__slide`} key={index}>
-                <MyCollectionCard
-                  name={product.name}
-                  price={product.price}
-                  imgs={product.images}
-                  description={product.desc}
-                />
-              </li>
-            ))}
+            {
+              data?.map((product, index) => {
+                if(product.images.length > 2){
+                  return (
+                    <li className={`glide__slide`} key={index}>
+                      <MyCollectionCard
+                        name={product.name}
+                        price={+product.price}
+                        imgs={product.images}
+                        description={product.desc}
+                      />
+                    </li>
+                  )
+                }
+              })
+            }
 
             <li className={`glide__slide   `}>
               <Link to={"/page-search"} className="block relative group">

@@ -2,8 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   loading: false,
-  userInfo: {}, // for user object
+  userInfo: null, // for user object
   userToken: null, // for storing the JWT
+  customerId: null, // woocommerce customer id
   error: null,
   success: false, // for monitoring the registration process.
 };
@@ -32,10 +33,13 @@ const userSlice = createSlice({
       state.error = null;
       state.success = false;
     },
+    setCustomerId: (state, action) => {
+      state.customerId = action.payload;
+    },
   },
 });
 
-export const { loginStart, loginSuccess, loginFailure, logout } =
+export const { loginStart, loginSuccess, loginFailure, logout, setCustomerId } =
   userSlice.actions;
 
 export default userSlice.reducer;
