@@ -9,7 +9,8 @@ import CardCategory3, {
 } from "./CardCategories/CardCategory3";
 import Glide from "@glidejs/glide";
 
-import { useAppSelector } from "app/hooks";
+import { useGetAllCategoryQuery } from "features/category/categoryApiSlice";
+
 
 interface CardCategory {
   className?: string;
@@ -20,6 +21,17 @@ interface CardCategory {
   color?: string;
   slug?: string;
 }
+
+const colors = [
+  'bg-yellow-50',
+  'bg-red-50',
+  'bg-blue-50',
+  'bg-green-50',
+  'bg-pink-50',
+  'bg-purple-50',
+  'bg-emerald-50',
+  'bg-sky-50',
+]
 
 // export const CATS_DISCOVER: CardCategory3Props[] = [
 //   {
@@ -52,10 +64,34 @@ const DiscoverMoreSlider = () => {
   const id = useId();
   const UNIQUE_CLASS = "glidejs" + id.replace(/:/g, "_");
 
-  const categoriesArray = useAppSelector((state)=> state.category.categories) 
+  const {data:categoriesArray, isLoading, isSuccess, isError, error} = useGetAllCategoryQuery();
 
-  const [categories, setCategories] = useState<CardCategory[]>(categoriesArray);
-  console.log(categories);
+  let content 
+
+  if(isLoading){
+    content = ''
+  }else if(isSuccess){
+    content = (
+      <ul className="glide__slides">
+        { isSuccess && categoriesArray?.map((item:any, index:number) => (
+          <li key={index} className={`glide__slide`}>
+            <CardCategory3
+              name={item?.name}
+              id={item?.id}
+              description={item?.description}
+              featuredImage={item?.image?.src}
+              color={colors[index]}
+              slug={item?.slug}
+            />
+          </li>
+        ))}
+      </ul>
+    )
+  }else if(isError){
+    content = (
+      <div>{"Please wait it error"}</div>
+    )
+  }
   
   useEffect(() => {
     const OPTIONS: Glide.Options = {
@@ -90,7 +126,7 @@ const DiscoverMoreSlider = () => {
     slider.mount();
     // @ts-ignore
     return () => slider.destroy();
-  }, [UNIQUE_CLASS, categories]);
+  }, [UNIQUE_CLASS]);
 
   return (
     <div className={`nc-DiscoverMoreSlider nc-p-l-container ${UNIQUE_CLASS} `}>
@@ -103,20 +139,7 @@ const DiscoverMoreSlider = () => {
         Discover more
       </Heading>
       <div className="" data-glide-el="track">
-        <ul className="glide__slides">
-          {categories?.map((item, index) => (
-            <li key={index} className={`glide__slide`}>
-              <CardCategory3
-                name={item?.name}
-                id={item?.id}
-                description={item?.description}
-                featuredImage={item?.image?.src}
-                color={"bg-blue-50"}
-                slug={item?.slug}
-              />
-            </li>
-          ))}
-        </ul>
+        {content}
       </div>
     </div>
   );

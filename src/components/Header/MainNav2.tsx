@@ -21,7 +21,6 @@ const MainNav2: FC<MainNav2Props> = ({ className = "" }) => {
   const user = useAppSelector((state) => state.auth.user);
   console.log(user);
   
-
   const renderMagnifyingGlassIcon = () => {
     return (
       <svg

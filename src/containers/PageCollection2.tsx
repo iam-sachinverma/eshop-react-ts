@@ -6,7 +6,8 @@ import SidebarFilters from "./SidebarFilters";
 
 import { useLocation } from "react-router-dom";
 import { useGetCategoryOnSaleProductsQuery, useGetCategoryProductsQuery } from "features/product/productApiSlice";
-import { useAppSelector } from "app/hooks";
+import  SectionSliderProductCard  from "components/SectionSliderProductCard";
+
 
 export interface PageCollection2Props {
   className?: string;
@@ -16,8 +17,8 @@ const PageCollection2: FC<PageCollection2Props> = ({ className = "" }) => {
   const location = useLocation()
   const catId = location.pathname.split("/")[2];
 
-  const { data, isSuccess } = useGetCategoryProductsQuery(catId)
-  console.log(data);
+  const { data:products, isSuccess } = useGetCategoryProductsQuery(catId)
+  // console.log(data);
 
   const [isOnSale, setIsIsOnSale] = useState(false);
   const [colorsState, setColorsState] = useState<string[]>([]);
@@ -25,14 +26,10 @@ const PageCollection2: FC<PageCollection2Props> = ({ className = "" }) => {
   const { data:onSaleProducts } = useGetCategoryOnSaleProductsQuery({categoryID:catId,OnSale: isOnSale});
   console.log(onSaleProducts);
   
-  
   // Filter State
-  console.log(colorsState);
 
   // const [rangePrices, setRangePrices] = useState([100, 500]);
   // const [sortOrderStates, setSortOrderStates] = useState<string>("");
-
-  const products = useAppSelector((state) => state.product.products);
 
   const filterProduct = (products: any) => {
     
@@ -107,11 +104,9 @@ const PageCollection2: FC<PageCollection2Props> = ({ className = "" }) => {
               {/* Product Card */}
               <div className="flex-1 ">
                 <div className="flex-1 grid sm:grid-cols-2 xl:grid-cols-3 gap-x-8 gap-y-10 ">
-                  {/* {products?.map((item: any, index: number) => (
-                    <ProductCard data={item} key={index} />
-                  ))} */}
-
-                  {
+                {
+                   isSuccess === true ? 
+                  (
                     colorsState?.length > 0 ? (
                       filteredProduct?.map((item: any, index: number) => (
                         <ProductCard data={item} key={index} />
@@ -121,7 +116,8 @@ const PageCollection2: FC<PageCollection2Props> = ({ className = "" }) => {
                         <ProductCard data={item} key={index} />
                       ))
                     )
-                  }
+                  ) : ('')
+                }
                 </div>
               </div>
 
@@ -130,9 +126,9 @@ const PageCollection2: FC<PageCollection2Props> = ({ className = "" }) => {
         </div>
 
         {/* === SECTION 5 === */}
-        <hr className="border-slate-200 dark:border-slate-700" />
+        {/* <hr className="border-slate-200 dark:border-slate-700" /> */}
 
-        <SectionSliderCollections />
+      
 
         {/* <hr className="border-slate-200 dark:border-slate-700" /> */}
 

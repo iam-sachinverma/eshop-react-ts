@@ -17,7 +17,6 @@ import { apiSlice } from "./api/apiSlice";
 import mediaRunningReducer from "./mediaRunning/mediaRunning";
 import productReducer from "./productSlice.js"
 import cartReducer from "./cartSlice.js"
-import categoryReducer from "./categorySlice";
 
 //
 import authSliceReducer from "features/auth/authSlice"
@@ -34,7 +33,6 @@ const reducers = combineReducers({
   mediaRunning: mediaRunningReducer,
   product: productReducer,
   cart: cartReducer,
-  category: categoryReducer,  
   auth: authSliceReducer,
   //
   [apiSlice.reducerPath]: apiSlice.reducer
