@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC } from "react";
 import facebookSvg from "images/Facebook.svg";
 import twitterSvg from "images/Twitter.svg";
 import googleSvg from "images/Google.svg";
@@ -9,14 +9,14 @@ import ButtonPrimary from "shared/Button/ButtonPrimary";
 import { Link, useHistory } from "react-router-dom";
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { useAppDispatch, useAppSelector } from "app/hooks";
-import { loginRegister } from "app/apiCalls";
+import { useCreateCustomerMutation } from "features/customer/customerApiSlice"
 
 export interface PageSignUpProps {
   className?: string;
 }
 
 type SignUp = {
-  name: string;
+  first_name: string;
   email: string;
   password: string;
 }
@@ -40,24 +40,19 @@ const loginSocials = [
 ];
 
 const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
-
   const history = useHistory();
-  const dispatch = useAppDispatch()
 
-  const { loading, userInfo, error, success } = useAppSelector((state)=> state.auth)
-
-  useEffect(() => {
-    // redirect user to login page if registration was successful
-    if (success || userInfo !== null) history.push('/')
-    // redirect authenticated home
-    // if (userInfo) history.push('/')
-  }, [history, userInfo, success])
+  const [ createCustomer, {isLoading} ] = useCreateCustomerMutation();  
 
   const {register, handleSubmit} = useForm<SignUp>();
 
-  const onSubmit: SubmitHandler<SignUp> = data => {
-    console.log(data);
-    loginRegister(dispatch, data, `users/register`, history, "cart");
+  const onSubmit: SubmitHandler<SignUp> = async (data) => {
+    try {
+      await createCustomer(data).unwrap();
+      history.push('/login')
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -102,9 +97,8 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
                 Name
               </span>
               <Input
-                {...register("name")} 
-                id="name" 
-                name="name"
+                {...register("first_name")} 
+                id="first_name" 
                 type="text"
                 className="mt-1"
               />

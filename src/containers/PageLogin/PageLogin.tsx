@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import facebookSvg from "images/Facebook.svg";
 import twitterSvg from "images/Twitter.svg";
 import googleSvg from "images/Google.svg";
@@ -9,14 +9,18 @@ import ButtonPrimary from "shared/Button/ButtonPrimary";
 import { Link, useHistory } from "react-router-dom";
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { useAppDispatch, useAppSelector } from "app/hooks";
-import { loginRegister } from "app/apiCalls";
+
+// 
+import { useRef } from "react";
+import { setCredentials } from "features/auth/authSlice";
+import { useLoginMutation } from "features/auth/authApiSlice";
 
 export interface PageLoginProps {
   className?: string;
 }
 
 type LogIn = {
-  email: string,
+  username: string,
   password: string
 }
 
@@ -45,17 +49,39 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
 
   const {register, handleSubmit} = useForm<LogIn>();
 
-  const { loading, userInfo, error, success }  = useAppSelector((state) => state.auth);
+  const userRef = useRef();
+  const errRef = useRef();
+  const [user, setUser] = useState('');
+  const [pwd, setPwd] = useState('');
+  const [errMsg, setErrMsg] = useState('');
+
+  const [login, {isLoading}] = useLoginMutation()
+
+  // useEffect(()=>{
+  //   userRef?.current?.focus()
+  // },[])
 
   useEffect(() => {
-    if (userInfo !== null) history.push('/')
-  }, [history, userInfo, success])
+    setErrMsg('')
+  },[user, pwd])
 
-  const onSubmit: SubmitHandler<LogIn> = data => {
-    loginRegister(dispatch, data, `users/signin`, history, "cart");
+  // const { loading, userInfo, error, success }  = useAppSelector((state) => state.auth);
+
+   // useEffect(() => {
+  //   if (userInfo !== null) history.push('/')
+  // }, [history, userInfo, success])
+
+  const onSubmit: SubmitHandler<LogIn> = async (data) => {
+    try {
+      const userData = await login(data).unwrap()
+      console.log(userData);
+      dispatch(setCredentials(userData));
+      history.push('/')
+    } catch (error) {
+      console.log(error);
+    }
   }; 
   
-
   return (
     <div className={`nc-PageLogin ${className}`} data-nc-id="PageLogin">
       <Helmet>
@@ -98,9 +124,9 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
                 Email address
               </span>
               <Input
-                {...register("email")}
-                id="email"
-                name="email"
+                {...register("username")}
+                id="username"
+                name="username"
                 type="email"
                 className="mt-1"
               />

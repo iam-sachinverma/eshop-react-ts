@@ -1,14 +1,12 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useState, useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet";
 import SectionSliderCollections from "components/SectionSliderLargeProduct";
 import ProductCard from "components/ProductCard";
 import SidebarFilters from "./SidebarFilters";
-import { PRODUCTS } from "data/data";
 
-import { wooCommerceRequest } from "services/axios";
-import {useAppSelector} from 'app/hooks';
 import { useLocation } from "react-router-dom";
-import { useGetCategoryProductsQuery } from "app/productApi";
+import { useGetCategoryOnSaleProductsQuery, useGetCategoryProductsQuery } from "features/product/productApiSlice";
+import { useAppSelector } from "app/hooks";
 
 export interface PageCollection2Props {
   className?: string;
@@ -16,47 +14,56 @@ export interface PageCollection2Props {
 
 const PageCollection2: FC<PageCollection2Props> = ({ className = "" }) => {
   const location = useLocation()
-  const categoryName = location.pathname.split("/")[2];
+  const catId = location.pathname.split("/")[2];
 
-  // const [products, setProducts] = useState<any>([]);
-  const [catgeoryId, setCategoryID] = useState<number>(0);
-  const [categoryDetails, setCategoryDetails] = useState<any>({});
-  
-  const categories =  useAppSelector((state) => state.category.categories);
+  const { data, isSuccess } = useGetCategoryProductsQuery(catId)
+  console.log(data);
 
-  const { data, isSuccess } = useGetCategoryProductsQuery(catgeoryId === 0 ? 0 : catgeoryId);
+  const [isOnSale, setIsIsOnSale] = useState(false);
+  const [colorsState, setColorsState] = useState<string[]>([]);
   
-  const getCategoryID = () => {
-    const category = categories.filter((cat: any) => cat?.slug === categoryName);
-    // check
-    if(category.length === 1){
-      const { id, name, description } = category[0];
-      setCategoryDetails({id, name, description})
-      setCategoryID(+id);
+  const { data:onSaleProducts } = useGetCategoryOnSaleProductsQuery({categoryID:catId,OnSale: isOnSale});
+  console.log(onSaleProducts);
+  
+  
+  // Filter State
+  console.log(colorsState);
+
+  // const [rangePrices, setRangePrices] = useState([100, 500]);
+  // const [sortOrderStates, setSortOrderStates] = useState<string>("");
+
+  const products = useAppSelector((state) => state.product.products);
+
+  const filterProduct = (products: any) => {
+    
+    let arr = [];
+
+    if(colorsState && colorsState.length > 0){
+      const data = products.filter((product: any) => {
+        return product.attributes.some((attr: any) => attr.options.includes(...colorsState))
+      })
+      arr.push(...data);
     }
-    return;
-  }
-  
-  useEffect(() => {
-    getCategoryID()
-  },[categoryName, categories])
 
-  // useEffect(() => {
-  //   const getProducts = async () => {
-  //     try {
-  //       const response = await wooCommerceRequest.get(
-  //         (categoryDetails === undefined ? `products` : `products?category=${categoryDetails.id}`)
-  //       );
-  //       setProducts(response?.data);  
-  //       console.log(response?.data);
-            
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   getProducts();
-  // }, [categoryDetails]);
+    if(isOnSale === true){
+      //
+    }
+
+    return arr;
+  }
+
+  const filteredProduct  = useMemo(() => filterProduct(products),[colorsState]);
+  console.log(filteredProduct);
   
+  const handleChangeColors = (checked: boolean, name: string) => {
+    checked
+      ? setColorsState([...colorsState, name])
+      : setColorsState(colorsState.filter((i) => i !== name));
+  };
+
+  const handleOnSale = () => {
+    setIsIsOnSale((prev) => !prev)
+  }
 
   return (
     <div
@@ -64,7 +71,7 @@ const PageCollection2: FC<PageCollection2Props> = ({ className = "" }) => {
       data-nc-id="PageCollection2"
     >
       <Helmet>
-        <title>Category || EcoFreaky </title>
+        <title>Category || EcoFreaky</title>
       </Helmet>
 
       <div className="container py-16 lg:pb-28 lg:pt-20 space-y-16 sm:space-y-20 lg:space-y-28">
@@ -72,10 +79,11 @@ const PageCollection2: FC<PageCollection2Props> = ({ className = "" }) => {
           {/* HEADING */}
           <div className="max-w-screen-sm">
             <h2 className="block text-2xl sm:text-3xl lg:text-4xl font-semibold">
-              {categoryDetails?.name}
+              {/* {categoryDetails?.name} */}
+              {'Catgeory Name'}
             </h2>
             <span className="block mt-4 text-neutral-500 dark:text-neutral-400 text-sm sm:text-base">
-              {categoryDetails?.description || `Category Description Comes Here`}
+              { `Category Description Comes Here`}
             </span>
           </div>
 
@@ -83,20 +91,40 @@ const PageCollection2: FC<PageCollection2Props> = ({ className = "" }) => {
           <main>
             {/* LOOP ITEMS */}
             <div className="flex flex-col lg:flex-row">
+
+              {/* Sidebar */}
               <div className="lg:w-1/3 xl:w-1/4 pr-4">
-                <SidebarFilters />
+                <SidebarFilters 
+                 colorState={colorsState} 
+                 changeColors={handleChangeColors}
+                 isOnSaleValue={isOnSale}
+                 onSaleHandler={handleOnSale}
+                />
               </div>
+
               <div className="flex-shrink-0 mb-10 lg:mb-0 lg:mx-4 border-t lg:border-t-0"></div>
+
+              {/* Product Card */}
               <div className="flex-1 ">
                 <div className="flex-1 grid sm:grid-cols-2 xl:grid-cols-3 gap-x-8 gap-y-10 ">
                   {/* {products?.map((item: any, index: number) => (
                     <ProductCard data={item} key={index} />
                   ))} */}
-                  {isSuccess && data?.map((item: any, index: number) => (
-                    <ProductCard data={item} key={index} />
-                  ))}
+
+                  {
+                    colorsState?.length > 0 ? (
+                      filteredProduct?.map((item: any, index: number) => (
+                        <ProductCard data={item} key={index} />
+                      ))
+                    ) : (
+                      products?.map((item: any, index: number) => (
+                        <ProductCard data={item} key={index} />
+                      ))
+                    )
+                  }
                 </div>
               </div>
+
             </div>
           </main>
         </div>

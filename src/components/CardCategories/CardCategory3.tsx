@@ -6,6 +6,7 @@ import ButtonSecondary from "shared/Button/ButtonSecondary";
 
 export interface CardCategory3Props {
   className?: string;
+  id?: string;
   featuredImage?: string;
   name?: string;
   description?: string;
@@ -15,6 +16,7 @@ export interface CardCategory3Props {
 
 const CardCategory3: FC<CardCategory3Props> = ({
   className = "",
+  id,
   featuredImage,
   name,
   description,
@@ -23,7 +25,7 @@ const CardCategory3: FC<CardCategory3Props> = ({
 }) => {
   return (
     <Link
-      to={`products/${slug}`}
+      to={`products/${id}`}
       className={`nc-CardCategory3 block ${className}`}
       data-nc-id="CardCategory3"
     >

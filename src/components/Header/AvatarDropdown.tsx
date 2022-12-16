@@ -6,14 +6,14 @@ import SwitchDarkMode2 from "shared/SwitchDarkMode/SwitchDarkMode2";
 
 import { Link, useHistory } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "app/hooks";
-import { logOut } from "app/apiCalls"
+import { logOut } from "features/auth/authSlice";
 
 export default function AvatarDropdown() {
   const history = useHistory();
   const dispatch = useAppDispatch();
 
   const logOutHandler = () => {
-    logOut(dispatch, history);
+    dispatch(logOut(null));
   }
 
   return (

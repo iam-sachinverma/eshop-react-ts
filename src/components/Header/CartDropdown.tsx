@@ -19,11 +19,20 @@ export default function CartDropdown() {
     return (
       <div key={index} className="flex py-5 last:pb-0">
         <div className="relative h-24 w-20 flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
-          <img
-            src={item?.images?.[0]?.src}
-            alt={item?.name}
-            className="h-full w-full object-fit object-center"
-          />
+          { item?.variantID === 0 ? (  
+              <img
+              src={item?.images?.[0]?.src}
+              alt={item?.name}
+              className="h-full w-full object-fit object-center"
+            />
+            ) : (
+              <img
+              src={item?.image?.src}
+              alt={item?.name}
+              className="h-full w-full object-fit object-center"
+            />
+            )} 
+            
           <Link
             onClick={close}
             className="absolute inset-0"

@@ -1,31 +1,109 @@
-import Label from "components/Label/Label";
-// import NcInputNumber from "components/NcInputNumber";
-import Prices from "components/Prices";
-// import { Product, PRODUCTS } from "data/data";
-import { useEffect, useState } from "react";
-import { Helmet } from "react-helmet";
+import { useState, useMemo, useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import { removeProduct, decreaseProduct, addProductToCart, emptyCart } from "app/cartSlice";
+import { useGetCustomerQuery } from "features/customer/customerApiSlice";
+import { useCreateOrderMutation } from "features/order/orderApiSlice";
 import { Link, useHistory } from "react-router-dom";
+
+import Label from "components/Label/Label";
+import Prices from "components/Prices";
+import { Helmet } from "react-helmet";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
-import { MinusIcon, PlusIcon } from "@heroicons/react/24/solid";
 import Input from "shared/Input/Input";
 import ContactInfo from "./ContactInfo";
 import PaymentMethod from "./PaymentMethod";
 import ShippingAddress from "./ShippingAddress";
+import { MinusIcon, PlusIcon } from "@heroicons/react/24/solid";
 
-import { useAppDispatch, useAppSelector } from "app/hooks";
-import { removeProduct, decreaseProduct, addProductToCart } from "app/cartSlice";
 
 const CheckoutPage = () => {
   const dispatch = useAppDispatch();
-  // const history = useHistory();
+  const location = useHistory();
 
-  // const { userInfo } = useAppSelector((state) => state.auth);
+  const user:any = useAppSelector((state) => state.auth.user)
+  const user_email = user?.user_email;
+
+  useEffect(() => {
+    if(user === null){
+      location.push('/login')
+    }
+  },[])
   
-  const cartItems = useAppSelector((state) => state.cart);
+  const { data:customer, refetch, isSuccess  } = useGetCustomerQuery(user_email);
+  console.log(customer);
+  
+  const [createOrder] = useCreateOrderMutation();
 
-  // useEffect(() => {
-  //   if (userInfo === null) history.push('/login')
-  // }, [history, userInfo])
+  const cartItems = useAppSelector((state) => state.cart);  
+
+  const [ orderItems, setOrderItems ] = useState<any>([]);
+
+  const createLineItems = (products: any) => {
+    let arr = [...orderItems];
+
+    products.map((product: any) => {
+      if(product?.type === 'simple'){
+        console.log('simple');
+        
+        const item = {
+          product_id: product?.id,
+          quantity: product?.quantitySelected,
+        }
+        arr.push(item)
+      }else{
+
+        console.log('variable');
+
+        const item = {
+          product_id: product?.id,
+          variation_id: product?.id,
+          quantity: product?.quantitySelected,
+        }
+        arr.push(item)
+      }
+    })
+
+    return arr;
+  }
+
+  const lineItems = useMemo(() => createLineItems(cartItems?.products),[cartItems]);
+  console.log(lineItems);
+  
+  const createOrderHandler = async () => {
+    refetch()
+    
+    if(isSuccess){
+      if(customer?.[0]?.billing?.address_1 === ''){
+        alert('Please Enter Shipping Address');
+      }else if(customer?.[0]?.billing?.phone === ''){
+        alert('Please Enter Contact Details')
+      }else{
+  
+        const orderData = {
+          payment_method: "bacs",
+          payment_method_title: "Direct Bank Transfer",
+          set_paid: true,
+          billing: {
+            ...customer[0]?.billing
+          },
+          shipping: {
+            ...customer[0]?.shipping
+          },
+          line_items: lineItems,
+        }
+  
+        console.log('Order',orderData);
+  
+        try {
+          await createOrder(orderData);
+          dispatch(emptyCart());
+          location.push('/')
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
+  }
 
   const quantitySelected = 1;
 
@@ -43,14 +121,25 @@ const CheckoutPage = () => {
   const renderProduct = (item: any, index: number) => {
     const { image, price, name } = item;
 
+    console.log(item);
+    
+
     return (
       <div key={index} className="relative flex py-7 first:pt-0 last:pb-0">
         <div className="relative h-36 w-24 sm:w-28 flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
-          <img
-            src={item?.images?.[0]?.src}
-            alt={item?.name}
-            className="h-full w-full object-fit object-center"
-          />
+        { item?.variantID === 0 ? (  
+              <img
+              src={item?.images?.[0]?.src}
+              alt={item?.name}
+              className="h-full w-full object-fit object-center"
+            />
+            ) : (
+              <img
+              src={item?.image?.src}
+              alt={item?.name}
+              className="h-full w-full object-fit object-center"
+            />
+            )} 
           <Link to={`/product/${item?.id}`} className="absolute inset-0"></Link>
         </div>
 
@@ -62,8 +151,11 @@ const CheckoutPage = () => {
                   <Link to={`/product/${item?.id}`}>{item?.name}</Link>
                 </h3>
                 <div className="mt-1.5 sm:mt-2.5 flex text-sm text-slate-600 dark:text-slate-300">
-                  <div className="flex items-center space-x-1.5">
-                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
+                  { item?.attributes.length === 0 ? "" :
+                  
+                  (
+                    <div className="flex items-center space-x-1.5">
+                    {/* <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
                       <path
                         d="M7.01 18.0001L3 13.9901C1.66 12.6501 1.66 11.32 3 9.98004L9.68 3.30005L17.03 10.6501C17.4 11.0201 17.4 11.6201 17.03 11.9901L11.01 18.0101C9.69 19.3301 8.35 19.3301 7.01 18.0001Z"
                         stroke="currentColor"
@@ -103,12 +195,17 @@ const CheckoutPage = () => {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                       />
-                    </svg>
-
-                    <span>{`Black`}</span>
+                    </svg> */}
+                    <span>{item?.attributes?.[0].name}</span>
+                    :
+                    <span>{item?.attributes?.[0].option}</span>
                   </div>
-                  <span className="mx-4 border-l border-slate-200 dark:border-slate-700 "></span>
-                  <div className="flex items-center space-x-1.5">
+                  ) 
+                  
+                  }
+                  
+                  {/* <span className="mx-4 border-l border-slate-200 dark:border-slate-700 "></span> */}
+                  {/* <div className="flex items-center space-x-1.5">
                     <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
                       <path
                         d="M21 9V3H15"
@@ -141,7 +238,8 @@ const CheckoutPage = () => {
                     </svg>
 
                     <span>{`2XL`}</span>
-                  </div>
+                  </div> */}
+
                 </div>
 
                 <div className="mt-3 flex justify-between w-full sm:hidden relative">
@@ -231,7 +329,8 @@ const CheckoutPage = () => {
       <div className="space-y-8">
         <div id="ContactInfo" className="scroll-mt-24">
           <ContactInfo
-            // isMail={userInfo !== null ? userInfo['email'] : ""}
+            isMail={isSuccess && customer[0]?.email}
+            customerID={isSuccess && customer[0]?.id}
             isActive={tabActive === "ContactInfo"}
             onOpenActive={() => {
               setTabActive("ContactInfo");
@@ -246,6 +345,8 @@ const CheckoutPage = () => {
 
         <div id="ShippingAddress" className="scroll-mt-24">
           <ShippingAddress
+            customerID={isSuccess && customer[0]?.id}
+            isMail={isSuccess && customer[0]?.email}
             isActive={tabActive === "ShippingAddress"}
             onOpenActive={() => {
               setTabActive("ShippingAddress");
@@ -341,7 +442,7 @@ const CheckoutPage = () => {
                 <span>₹ {cartItems?.total}</span>
               </div>
             </div>
-            <ButtonPrimary className="mt-8 w-full">Confirm order</ButtonPrimary>
+            <ButtonPrimary className="mt-8 w-full" onClick={() => createOrderHandler()}>Confirm order</ButtonPrimary>
             <div className="mt-5 text-sm text-slate-500 dark:text-slate-400 flex items-center justify-center">
               <p className="block relative pl-5">
                 <svg

@@ -37,9 +37,6 @@ const CartPage = () => {
 
   const renderProduct = (item: any, index: number) => {
     const { image, price, name } = item;
-    
-    if(item?.type !== "variable"){
-      console.log('Not Variant');
       
       return (
         <div
@@ -47,11 +44,21 @@ const CartPage = () => {
           className="relative flex py-8 sm:py-10 xl:py-12 first:pt-0 last:pb-0"
         >
           <div className="relative h-36 w-24 sm:w-32 flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
-            <img
+            
+            { item?.variantID === 0 ? (  
+              <img
               src={item?.images?.[0]?.src}
               alt={item?.name}
               className="h-full w-full object-fit object-center"
             />
+            ) : (
+              <img
+              src={item?.image?.src}
+              alt={item?.name}
+              className="h-full w-full object-fit object-center"
+            />
+            )} 
+            
             <Link to={`/product/${item?.id}`} className="absolute inset-0"></Link>
           </div>
   
@@ -147,124 +154,7 @@ const CartPage = () => {
           </div>
         </div>
       );
-    }else{
-      const product_price = item?.variant?.[0].price;      
-      const variant_name = item?.variant?.[0].attributes?.[0].name;
-      const variant_type = item?.variant?.[0].attributes?.[0].option;
-      
-      return (
-        <div
-          key={index}
-          className="relative flex py-8 sm:py-10 xl:py-12 first:pt-0 last:pb-0"
-        >
-          <div className="relative h-36 w-24 sm:w-32 flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
-            <img
-              src={item?.images?.[0]?.src}
-              alt={item?.name}
-              className="h-full w-full object-fit object-center"
-            />
-            <Link to={`/product/${item?.id}`} className="absolute inset-0"></Link>
-          </div>
-  
-          <div className="ml-3 sm:ml-6 flex flex-1 flex-col">
-            <div>
-              <div className="flex justify-between ">
-                <div className="flex-[1.5] ">
-                  <h3 className="text-base font-semibold">
-                    <Link to={`/product/${item?.id}`}>{item?.name}</Link>
-                  </h3>
-                  <div className="mt-1.5 sm:mt-2.5 flex text-sm text-slate-600 dark:text-slate-300">
-                    <div className="flex items-center space-x-1.5">
-                      <span>{variant_name} : </span>
-                      <span>{variant_type}</span>
-                    </div>
-                  </div>
-  
-                  <div className="mt-3 flex justify-between w-full sm:hidden relative">
-  
-                    {/* Increment and Decrement Button Mobile */}
-                    <div className={`nc-NcInputNumber flex items-center justify-between space-x-5 relative z-10`}>
-                      <div
-                        className={`nc-NcInputNumber__content flex items-center justify-between w-[104px] sm:w-28`}
-                      >
-                        <button
-                          className="w-8 h-8 rounded-full flex items-center justify-center border border-neutral-400 dark:border-neutral-500 bg-white dark:bg-neutral-900 focus:outline-none hover:border-neutral-700 dark:hover:border-neutral-400 disabled:hover:border-neutral-400 dark:disabled:hover:border-neutral-500 disabled:opacity-50 disabled:cursor-default"
-                          type="button"
-                          onClick={() => dispatch(decreaseProduct(item))}
-                        >
-                          <MinusIcon className="w-4 h-4" />
-                        </button>
-                        <span className="select-none block flex-1 text-center leading-none">
-                          {item?.quantitySelected}
-                        </span>
-                        <button
-                          className="w-8 h-8 rounded-full flex items-center justify-center border border-neutral-400 dark:border-neutral-500 bg-white dark:bg-neutral-900 focus:outline-none hover:border-neutral-700 dark:hover:border-neutral-400 disabled:hover:border-neutral-400 dark:disabled:hover:border-neutral-500 disabled:opacity-50 disabled:cursor-default"
-                          type="button"
-                          onClick={() => dispatch(addProductToCart({...item, quantitySelected})) }
-                        >
-                          <PlusIcon className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </div>
-  
-                    <Prices
-                      contentClass="py-1 px-2 md:py-1.5 md:px-2.5 text-sm font-medium h-full"
-                      price={+product_price}
-                    />
-                  </div>
-                </div>
-  
-                <div className="hidden sm:block text-center relative">
-                    {/* Increment and Decrement Desktop */}
-                    <div className={`nc-NcInputNumber flex items-center justify-between space-x-5 relative z-10`}>
-                      <div
-                        className={`nc-NcInputNumber__content flex items-center justify-between w-[104px] sm:w-28`}
-                      >
-                        <button
-                          className="w-8 h-8 rounded-full flex items-center justify-center border border-neutral-400 dark:border-neutral-500 bg-white dark:bg-neutral-900 focus:outline-none hover:border-neutral-700 dark:hover:border-neutral-400 disabled:hover:border-neutral-400 dark:disabled:hover:border-neutral-500 disabled:opacity-50 disabled:cursor-default"
-                          type="button"
-                          onClick={() => dispatch(decreaseProduct(item))}
-                        >
-                          <MinusIcon className="w-4 h-4" />
-                        </button>
-                        <span className="select-none block flex-1 text-center leading-none">
-                          {item?.quantitySelected}
-                        </span>
-                        <button
-                          className="w-8 h-8 rounded-full flex items-center justify-center border border-neutral-400 dark:border-neutral-500 bg-white dark:bg-neutral-900 focus:outline-none hover:border-neutral-700 dark:hover:border-neutral-400 disabled:hover:border-neutral-400 dark:disabled:hover:border-neutral-500 disabled:opacity-50 disabled:cursor-default"
-                          type="button"
-                          onClick={() => dispatch(addProductToCart({...item, quantitySelected})) }
-                        >
-                          <PlusIcon className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </div>
-                </div>
-  
-                <div className="hidden flex-1 sm:flex justify-end">
-                  <Prices price={+product_price} className="mt-0.5" />
-                </div>
-              </div>
-            </div>
-  
-            <div className="flex mt-auto pt-4 items-end justify-between text-sm">
-              {item?.stock_quantity <= 0
-                ? renderStatusSoldout()
-                : renderStatusInstock()
-              }
-  
-              <a
-                href="##"
-                className="relative z-10 flex items-center mt-3 font-medium text-primary-6000 hover:text-primary-500 text-sm "
-                onClick={() => dispatch(removeProduct(item))}
-              >
-                <span>Remove</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      )
-    }
+    
   };
 
   return (

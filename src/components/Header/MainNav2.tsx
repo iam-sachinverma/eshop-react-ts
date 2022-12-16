@@ -8,12 +8,19 @@ import DropdownCategories from "./DropdownCategories";
 import CartDropdown from "./CartDropdown";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
+import { useAppSelector } from "app/hooks";
+import { Link } from "react-router-dom";
+
 export interface MainNav2Props {
   className?: string;
 }
 
 const MainNav2: FC<MainNav2Props> = ({ className = "" }) => {
   const [showSearchForm, setShowSearchForm] = useState(false);
+
+  const user = useAppSelector((state) => state.auth.user);
+  console.log(user);
+  
 
   const renderMagnifyingGlassIcon = () => {
     return (
@@ -93,8 +100,6 @@ const MainNav2: FC<MainNav2Props> = ({ className = "" }) => {
           )}
 
           <div className="flex-1 flex items-center justify-end ">
-            {!showSearchForm && <TemplatesDropdown />}
-            {!showSearchForm && <LangDropdown />}
             {!showSearchForm && (
               <button
                 className="hidden lg:flex w-10 h-10 sm:w-12 sm:h-12 rounded-full text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none items-center justify-center"
@@ -103,7 +108,9 @@ const MainNav2: FC<MainNav2Props> = ({ className = "" }) => {
                 {renderMagnifyingGlassIcon()}
               </button>
             )}
-            <AvatarDropdown />
+
+            { user === null ? <Link className="mx-2" to={`/login`}>Login</Link>  :  <AvatarDropdown />}
+            
             <CartDropdown />
             {/* <MenuBar /> */}
           </div>

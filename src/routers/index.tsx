@@ -14,7 +14,7 @@ import PageLogin from "containers/PageLogin/PageLogin";
 import BlogPage from "containers/BlogPage/BlogPage";
 import BlogSingle from "containers/BlogPage/BlogSingle";
 import SiteHeader from "containers/SiteHeader";
-import PageCollection from "containers/PageCollection";
+// import PageCollection from "containers/PageCollection";
 import PageSearch from "containers/PageSearch";
 // import PageHome2 from "containers/PageHome/PageHome2";
 // import PageHome3 from "containers/PageHome/PageHome3";

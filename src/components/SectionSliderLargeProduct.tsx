@@ -66,7 +66,7 @@ const SectionSliderLargeProduct: FC<SectionSliderLargeProductProps> = ({
           <ul className="glide__slides">
             {
               data?.map((product, index) => {
-                if(product.images.length > 2){
+                if(product?.images?.length > 2){
                   return (
                     <li className={`glide__slide`} key={index}>
                       <MyCollectionCard

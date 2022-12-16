@@ -27,10 +27,10 @@ import NotifyAddTocart from "components/NotifyAddTocart";
 
 // 
 import { addProductToCart } from "app/cartSlice";
-import { useGetProductQuery, useGetProductVariationsQuery } from "app/productApi";
 import { useLocation } from "react-router-dom";
-import { useAppSelector, useAppDispatch } from "app/hooks";
+import { useAppDispatch } from "app/hooks";
 
+import { useGetProductQuery, useGetProductVariationsQuery } from "features/product/productApiSlice"
 
 export interface ProductDetailPageProps {
   className?: string;
@@ -38,38 +38,28 @@ export interface ProductDetailPageProps {
 
 const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
   const location = useLocation();
-  // const product_id = location.pathname.split('/')[2];  
   const dispatch = useAppDispatch();
-
-  const [productId, setProductId] = useState(location.pathname.split('/')[2]);
-  // const [skip, setSkip] = React.useState(true)
+  
+  const productID = location.pathname.split('/')[2];
    
   // Rtk query hook
-  const { data:product, isSuccess, error } = useGetProductQuery(productId);
-  // const { data:productVariation } = useGetProductVariationsQuery(productId, {
-  //   skip
-  // });
-  const { data:productVariations } = useGetProductVariationsQuery(productId);
-
+  const { data:product, isSuccess, error } = useGetProductQuery(productID);
+  console.log(product);
+  
+  const { data:productVariations } = useGetProductVariationsQuery(productID);
+  console.log(productVariations);
+  
   // Component States
   const { sizes, variants, allOfSizes } = PRODUCTS[0];
   const LIST_IMAGES_DEMO = [detail1JPG, detail2JPG, detail3JPG];
+  const [variantActive, setVariantActive] = React.useState(0);
+  const [colorSizeVariant, setcolorSizeVariant] = useState<string[]>([]);
   
   const [quantitySelected, setQuantitySelected] = React.useState(1);
-
-  const [variantActive, setVariantActive] = React.useState(0);
-
-  // variant state
   const [attributeVariant, setAttributeVariant] = useState<any>([]);
-  console.log(attributeVariant);
-  
   const [sizeSelected, setSizeSelected] = React.useState("");
   const [colorSelected, setColorSelected] = React.useState("");
   const [packSetSelected, setPackSetSelected] = React.useState("");
-  
-  const [colorSizeVariant, setcolorSizeVariant] = useState<string[]>([]);
-  // console.log(typeof colorSizeVariant);
-  // console.log( colorSizeVariant);
   
   const [isOpenModalViewAllReviews, setIsOpenModalViewAllReviews] =
     useState(false);
@@ -84,17 +74,22 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
     setAttributeVariant(variation);
   }, [sizeSelected]);
 
-  const addRemoveVariant = (variant: string) => {
-    let arr:any = [...colorSizeVariant];
-    
-    let isColorContain = arr.includes(variant);
-    let isSizeContain = arr.includes(variant);
+  useEffect(() => {
+    const variation = productVariations?.filter((v:any) => v.attributes.some((attr: any) => attr.option === colorSelected ))
+    setAttributeVariant(variation);
+  },[colorSelected])
 
-    if(!isColorContain || !isSizeContain ){
-      arr.push(variant);
-      setcolorSizeVariant(arr);
-    }
-  }
+  // const addRemoveVariant = (variant: string) => {
+  //   let arr:any = [...colorSizeVariant];
+    
+  //   let isColorContain = arr.includes(variant);
+  //   let isSizeContain = arr.includes(variant);
+
+  //   if(!isColorContain || !isSizeContain ){
+  //     arr.push(variant);
+  //     setcolorSizeVariant(arr);
+  //   }
+  // }
   
   const DescriptionData = [
     {
@@ -103,70 +98,69 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
     }
   ]  
 
-  const notifyAddTocart = () => {
-    toast.custom(
-      (t) => (
-        <NotifyAddTocart
-          productImage={LIST_IMAGES_DEMO[0]}
-          qualitySelected={quantitySelected}
-          show={t.visible}
-          sizeSelected={sizeSelected}
-          variantActive={variantActive}
-        />
-      ),
-      { position: "top-right", id: "nc-product-notify", duration: 3000 }
-    );
-  };
+  // const notifyAddTocart = () => {
+  //   toast.custom(
+  //     (t) => (
+  //       <NotifyAddTocart
+  //         productImage={LIST_IMAGES_DEMO[0]}
+  //         qualitySelected={quantitySelected}
+  //         show={t.visible}
+  //         sizeSelected={sizeSelected}
+  //         variantActive={variantActive}
+  //       />
+  //     ),
+  //     { position: "top-right", id: "nc-product-notify", duration: 3000 }
+  //   );
+  // };
 
-  const renderVariants = () => {
-    if (!variants || !variants.length) {
-      return null;
-    }
+  // const renderVariants = () => {
+  //   if (!variants || !variants.length) {
+  //     return null;
+  //   }
     
-    return (
-      <div>
-        <label htmlFor="">
-          <span className="text-sm font-medium">
-            Color:
-            <span className="ml-1 font-semibold">
-              {variants[variantActive].name}
-            </span>
-          </span>
-        </label>
-        <div className="flex mt-3">
-          {variants.map((variant, index) => (
-            <div
-              key={index}
-              onClick={() => setVariantActive(index)}
-              className={`relative flex-1 max-w-[75px] h-10 sm:h-11 rounded-full border-2 cursor-pointer ${
-                variantActive === index
-                  ? "border-primary-6000 dark:border-primary-500"
-                  : "border-transparent"
-              }`}
-            >
-              <div className="absolute inset-0.5 rounded-full overflow-hidden z-0">
-                <img
-                  src={variant.thumbnail}
-                  alt=""
-                  className="absolute w-full h-full object-cover"
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  };
+  //   return (
+  //     <div>
+  //       <label htmlFor="">
+  //         <span className="text-sm font-medium">
+  //           Color:
+  //           <span className="ml-1 font-semibold">
+  //             {variants[variantActive].name}
+  //           </span>
+  //         </span>
+  //       </label>
+  //       <div className="flex mt-3">
+  //         {variants.map((variant, index) => (
+  //           <div
+  //             key={index}
+  //             onClick={() => setVariantActive(index)}
+  //             className={`relative flex-1 max-w-[75px] h-10 sm:h-11 rounded-full border-2 cursor-pointer ${
+  //               variantActive === index
+  //                 ? "border-primary-6000 dark:border-primary-500"
+  //                 : "border-transparent"
+  //             }`}
+  //           >
+  //             <div className="absolute inset-0.5 rounded-full overflow-hidden z-0">
+  //               <img
+  //                 src={variant.thumbnail}
+  //                 alt=""
+  //                 className="absolute w-full h-full object-cover"
+  //               />
+  //             </div>
+  //           </div>
+  //         ))}
+  //       </div>
+  //     </div>
+  //   );
+  // };
 
   const addToCartHandler = () => {
     if(product?.type === 'variable'){
       const variantID = attributeVariant?.[0]?.id;
-      const variant = attributeVariant;
-      dispatch(addProductToCart({...product, quantitySelected, variantID, variant}));
+      dispatch(addProductToCart({...attributeVariant?.[0], name:`${product?.name}`,  quantitySelected, variantID}));
       toast.custom(
         (t) => (
           <NotifyAddTocart
-          productImage={isSuccess && product?.images?.[0]?.src}
+          productImage={isSuccess && attributeVariant?.[0].image.src}
           qualitySelected={quantitySelected}
             productName={product?.name}
             show={t.visible}
@@ -179,7 +173,8 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
         { position: "top-right", id: "nc-product-notify", duration: 3000 }
       );
     }else{
-      dispatch(addProductToCart({...product, quantitySelected}));
+      const variantID = 0;
+      dispatch(addProductToCart({...product, quantitySelected, variantID}));
       toast.custom(
         (t) => (
           <NotifyAddTocart
@@ -196,26 +191,36 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
   };
 
   const renderV = () => {
-    if(isSuccess && product?.type !== "variable"){
+
+    if(product?.type !== "variable"){
       return;
     }
 
+    const isColor = product?.attributes?.some((attr: any) => attr.name === 'Color') 
     const isSize = product?.attributes?.some((attr: any) => attr.name === 'Size')
+    const isPackSet = product?.attributes?.some((attr: any) => attr.name === 'Pack Set')
+    console.log(isSize);
+    console.log(isPackSet);
+    console.log(isColor);
+
+    if(isColor){
+      return (
+        <div className="">{renderColorList()}</div>
+      )
+    }
+
     if(isSize) {
       return (
         <div className="">{renderSizeList()}</div>
       )
     }
 
-    const isPackSet = product?.attributes?.some((attr: any) => attr.name === 'Pack Set')
-    return (      
-      <div className="">{renderPackSet()}</div>
-    )
-    
-    const isColor = product.attributes.some((attr: any) => attr.name === 'Color') 
-    return (
-      <div></div>
-    )
+
+    if(isColor){
+      return (      
+        <div className="">{renderPackSet()}</div>
+      )
+    }
     
   }
 
@@ -223,6 +228,7 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
     if(isSuccess && product?.type !== "variable"){
       return;
     }
+
     const colors = product?.attributes?.filter((attr: any) => attr?.name === 'Color');
 
     return (
@@ -256,7 +262,6 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
                   // if (sizeOutStock) {
                   //   return;
                   // }
-                  addRemoveVariant(color);
                   setColorSelected(color);
                 }}
               >
@@ -306,7 +311,6 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
                   // if (sizeOutStock) {
                   //   return;
                   // }
-                  addRemoveVariant(size);
                   setSizeSelected(size);
                 }}
               >
@@ -365,46 +369,46 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
     )
   }
 
-  // const renderStatus = () => {
-  //   if (!status) {
-  //     return null;
-  //   }
-  //   const CLASSES =
-  //     "absolute top-3 left-3 px-2.5 py-1.5 text-xs bg-white dark:bg-slate-900 nc-shadow-lg rounded-full flex items-center justify-center text-slate-700 text-slate-900 dark:text-slate-300";
-  //   if (status === "New in") {
-  //     return (
-  //       <div className={CLASSES}>
-  //         <SparklesIcon className="w-3.5 h-3.5" />
-  //         <span className="ml-1 leading-none">{status}</span>
-  //       </div>
-  //     );
-  //   }
-  //   if (status === "50% Discount") {
-  //     return (
-  //       <div className={CLASSES}>
-  //         <IconDiscount className="w-3.5 h-3.5" />
-  //         <span className="ml-1 leading-none">{status}</span>
-  //       </div>
-  //     );
-  //   }
-  //   if (status === "Sold Out") {
-  //     return (
-  //       <div className={CLASSES}>
-  //         <NoSymbolIcon className="w-3.5 h-3.5" />
-  //         <span className="ml-1 leading-none">{status}</span>
-  //       </div>
-  //     );
-  //   }
-  //   if (status === "limited edition") {
-  //     return (
-  //       <div className={CLASSES}>
-  //         <ClockIcon className="w-3.5 h-3.5" />
-  //         <span className="ml-1 leading-none">{status}</span>
-  //       </div>
-  //     );
-  //   }
-  //   return null;
-  // };
+  const renderStatus = () => {
+    // if (!product) {
+    //   return null;
+    // }
+    const CLASSES =
+      "absolute top-3 left-3 px-2.5 py-1.5 text-xs bg-white dark:bg-slate-900 nc-shadow-lg rounded-full flex items-center justify-center text-slate-700 text-slate-900 dark:text-slate-300";
+    if (product?.featured === true) {
+      return (
+        <div className={CLASSES}>
+          <SparklesIcon className="w-3.5 h-3.5" />
+          <span className="ml-1 leading-none">Best Seller</span>
+        </div>
+      );
+    }
+    if (product?.on_sale === true) {
+      return (
+        <div className={CLASSES}>
+          <IconDiscount className="w-3.5 h-3.5" />
+          <span className="ml-1 leading-none">On Sale</span>
+        </div>
+      );
+    }
+    if (product?.stock_status === 'outstock') {
+      return (
+        <div className={CLASSES}>
+          <NoSymbolIcon className="w-3.5 h-3.5" />
+          <span className="ml-1 leading-none">Sold Out</span>
+        </div>
+      );
+    }
+    // if (status === "limited edition") {
+    //   return (
+    //     <div className={CLASSES}>
+    //       <ClockIcon className="w-3.5 h-3.5" />
+    //       <span className="ml-1 leading-none">{status}</span>
+    //     </div>
+    //   );
+    // }
+    return null;
+  };
 
   const renderSectionContent = () => {
     return (
@@ -602,7 +606,7 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
                 />
               </div>
               {/* Render Status */}
-              {/* {renderStatus()} */}
+              {renderStatus()}
 
               {/* META FAVORITES */}
               <LikeButton className="absolute right-3 top-3 " />

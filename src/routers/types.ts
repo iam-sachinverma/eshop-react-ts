@@ -10,7 +10,6 @@ export interface LocationStates {
   "/product/:id"?: {};
   "/products/:category"?: {};
   
-  
   //
   "products/personal-care"?: {},
   "products/body-care"?: {},

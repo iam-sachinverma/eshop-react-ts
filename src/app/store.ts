@@ -12,17 +12,15 @@ import {
 import storage from "redux-persist/lib/storage";
 import logger from "redux-logger";
 
-// import { fetchProducts } from "app/productSlice";
+import { apiSlice } from "./api/apiSlice";
 
 import mediaRunningReducer from "./mediaRunning/mediaRunning";
 import productReducer from "./productSlice.js"
 import cartReducer from "./cartSlice.js"
-import authReducer from "./authSlice"
 import categoryReducer from "./categorySlice";
-import checkoutReducer from "./checkoutSlice"
 
-import { productApi } from "./productApi";
-import { customersApi } from "./customerSlice";
+//
+import authSliceReducer from "features/auth/authSlice"
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -36,11 +34,10 @@ const reducers = combineReducers({
   mediaRunning: mediaRunningReducer,
   product: productReducer,
   cart: cartReducer,
-  auth: authReducer,
-  category: categoryReducer,
-  checkout: checkoutReducer,
-  [productApi.reducerPath]: productApi.reducer,
-  [customersApi.reducerPath]: customersApi.reducer,
+  category: categoryReducer,  
+  auth: authSliceReducer,
+  //
+  [apiSlice.reducerPath]: apiSlice.reducer
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);
@@ -53,7 +50,8 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(middlewareLogger, productApi.middleware, customersApi.middleware),
+    }).concat(middlewareLogger, apiSlice.middleware),
+    devTools: true
 });
 
 export let persistor = persistStore(store);
@@ -61,5 +59,4 @@ export let persistor = persistStore(store);
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
-// store.dispatch(fetchProducts());
 

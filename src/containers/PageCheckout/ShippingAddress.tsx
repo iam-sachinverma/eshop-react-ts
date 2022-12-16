@@ -7,12 +7,13 @@ import Radio from "shared/Radio/Radio";
 import Select from "shared/Select/Select";
 
 import { useForm, SubmitHandler } from "react-hook-form"
-import { useAppSelector, useAppDispatch } from "app/hooks";
-import { checkoutSetFormValue } from 'app/checkoutSlice'
-import { useCreateCustomerMutation } from "app/customerSlice";
+import { useUpdateCustomerMutation, useGetCustomerQuery } from "features/customer/customerApiSlice";
+
 
 interface Props {
   isActive: boolean;
+  customerID?: string;
+  isMail?: string,
   onCloseActive: () => void;
   onOpenActive: () => void;
 }
@@ -21,49 +22,35 @@ const ShippingAddress: FC<Props> = ({
   isActive,
   onCloseActive,
   onOpenActive,
+  customerID,
+  isMail
 }) => {
 
-  const dispatch = useAppDispatch();
+  const [ updateCustomer, { isSucess } ] = useUpdateCustomerMutation();
 
-  const checkoutFormValue : any = useAppSelector((state) => state.checkout);
+  const { data:customer, refetch } = useGetCustomerQuery(isMail);
 
   const {register, handleSubmit} = useForm<any>();
 
-  // Create Customer Api
-  const [ createCustomer ] = useCreateCustomerMutation();
-
-  const createCustomerData = async() => {
+  // Create WooCommerce Customer
+  const onSubmit: SubmitHandler<any> = async (data) => {
     try {
-      const data = {
-        email: checkoutFormValue?.checkoutFormValue?.email,
-        first_name: checkoutFormValue?.checkoutFormValue?.shipping?.first_name,
-        last_name: checkoutFormValue?.checkoutFormValue?.shipping?.last_name,
-        shipping: {
-          ...checkoutFormValue?.checkoutFormValue?.shipping,
-        },
+      const update = {
+        id: customerID,
         billing: {
-          ...checkoutFormValue?.checkoutFormValue?.shipping,
-          phone: checkoutFormValue?.checkoutFormValue?.phone,
-          email: checkoutFormValue?.checkoutFormValue?.email,
+          ...data
+        },
+        shipping: {
+          ...data
         }
       }
-      await createCustomer(data);
+      console.log(update);
+      await updateCustomer(update).unwrap();
+      await refetch();
     } catch (error) {
       console.log(error);
-    } 
-  }
-
-  // useEffect(() => {
-  //   createCustomerData();
-  // },[checkoutFormValue])
-
-  // Create WooCommerce Customer
-  const onSubmit: SubmitHandler<any> = data => {
-    const shipping = {
-      ...data,
     }
-    dispatch(checkoutSetFormValue({ shipping: shipping }));
-  }; 
+  };  
 
   const renderShippingAddress = () => {
     return (
@@ -133,7 +120,7 @@ const ShippingAddress: FC<Props> = ({
             </h3>
             <div className="font-semibold mt-1 text-sm">
               <span className="">
-                St. Paul's Road, Norris, SD 57560, Dakota, USA
+                { customer?.length > 0 ? customer?.[0]?.shipping?.address_1 + ` ${customer?.[0]?.shipping?.state}` : "" }
               </span>
             </div>
           </div>
@@ -163,6 +150,7 @@ const ShippingAddress: FC<Props> = ({
                    {...register("first_name")}
                    id="first_name"
                    className="mt-1.5" 
+                   defaultValue={customer?.[0]?.billing?.first_name}
                   />
                 </div>
                 <div>
@@ -171,6 +159,7 @@ const ShippingAddress: FC<Props> = ({
                     {...register("last_name")}
                     id="last_name"
                     className="mt-1.5" 
+                   defaultValue={customer?.[0]?.billing?.last_name}
                   />
                 </div>
               </div>
@@ -184,7 +173,7 @@ const ShippingAddress: FC<Props> = ({
                     id="address_1"
                     className="mt-1.5"
                     placeholder=""
-                    defaultValue={"123, Dream Avenue, USA"}
+                    defaultValue={customer?.[0]?.billing?.address_1}
                     type={"text"}
                   />
                 </div>
@@ -198,7 +187,8 @@ const ShippingAddress: FC<Props> = ({
                    {...register("city")}
                    id="city"
                    className="mt-1.5" 
-                   defaultValue="Norris" 
+                   defaultValue={customer?.[0]?.billing?.city}
+
                   />
                 </div>
                 
@@ -208,7 +198,8 @@ const ShippingAddress: FC<Props> = ({
                    {...register("state")}
                    id="state"
                    className="mt-1.5" 
-                   defaultValue="Texas" 
+                   defaultValue={customer?.[0]?.billing?.state}
+ 
                   />
                 </div>
               </div>
@@ -222,7 +213,8 @@ const ShippingAddress: FC<Props> = ({
                    {...register("postcode")}
                    id="postcode"
                    className="mt-1.5" 
-                   defaultValue="2500 " 
+                   defaultValue={customer?.[0]?.billing?.postcode}
+
                   />
                 </div>
 
@@ -232,7 +224,7 @@ const ShippingAddress: FC<Props> = ({
                    {...register("country")}
                    id="country"
                    className="mt-1.5" 
-                   defaultValue="India" 
+                   defaultValue={customer?.[0]?.billing?.country}
                   />
                 </div>
 

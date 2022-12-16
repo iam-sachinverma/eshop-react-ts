@@ -14,7 +14,8 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = () => {
   const inputRef = React.createRef<HTMLInputElement>();
   const [showSearchForm, setShowSearchForm] = useState(false);
 
-  const {userInfo} = useAppSelector((state) => state.auth);
+  // const {userInfo} = useAppSelector((state) => state.auth);
+  const userInfo = null;
 
   const renderMagnifyingGlassIcon = () => {
     return (

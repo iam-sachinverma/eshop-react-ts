@@ -13,6 +13,12 @@ import toast from "react-hot-toast";
 import { Transition } from "@headlessui/react";
 import ModalQuickView from "./ModalQuickView";
 import ProductStatus from "./ProductStatus";
+import IconDiscount from "./IconDiscount";
+import {
+  NoSymbolIcon,
+  ClockIcon,
+  SparklesIcon,
+} from "@heroicons/react/24/outline";
 
 export interface ProductCardProps {
   className?: string;
@@ -41,6 +47,46 @@ const ProductCard: FC<ProductCardProps> = ({
   
   const [variantActive, setVariantActive] = React.useState(0);
   const [showModalQuickView, setShowModalQuickView] = React.useState(false);
+
+  const renderStatus = () => {
+    if (!data) {
+      return null;
+    }
+    const CLASSES = `nc-shadow-lg rounded-full flex items-center justify-center absolute top-3 left-3 px-2.5 py-1.5 text-xs bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300`;
+    if (data?.featured === true) {
+      return (
+        <div className={CLASSES}>
+          <SparklesIcon className="w-3.5 h-3.5" />
+          <span className="ml-1 leading-none">Best Seller</span>
+        </div>
+      );
+    }
+    if (data?.on_sale === true) {
+      return (
+        <div className={CLASSES}>
+          <IconDiscount className="w-3.5 h-3.5" />
+          <span className="ml-1 leading-none">On Sale</span>
+        </div>
+      );
+    }
+    if (data?.stock_status === 'outstock') {
+      return (
+        <div className={CLASSES}>
+          <NoSymbolIcon className="w-3.5 h-3.5" />
+          <span className="ml-1 leading-none">Sold Out</span>
+        </div>
+      );
+    }
+    // if (status === "limited edition") {
+    //   return (
+    //     <div className={CLASSES}>
+    //       <ClockIcon className="w-3.5 h-3.5" />
+    //       <span className="ml-1 leading-none">{status}</span>
+    //     </div>
+    //   );
+    // }
+    return null;
+  };
 
   // const notifyAddTocart = ({ size }: { size?: string }) => {
   //   toast.custom(
@@ -251,12 +297,16 @@ const ProductCard: FC<ProductCardProps> = ({
           <Link to={`/product/${id}`} className="block">
             <NcImage
               containerClassName="flex aspect-w-11 aspect-h-12 w-full h-0"
-              src={data?.images?.[0].src}
+              src={data?.images?.[0]?.src}
               className="object-cover w-full h-full drop-shadow-xl"
             />
           </Link>
 
-          <ProductStatus status={status} />
+          
+
+          { renderStatus() }
+
+          {/* <ProductStatus status={status} /> */}
 
           {/* Liked Product */}
           {/* <LikeButton liked={isLiked} className="absolute top-3 right-3 z-10" /> */}

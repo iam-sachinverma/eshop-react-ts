@@ -6,8 +6,7 @@ import ButtonSecondary from "shared/Button/ButtonSecondary";
 import Input from "shared/Input/Input";
 
 import { useForm, SubmitHandler } from "react-hook-form"
-import { useAppSelector, useAppDispatch } from "app/hooks";
-import { checkoutSetFormValue } from 'app/checkoutSlice'
+import { useUpdateCustomerMutation, useGetCustomerQuery } from "features/customer/customerApiSlice";
 
 // type ContactInfo = {
 //   email: string,
@@ -19,19 +18,35 @@ interface Props {
   onOpenActive: () => void;
   onCloseActive: () => void;
   isMail?: string;
+  customerID?: string;
 }
 
-const ContactInfo: FC<Props> = ({ isActive, onCloseActive, onOpenActive, isMail }) => {
-  const dispatch = useAppDispatch();
-  const checkoutFormValue  = useAppSelector((state) => state.checkout);
+const ContactInfo: FC<Props> = ({ isActive, onCloseActive, onOpenActive, isMail, customerID }) => {
   
-  // const {register, handleSubmit} = useForm<any>({defaultValues: checkoutFormValue, mode: "onSubmit"});
+  const [ updateCustomer ] = useUpdateCustomerMutation();
+
+  const { data:customer, refetch, isSuccess  } = useGetCustomerQuery(isMail);
+  
   const {register, handleSubmit} = useForm<any>();
 
-  const onSubmit: SubmitHandler<any> = data => {
-    console.log(data);
-    dispatch(checkoutSetFormValue(data));
-    console.log(checkoutFormValue);
+  const onSubmit: SubmitHandler<any> = async (data) => {
+    try {
+      const update = {
+        id: customerID,
+        billing: {
+          email: isMail,
+          phone: data?.phone
+        },
+        shipping: {
+          phone: data?.phone
+        }
+      }
+      console.log(update);
+      await updateCustomer(update).unwrap();
+      await refetch();
+    } catch (error) {
+      console.log(error);
+    }
   }; 
 
   const renderAccount = () => {
@@ -86,8 +101,8 @@ const ContactInfo: FC<Props> = ({ isActive, onCloseActive, onOpenActive, isMail 
               </svg>
             </h3>
             <div className="font-semibold mt-1 text-sm">
-              <span className="">Enrico Smith</span>
-              <span className="ml-3 tracking-tighter">+855 - 666 - 7744</span>
+              <span className="">{ customer?.length === 0 ? "" : customer?.[0]?.email}</span>
+              <span className="ml-3 tracking-tighter">{customer?.length === 0 ? "" : customer?.[0].billing?.phone}</span>
             </div>
           </div>
           <ButtonSecondary
@@ -120,9 +135,9 @@ const ContactInfo: FC<Props> = ({ isActive, onCloseActive, onOpenActive, isMail 
                 <Label className="text-sm">Email address</Label>
                 <Input
                 {...register("email")}
-                defaultValue={isMail}
                 id="email"
                 name="email"
+                defaultValue={isMail}
                 className="mt-1.5" type={"email"} />
               </div>
 
@@ -132,6 +147,7 @@ const ContactInfo: FC<Props> = ({ isActive, onCloseActive, onOpenActive, isMail 
                  {...register("phone")}
                  id="phone"
                  name="phone"
+                 defaultValue={customer?.[0].billing.phone}
                  className="mt-1.5" placeholder="Enter your phone number" type={"tel"} />
               </div>
 

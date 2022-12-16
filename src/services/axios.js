@@ -7,9 +7,9 @@ import axios from "axios";
 const BASE_URL_AUTH = "https://api.ecofreaky.com/api/";
 
 // LocalHost
-const BASE_URL = "https://localhost/ecofreaky/wp-json/wc/v3/";
-const CONSUMER_KEY = "ck_6b930278029a3b1ff9aa5d67398a5eece868e56f";
-const CONSUMER_SECRET = "cs_e4cede534905be5c38ba81b488aee74589d16e23";
+const BASE_URL = "https://ecofreaky.backto.ga/wp-json/wc/v3/";
+const CONSUMER_KEY = "ck_9e32d2dc778b3aeb200034dfa94f5d04d19b57a7";
+const CONSUMER_SECRET = "cs_a509bb5440ccc7ea11664f54bb1ac0d8a295b0f2";
 
 export const wooCommerceRequest = axios.create({
   baseURL: BASE_URL,

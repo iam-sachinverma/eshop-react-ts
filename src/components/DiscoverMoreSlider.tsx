@@ -13,6 +13,7 @@ import { useAppSelector } from "app/hooks";
 
 interface CardCategory {
   className?: string;
+  id: string;
   image?: any;
   name?: string;
   description?: string;
@@ -54,7 +55,8 @@ const DiscoverMoreSlider = () => {
   const categoriesArray = useAppSelector((state)=> state.category.categories) 
 
   const [categories, setCategories] = useState<CardCategory[]>(categoriesArray);
-
+  console.log(categories);
+  
   useEffect(() => {
     const OPTIONS: Glide.Options = {
       perView: 2.8,
@@ -106,6 +108,7 @@ const DiscoverMoreSlider = () => {
             <li key={index} className={`glide__slide`}>
               <CardCategory3
                 name={item?.name}
+                id={item?.id}
                 description={item?.description}
                 featuredImage={item?.image?.src}
                 color={"bg-blue-50"}

@@ -47,10 +47,10 @@ const NotifyAddTocart: FC<Props> = ({
                     {variants ? variants[variantActive].name : `Natural`}
                   </span> */}
                   <span>
-                    {colorSelected || `Natural`}
+                    {colorSelected}
                   </span>
                   <span className="mx-2 border-l border-slate-200 dark:border-slate-700 h-4"></span>
-                  <span>{sizeSelected || "XL"}</span>
+                  <span>{sizeSelected}</span>
                 </p>
               </div>
               <Prices price={productPrice} className="mt-0.5" />
