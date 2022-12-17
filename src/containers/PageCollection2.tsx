@@ -4,7 +4,7 @@ import SectionSliderCollections from "components/SectionSliderLargeProduct";
 import ProductCard from "components/ProductCard";
 import SidebarFilters from "./SidebarFilters";
 
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useGetCategoryOnSaleProductsQuery, useGetCategoryProductsQuery } from "features/product/productApiSlice";
 import  SectionSliderProductCard  from "components/SectionSliderProductCard";
 
@@ -14,16 +14,15 @@ export interface PageCollection2Props {
 }
 
 const PageCollection2: FC<PageCollection2Props> = ({ className = "" }) => {
-  const location = useLocation()
-  const catId = location.pathname.split("/")[2];
+  const params = useParams();
 
-  const { data:products, isSuccess } = useGetCategoryProductsQuery(catId)
+  const { data:products, isSuccess } = useGetCategoryProductsQuery(params?.category)
   // console.log(data);
 
   const [isOnSale, setIsIsOnSale] = useState(false);
   const [colorsState, setColorsState] = useState<string[]>([]);
   
-  const { data:onSaleProducts } = useGetCategoryOnSaleProductsQuery({categoryID:catId,OnSale: isOnSale});
+  const { data:onSaleProducts } = useGetCategoryOnSaleProductsQuery({categoryID:params?.category,OnSale: isOnSale});
   console.log(onSaleProducts);
   
   // Filter State

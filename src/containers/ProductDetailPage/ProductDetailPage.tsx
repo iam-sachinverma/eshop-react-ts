@@ -26,7 +26,7 @@ import NotifyAddTocart from "components/NotifyAddTocart";
 
 // 
 import { addProductToCart } from "app/cartSlice";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useAppDispatch } from "app/hooks";
 
 import { useGetProductQuery, useGetProductVariationsQuery } from "features/product/productApiSlice"
@@ -36,16 +36,14 @@ export interface ProductDetailPageProps {
 }
 
 const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
-  const location = useLocation();
+  const  params  = useParams();
   const dispatch = useAppDispatch();
   
-  const productID = location.pathname.split('/')[2];
-   
   // Rtk query hook
-  const { data:product, isSuccess:productFullfilled } = useGetProductQuery(productID);
+  const { data:product, isSuccess:productFullfilled } = useGetProductQuery(params?.id);
   console.log(product);
   
-  const { data:productVariations, isSuccess } = useGetProductVariationsQuery(productID);
+  const { data:productVariations, isSuccess } = useGetProductVariationsQuery(params?.id);
   console.log(productVariations);
   
   // Component States

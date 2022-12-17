@@ -29,9 +29,10 @@ const NavMobile: React.FC<NavMobileProps> = ({
           <Disclosure key={i.href + index} as="li"> 
             <NavLink
               end
-              to={{
-                pathname: i.href || undefined,
-              }}
+              // to={{
+              //   pathname: i.href || undefined,
+              // }}
+              to={`${i?.href}`}
               className={({ isActive }) => isActive ? `flex text-sm text-secondary rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 mt-0.5 pr-4 ${itemClass}` : `flex text-sm rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 mt-0.5 pr-4 ${itemClass}`}
             >
               <span
@@ -81,9 +82,11 @@ const NavMobile: React.FC<NavMobileProps> = ({
         <NavLink
           end
           className={({ isActive }) => isActive ? "flex text-secondary w-full items-center py-2.5 px-4 font-medium uppercase tracking-wide text-sm hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg" : "flex w-full items-center py-2.5 px-4 font-medium uppercase tracking-wide text-sm hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg"}
-          to={{
-            pathname: item.href || undefined,
-          }}
+          // to={{
+          //   pathname: item.href || undefined,
+          // }}
+          to={item.href}
+
         >
           <span
             className={!item.children ? "block w-full" : ""}
