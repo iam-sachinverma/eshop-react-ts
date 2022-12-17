@@ -10,46 +10,45 @@ export interface WidgetFooterMenu {
 }
 
 const widgetMenus: WidgetFooterMenu[] = [
-  {
-    id: "5",
-    title: "Getting started",
-    menus: [
-      { href: "#", label: "Release Notes" },
-      { href: "#", label: "Upgrade Guide" },
-      { href: "#", label: "Browser Support" },
-      { href: "#", label: "Dark Mode" },
-    ],
-  },
+  // {
+  //   id: "5",
+  //   title: "Getting started",
+  //   menus: [
+  //     { href: "#", label: "Release Notes" },
+  //     { href: "#", label: "Upgrade Guide" },
+  //     { href: "#", label: "Browser Support" },
+  //     { href: "#", label: "Dark Mode" },
+  //   ],
+  // },
   {
     id: "1",
     title: "Explore",
     menus: [
-      { href: "#", label: "Prototyping" },
-      { href: "#", label: "Design systems" },
-      { href: "#", label: "Pricing" },
-      { href: "#", label: "Security" },
+      { href: "/about", label: "About Us" },
+      { href: "/contact", label: "Contact Us" },
+      { href: "/blog", label: "Blog" },
+      // { href: "#", label: "Security" },
     ],
   },
   {
     id: "2",
-    title: "Resources",
+    title: "Category",
     menus: [
-      { href: "#", label: "Best practices" },
-      { href: "#", label: "Support" },
-      { href: "#", label: "Developers" },
-      { href: "#", label: "Learn design" },
+      { href: "/products/16", label: "Personal Care" },
+      { href: "/products/17", label: "Stationery" },
+      { href: "/products/20", label: "Fashion" },
     ],
   },
-  {
-    id: "4",
-    title: "Community",
-    menus: [
-      { href: "#", label: "Discussion Forums" },
-      { href: "#", label: "Code of Conduct" },
-      { href: "#", label: "Contributing" },
-      { href: "#", label: "API Reference" },
-    ],
-  },
+  // {
+  //   id: "4",
+  //   title: "Community",
+  //   menus: [
+  //     { href: "#", label: "Discussion Forums" },
+  //     { href: "#", label: "Code of Conduct" },
+  //     { href: "#", label: "Contributing" },
+  //     { href: "#", label: "API Reference" },
+  //   ],
+  // },
 ];
 
 const Footer: React.FC = () => {
