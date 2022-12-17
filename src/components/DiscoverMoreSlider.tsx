@@ -66,33 +66,6 @@ const DiscoverMoreSlider = () => {
 
   const {data:categoriesArray, isLoading, isSuccess, isError, error} = useGetAllCategoryQuery();
 
-  let content 
-
-  if(isLoading){
-    content = ''
-  }else if(isSuccess){
-    content = (
-      <ul className="glide__slides">
-        { isSuccess && categoriesArray?.map((item:any, index:number) => (
-          <li key={index} className={`glide__slide`}>
-            <CardCategory3
-              name={item?.name}
-              id={item?.id}
-              description={item?.description}
-              featuredImage={item?.image?.src}
-              color={colors[index]}
-              slug={item?.slug}
-            />
-          </li>
-        ))}
-      </ul>
-    )
-  }else if(isError){
-    content = (
-      <div>{"Please wait it error"}</div>
-    )
-  }
-  
   useEffect(() => {
     const OPTIONS: Glide.Options = {
       perView: 2.8,
@@ -129,7 +102,7 @@ const DiscoverMoreSlider = () => {
   }, [UNIQUE_CLASS]);
 
   return (
-    <div className={`nc-DiscoverMoreSlider nc-p-l-container ${UNIQUE_CLASS} `}>
+    <div className={`nc-DiscoverMoreSlider ${UNIQUE_CLASS} `}>
       <Heading
         className="mb-12 lg:mb-14 text-neutral-900 dark:text-neutral-50 nc-p-r-container "
         desc=""
@@ -138,9 +111,25 @@ const DiscoverMoreSlider = () => {
       >
         Discover more
       </Heading>
+      
       <div className="" data-glide-el="track">
-        {content}
+        <ul className="glide__slides">
+          { isSuccess && categoriesArray?.map((item:any, index:number) => (
+            <li key={index} className={`glide__slide`}>
+              <CardCategory3
+                name={item?.name}
+                id={item?.id}
+                description={item?.description}
+                featuredImage={item?.image?.src}
+                color={colors[index]}
+                slug={item?.slug}
+              />
+            </li>
+          ))}
+        </ul>
       </div>
+
+
     </div>
   );
 };

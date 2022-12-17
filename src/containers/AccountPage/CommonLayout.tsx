@@ -54,16 +54,20 @@ const CommonLayout: FC<CommonLayoutProps> = ({ children }) => {
               //   name: "Change Billing",
               //   link: "/account-billing",
               // },
-            ].map((item, index) => (
+            ].map((item, index) => {
+              let activeClassName = "!border-primary-500 font-medium !text-slate-900 dark:!text-slate-200";
+              
+              return ( 
               <NavLink
                 key={index}
-                activeClassName="!border-primary-500 font-medium !text-slate-900 dark:!text-slate-200 "
                 to={item.link}
-                className="block py-5 md:py-8 border-b-2 border-transparent flex-shrink-0 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 text-sm sm:text-base"
+                className={({ isActive }) => isActive ? "block py-5 md:py-8 border-b-2 border-transparent flex-shrink-0 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 text-sm sm:text-base !border-primary-500 font-medium !text-slate-900 dark:!text-slate-200" : "block py-5 md:py-8 border-b-2 border-transparent flex-shrink-0 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 text-sm sm:text-base" }
+                // className="block py-5 md:py-8 border-b-2 border-transparent flex-shrink-0 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 text-sm sm:text-base"
               >
                 {item.name}
               </NavLink>
-            ))}
+              ) 
+              })}
           </div>
           <hr className="border-slate-200 dark:border-slate-700"></hr>
         </div>

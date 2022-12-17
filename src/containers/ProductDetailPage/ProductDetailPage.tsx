@@ -43,10 +43,10 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
   const productID = location.pathname.split('/')[2];
    
   // Rtk query hook
-  const { data:product, isSuccess, error } = useGetProductQuery(productID);
+  const { data:product, isSuccess:productFullfilled } = useGetProductQuery(productID);
   console.log(product);
   
-  const { data:productVariations } = useGetProductVariationsQuery(productID);
+  const { data:productVariations, isSuccess } = useGetProductVariationsQuery(productID);
   console.log(productVariations);
   
   // Component States
@@ -55,8 +55,9 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
   const [variantActive, setVariantActive] = React.useState(0);
   const [colorSizeVariant, setcolorSizeVariant] = useState<string[]>([]);
   
-  const [quantitySelected, setQuantitySelected] = React.useState(1);
   const [attributeVariant, setAttributeVariant] = useState<any>([]);
+
+  const [quantitySelected, setQuantitySelected] = React.useState(1);
   const [sizeSelected, setSizeSelected] = React.useState("");
   const [colorSelected, setColorSelected] = React.useState("");
   const [packSetSelected, setPackSetSelected] = React.useState("");
@@ -370,9 +371,9 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
   }
 
   const renderStatus = () => {
-    // if (!product) {
-    //   return null;
-    // }
+    if (!product) {
+      return null;
+    }
     const CLASSES =
       "absolute top-3 left-3 px-2.5 py-1.5 text-xs bg-white dark:bg-slate-900 nc-shadow-lg rounded-full flex items-center justify-center text-slate-700 text-slate-900 dark:text-slate-300";
     if (product?.featured === true) {
@@ -434,8 +435,7 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
                 price={+attributeVariant?.[0]?.price}
                 />)
                ) 
-               : 
-               (
+               :                (
                 <Prices
                 contentClass="py-1 px-2 md:py-1.5 md:px-3 text-lg font-semibold"
                 price={+product?.price}
@@ -612,7 +612,7 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
               <LikeButton className="absolute right-3 top-3 " />
             </div>
             <div className="grid grid-cols-2 gap-3 mt-3 sm:gap-6 sm:mt-6 xl:gap-8 xl:mt-8">
-              {isSuccess && product.images?.map((item: any, index: number) => {
+              {isSuccess && product?.images?.map((item: any, index: number) => {
                 if(index >= 1) {
                   return (
                     <div

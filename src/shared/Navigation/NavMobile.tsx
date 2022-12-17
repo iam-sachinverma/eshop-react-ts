@@ -26,15 +26,13 @@ const NavMobile: React.FC<NavMobileProps> = ({
     return (
       <ul className="nav-mobile-sub-menu pl-6 pb-1 text-base">
         {item.children?.map((i, index) => (
-          <Disclosure key={i.href + index} as="li">
+          <Disclosure key={i.href + index} as="li"> 
             <NavLink
-              exact
-              strict
+              end
               to={{
                 pathname: i.href || undefined,
               }}
-              className={`flex text-sm rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 mt-0.5 pr-4 ${itemClass}`}
-              activeClassName="text-secondary"
+              className={({ isActive }) => isActive ? `flex text-sm text-secondary rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 mt-0.5 pr-4 ${itemClass}` : `flex text-sm rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 mt-0.5 pr-4 ${itemClass}`}
             >
               <span
                 className={`py-2.5 ${!i.children ? "block w-full" : ""}`}
@@ -81,13 +79,11 @@ const NavMobile: React.FC<NavMobileProps> = ({
         className="text-slate-900 dark:text-white"
       >
         <NavLink
-          exact
-          strict
-          className="flex w-full items-center py-2.5 px-4 font-medium uppercase tracking-wide text-sm hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg"
+          end
+          className={({ isActive }) => isActive ? "flex text-secondary w-full items-center py-2.5 px-4 font-medium uppercase tracking-wide text-sm hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg" : "flex w-full items-center py-2.5 px-4 font-medium uppercase tracking-wide text-sm hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg"}
           to={{
             pathname: item.href || undefined,
           }}
-          activeClassName="text-secondary"
         >
           <span
             className={!item.children ? "block w-full" : ""}

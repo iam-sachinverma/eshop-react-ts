@@ -4,16 +4,17 @@ import { Fragment } from "react";
 import Avatar from "shared/Avatar/Avatar";
 import SwitchDarkMode2 from "shared/SwitchDarkMode/SwitchDarkMode2";
 
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { logOut } from "features/auth/authSlice";
 
 export default function AvatarDropdown() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const logOutHandler = () => {
-    dispatch(logOut(null));
+  const logOutHandler = async () => {
+    await dispatch(logOut(null));
+    navigate('/')
   }
 
   return (

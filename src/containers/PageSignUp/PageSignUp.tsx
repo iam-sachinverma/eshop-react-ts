@@ -6,7 +6,7 @@ import { Helmet } from "react-helmet";
 import Input from "shared/Input/Input";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
 
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { useCreateCustomerMutation } from "features/customer/customerApiSlice"
@@ -40,7 +40,7 @@ const loginSocials = [
 ];
 
 const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const [ createCustomer, {isLoading} ] = useCreateCustomerMutation();  
 
@@ -49,7 +49,7 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
   const onSubmit: SubmitHandler<SignUp> = async (data) => {
     try {
       await createCustomer(data).unwrap();
-      history.push('/login')
+      navigate('/login')
     } catch (error) {
       console.log(error);
     }

@@ -44,6 +44,7 @@ const DATA: Hero2DataType[] = [
     btnLink: "/",
   },
 ];
+
 let TIME_OUT: NodeJS.Timeout | null = null;
 
 const SectionHero2: FC<SectionHero2Props> = ({ className = "" }) => {
@@ -169,7 +170,7 @@ const SectionHero2: FC<SectionHero2Props> = ({ className = "" }) => {
               <span className="nc-SectionHero2Item__subheading block text-base md:text-xl text-slate-700 font-medium">
                 {item.subHeading}
               </span>
-              <h2 className="nc-SectionHero2Item__heading font-semibold text-3xl sm:text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl !leading-[114%] text-slate-900">
+              <h2 className="nc-SectionHero2Item__heading font-semibold text-1xl sm:text-2xl md:text-3xl xl:text-4xl 2xl:text-5xl !leading-[114%] text-slate-900">
                 {item.heading}
               </h2>
             </div>

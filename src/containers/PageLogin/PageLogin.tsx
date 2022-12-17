@@ -6,7 +6,7 @@ import { Helmet } from "react-helmet";
 import Input from "shared/Input/Input";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
 
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { useAppDispatch, useAppSelector } from "app/hooks";
 
@@ -44,7 +44,7 @@ const loginSocials = [
 
 const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
 
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useAppDispatch()
 
   const {register, handleSubmit} = useForm<LogIn>();
@@ -76,7 +76,7 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
       const userData = await login(data).unwrap()
       console.log(userData);
       dispatch(setCredentials(userData));
-      history.push('/')
+      navigate('/')
     } catch (error) {
       console.log(error);
     }

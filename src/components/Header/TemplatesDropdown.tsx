@@ -11,8 +11,7 @@ export default function TemplatesDropdown() {
     return (
       <li key={item.id} className={`${item.isNew ? "menuIsNew" : ""}`}>
         <NavLink
-          exact
-          strict
+          end
           target={item.targetBlank ? "_blank" : undefined}
           rel="noopener noreferrer"
           className="font-normal text-slate-600 hover:text-black dark:text-slate-400 dark:hover:text-white"

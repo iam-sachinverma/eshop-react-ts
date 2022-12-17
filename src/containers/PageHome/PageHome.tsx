@@ -39,17 +39,16 @@ function PageHome() {
       {/* SECTION HERO */}
       <SectionHero2 />
 
-      <div className="mt-20 lg:mt-30">
-        <DiscoverMoreSlider />
-      </div>
-
-      <div className="container relative space-y-24 my-24 lg:space-y-32 lg:my-32">
+      <div className="container relative space-y-24 my-8 md:my-12 lg:space-y-20 lg:my-14">
         
-
         {/* SECTION */}
         <SectionSliderProductCard
           data={products}
         />
+
+        <div className="mt-20 lg:mt-30">
+          <DiscoverMoreSlider />
+        </div>
 
 
         {/* <div className="py-24 lg:py-32 border-t border-b border-slate-200 dark:border-slate-700">

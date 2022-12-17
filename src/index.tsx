@@ -7,12 +7,14 @@ import "./fonts/line-awesome-1.3.0/css/line-awesome.css";
 import "rc-slider/assets/index.css";
 
 //
-import App from "./App";
+import App from "./App.jsx";
 import reportWebVitals from "./reportWebVitals";
 
 import { Provider } from "react-redux";
 import { persistor, store } from "app/store";
 import { PersistGate } from "redux-persist/integration/react";
+
+import { BrowserRouter } from "react-router-dom";
 
 import { fetchProducts } from "app/productSlice.js";
 
@@ -26,7 +28,9 @@ root.render(
   // <React.StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <App />
+        <BrowserRouter>
+         <App />
+        </BrowserRouter>
       </PersistGate>
     </Provider>
   // </React.StrictMode>

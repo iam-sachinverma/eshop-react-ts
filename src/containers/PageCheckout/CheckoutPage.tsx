@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "app/hooks";
 import { removeProduct, decreaseProduct, addProductToCart, emptyCart } from "app/cartSlice";
 import { useGetCustomerQuery } from "features/customer/customerApiSlice";
 import { useCreateOrderMutation } from "features/order/orderApiSlice";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import Label from "components/Label/Label";
 import Prices from "components/Prices";
@@ -18,18 +18,11 @@ import { MinusIcon, PlusIcon } from "@heroicons/react/24/solid";
 
 const CheckoutPage = () => {
   const dispatch = useAppDispatch();
-  const location = useHistory();
+  const navigate = useNavigate();
 
   const user:any = useAppSelector((state) => state.auth.user)
-  const user_email = user?.user_email;
-
-  useEffect(() => {
-    if(user === null){
-      location.push('/login')
-    }
-  },[])
   
-  const { data:customer, refetch, isSuccess  } = useGetCustomerQuery(user_email);
+  const { data:customer, refetch, isSuccess  } = useGetCustomerQuery(user?.user_email);
   console.log(customer);
   
   const [createOrder] = useCreateOrderMutation();
@@ -97,7 +90,7 @@ const CheckoutPage = () => {
         try {
           await createOrder(orderData);
           dispatch(emptyCart());
-          location.push('/')
+          navigate('/');
         } catch (error) {
           console.log(error);
         }

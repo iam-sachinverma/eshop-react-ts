@@ -1,22 +1,42 @@
+// import { useEffect } from "react";
+// import { useLocation, RouteProps } from "react-router-dom";
+
+// export interface ScrollToTopProps {
+//   history: RouterProps["history"];
+// }
+
+// const ScrollToTop: React.FC<ScrollToTopProps> = ({ history }) => {
+   
+//   const { pathname } = useL
+//   useEffect(() => {
+//     const unlisten = history.listen(() => {
+//       window.scrollTo(0, 0);
+//     });
+//     return () => {
+//       unlisten();
+//     };
+//     // eslint-disable-next-line react-hooks/exhaustive-deps
+//   }, []);
+
+//   return null;
+// };
+
+// export default withRouter(ScrollToTop);
+
 import { useEffect } from "react";
-import { RouterProps, withRouter } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
-export interface ScrollToTopProps {
-  history: RouterProps["history"];
-}
+export default function ScrollToTop() {
+  const { pathname } = useLocation();
 
-const ScrollToTop: React.FC<ScrollToTopProps> = ({ history }) => {
   useEffect(() => {
-    const unlisten = history.listen(() => {
-      window.scrollTo(0, 0);
+    // "document.documentElement.scrollTo" is the magic for React Router Dom v6
+    document.documentElement.scrollTo({
+      top: 0,
+      left: 0,
+      // behavior: "instant", // Optional if you want to skip the scrolling animation
     });
-    return () => {
-      unlisten();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [pathname]);
 
   return null;
-};
-
-export default withRouter(ScrollToTop);
+}
