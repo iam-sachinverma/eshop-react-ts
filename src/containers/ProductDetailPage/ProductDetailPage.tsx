@@ -8,20 +8,19 @@ import NcInputNumber from "components/NcInputNumber";
 import { PRODUCTS } from "data/data";
 import {
   NoSymbolIcon,
-  ClockIcon,
   SparklesIcon,
 } from "@heroicons/react/24/outline";
 import IconDiscount from "components/IconDiscount";
 import Prices from "components/Prices";
 import toast from "react-hot-toast";
 import SectionSliderProductCard from "components/SectionSliderProductCard";
-import detail1JPG from "images/products/detail1.jpg";
-import detail2JPG from "images/products/detail2.jpg";
-import detail3JPG from "images/products/detail3.jpg";
+// import detail1JPG from "images/products/detail1.jpg";
+// import detail2JPG from "images/products/detail2.jpg";
+// import detail3JPG from "images/products/detail3.jpg";
 import Policy from "./Policy";
 import ReviewItem from "components/ReviewItem";
 import ButtonSecondary from "shared/Button/ButtonSecondary";
-import SectionPromo2 from "components/SectionPromo2";
+// import SectionPromo2 from "components/SectionPromo2";
 import ModalViewAllReviews from "./ModalViewAllReviews";
 import NotifyAddTocart from "components/NotifyAddTocart";
 
@@ -50,8 +49,8 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
   console.log(productVariations);
   
   // Component States
-  const { sizes, variants, allOfSizes } = PRODUCTS[0];
-  const LIST_IMAGES_DEMO = [detail1JPG, detail2JPG, detail3JPG];
+  // const { sizes, variants, allOfSizes } = PRODUCTS[0];
+  // const LIST_IMAGES_DEMO = [detail1JPG, detail2JPG, detail3JPG];
   const [variantActive, setVariantActive] = React.useState(0);
   const [colorSizeVariant, setcolorSizeVariant] = useState<string[]>([]);
   
@@ -422,6 +421,7 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
 
           <div className="flex items-center mt-5 space-x-4 sm:space-x-5">
             {/* <div className="flex text-xl font-semibold">$112.00</div> */}
+
             {
               isSuccess && product?.type === 'variable' ?
                (
