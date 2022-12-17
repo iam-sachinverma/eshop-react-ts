@@ -99,7 +99,7 @@ const DiscoverMoreSlider = () => {
     slider.mount();
     // @ts-ignore
     return () => slider.destroy();
-  }, [UNIQUE_CLASS]);
+  }, [UNIQUE_CLASS, isSuccess]);
 
   return (
     <div className={`nc-DiscoverMoreSlider ${UNIQUE_CLASS} `}>
