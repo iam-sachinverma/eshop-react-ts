@@ -1,7 +1,8 @@
 import React, { FC, useState } from "react";
-import imageRightPng from "images/hero-right.png";
-import imageRightPng2 from "images/hero-right-2.png";
-import imageRightPng3 from "images/hero-right-3.png";
+import imageRightPng from "images/hero-right.jpg";
+import imageRightPng2 from "images/hero-right-2.jpg";
+import imageRightPng3 from "images/hero-right-3.jpg";
+import imageRightPng4 from "images/hero-right-4.jpg";
 
 import backgroundLineSvg from "images/Moon.svg";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
@@ -43,6 +44,7 @@ const DATA: Hero2DataType[] = [
     btnText: "Explore now",
     btnLink: "/",
   },
+  
 ];
 
 let TIME_OUT: NodeJS.Timeout | null = null;
@@ -124,7 +126,7 @@ const SectionHero2: FC<SectionHero2Props> = ({ className = "" }) => {
                 className={`relative px-1 py-1.5 cursor-pointer`}
               >
                 <div
-                  className={`relative w-20 h-1 shadow-sm rounded-md bg-white`}
+                  className={`relative w-20 h-1 shadow-sm rounded-md bg-white invisible md:visible`}
                 >
                   {isActive && (
                     <div
@@ -140,29 +142,30 @@ const SectionHero2: FC<SectionHero2Props> = ({ className = "" }) => {
         </div>
 
         <Prev
-          className="absolute left-1 sm:left-5 top-3/4 sm:top-1/2 sm:-translate-y-1/2 z-10 !text-slate-700"
+          className="absolute left-1 sm:left-5 top-1/3 sm:top-1/2 sm:-translate-y-1/2 z-10 !text-slate-700"
           btnClassName="w-12 h-12 hover:border-slate-400 dark:hover:border-slate-400"
           svgSize="w-6 h-6"
           onClickPrev={handleClickPrev}
         />
         <Next
-          className="absolute right-1 sm:right-5 top-3/4 sm:top-1/2 sm:-translate-y-1/2 z-10 !text-slate-700"
+          className="absolute right-1 sm:right-5 top-1/3 sm:top-1/2 sm:-translate-y-1/2 z-10 !text-slate-700"
           btnClassName="w-12 h-12 hover:border-slate-400 dark:hover:border-slate-400"
           svgSize="w-6 h-6"
           onClickNext={handleClickNext}
         />
 
         {/* BG */}
-        <div className="absolute inset-0 bg-[#E3FFE6]">
-          {/* <div className="absolute inset-0 bg-[#F7F0EA]"> */}
-          <img
-            className="absolute w-full h-full object-contain"
-            src={backgroundLineSvg}
-            alt="hero"
-          />
-        </div>
+        {/* <div className=" inset-0 bg-[#E3FFE6]"> */}
+          <div className=" bg-[#F7F0EA]">
+            <img
+              className="w-full h-full object-cover nc-SectionHero2Item__image"
+              src={item.image}
+              alt="hero"
+            />
+          </div>
 
-        <div className="relative container pb-0 pt-14 sm:pt-20 lg:py-44">
+        {/* Heading SubHeading and Explore Button */}
+        {/* <div className="relative container lg:py-44">
           <div
             className={`relative z-[1] w-full max-w-3xl space-y-8 sm:space-y-14 nc-SectionHero2Item__left`}
           >
@@ -208,7 +211,8 @@ const SectionHero2: FC<SectionHero2Props> = ({ className = "" }) => {
               alt={item.heading}
             />
           </div>
-        </div>
+        </div> */}
+        
       </div>
     );
   };

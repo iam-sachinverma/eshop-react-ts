@@ -20,9 +20,16 @@ export const productApiSlice = apiSlice.injectEndpoints({
     getAttributeTerms: build.query({
       query: (attributeID) => `products/attributes/${attributeID}/terms`,
     }),
+    getCategoryProductsMaxMinPrice: build.query({
+      query: ({ categoryID, min_price, max_price }) =>
+        `products?category=${categoryID}&min_price=${min_price}&max_price=${max_price}`,
+    }),
     getCategoryOnSaleProducts: build.query({
       query: ({ categoryID, OnSale }) =>
         `products?category=${categoryID}&on_sale=${OnSale}`,
+    }),
+    getSearchedProducts: build.query({
+      query: ({ search }) => `products?search=${search}`,
     }),
   }),
 });
@@ -35,4 +42,6 @@ export const {
   useGetAllAttributesQuery,
   useGetAttributeTermsQuery,
   useGetCategoryOnSaleProductsQuery,
+  useGetCategoryProductsMaxMinPriceQuery,
+  useGetSearchedProductsQuery,
 } = productApiSlice;

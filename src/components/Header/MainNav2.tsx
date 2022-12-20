@@ -11,15 +11,37 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useAppSelector } from "app/hooks";
 import { Link } from "react-router-dom";
 
+import { useForm, SubmitHandler } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+
+
 export interface MainNav2Props {
   className?: string;
 }
 
+type SearchValue  = {
+  search?: string;
+}
+
 const MainNav2: FC<MainNav2Props> = ({ className = "" }) => {
+  const navigate = useNavigate();
+
   const [showSearchForm, setShowSearchForm] = useState(false);
 
   const user = useAppSelector((state) => state.auth.user);
-  console.log(user);
+
+  const {register, handleSubmit} = useForm<SearchValue>();
+
+  const onSubmit: SubmitHandler<SearchValue> = async (data) => {
+    try {
+      navigate('/search', { state: {
+        ...data
+      }})      
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
   
   const renderMagnifyingGlassIcon = () => {
     return (
@@ -51,23 +73,27 @@ const MainNav2: FC<MainNav2Props> = ({ className = "" }) => {
   const renderSearchForm = () => {
     return (
       <form
-        action=""
+        // action="/search"
         method="POST"
         className="flex-1 py-2 text-slate-900 dark:text-slate-100"
+        onSubmit={handleSubmit(onSubmit)}
       >
         <div className="bg-slate-50 dark:bg-slate-800 flex items-center space-x-1.5 px-5 h-full rounded">
           {renderMagnifyingGlassIcon()}
           <input
             type="text"
-            placeholder="Type and press enter"
+            {...register("search")} 
+            id="search"
+            // onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search for products"
             className="border-none bg-transparent focus:outline-none focus:ring-0 w-full text-base"
             autoFocus
           />
-          <button onClick={() => setShowSearchForm(false)}>
+          <button type="button" onClick={() => setShowSearchForm(false)}>
             <XMarkIcon className="w-5 h-5" />
           </button>
         </div>
-        <input type="submit" hidden value="" />
+        <input type="submit" hidden />
       </form>
     );
   };

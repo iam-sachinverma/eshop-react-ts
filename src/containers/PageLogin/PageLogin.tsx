@@ -92,7 +92,7 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
           Login
         </h2>
         <div className="max-w-md mx-auto space-y-6">
-          <div className="grid gap-3">
+          {/* <div className="grid gap-3">
             {loginSocials.map((item, index) => (
               <a
                 key={index}
@@ -109,14 +109,14 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
                 </h3>
               </a>
             ))}
-          </div>
+          </div> */}
           {/* OR */}
-          <div className="relative text-center">
+          {/* <div className="relative text-center">
             <span className="relative z-10 inline-block px-4 font-medium text-sm bg-white dark:text-neutral-400 dark:bg-neutral-900">
               OR
             </span>
             <div className="absolute left-0 w-full top-1/2 transform -translate-y-1/2 border border-neutral-100 dark:border-neutral-800"></div>
-          </div>
+          </div> */}
           {/* FORM */}
           <form className="grid grid-cols-1 gap-6" onSubmit={handleSubmit(onSubmit)}>
             <label className="block">

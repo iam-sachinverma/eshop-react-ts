@@ -8,7 +8,6 @@ import { useParams } from "react-router-dom";
 import { useGetCategoryOnSaleProductsQuery, useGetCategoryProductsQuery } from "features/product/productApiSlice";
 import  SectionSliderProductCard  from "components/SectionSliderProductCard";
 
-
 export interface PageCollection2Props {
   className?: string;
 }
@@ -21,7 +20,12 @@ const PageCollection2: FC<PageCollection2Props> = ({ className = "" }) => {
 
   const [isOnSale, setIsIsOnSale] = useState(false);
   const [colorsState, setColorsState] = useState<string[]>([]);
+  const [sizesState, setSizesState] = useState<string[]>([]);
   
+  // max _ min price
+  const [rangePrices, setRangePrices] = useState([100, 500]);
+  console.log(`Max Min Price`, rangePrices);
+
   const { data:onSaleProducts } = useGetCategoryOnSaleProductsQuery({categoryID:params?.category,OnSale: isOnSale});
   console.log(onSaleProducts);
   
@@ -41,14 +45,21 @@ const PageCollection2: FC<PageCollection2Props> = ({ className = "" }) => {
       arr.push(...data);
     }
 
-    if(isOnSale === true){
-      //
+    // if(isOnSale === true){
+    //   //
+    // }
+
+    if(sizesState && sizesState.length > 0){
+      const data = products.filter((product: any) => {
+        return product.attributes.some((attr: any) => attr.options.includes(...sizesState))
+      })
+      arr.push(...data);
     }
 
     return arr;
   }
 
-  const filteredProduct  = useMemo(() => filterProduct(products),[colorsState]);
+  const filteredProduct  = useMemo(() => filterProduct(products),[colorsState, sizesState]);
   console.log(filteredProduct);
   
   const handleChangeColors = (checked: boolean, name: string) => {
@@ -56,6 +67,15 @@ const PageCollection2: FC<PageCollection2Props> = ({ className = "" }) => {
       ? setColorsState([...colorsState, name])
       : setColorsState(colorsState.filter((i) => i !== name));
   };
+
+  const handleChangeSizes = (checked: boolean, name: string) => {
+    checked
+      ? setSizesState([...sizesState, name])
+      : setSizesState(sizesState.filter((i) => i !== name));
+  };
+
+  const handlePriceRange = (_input: number | number[]) =>
+  setRangePrices(_input as number[])
 
   const handleOnSale = () => {
     setIsIsOnSale((prev) => !prev)
@@ -95,6 +115,10 @@ const PageCollection2: FC<PageCollection2Props> = ({ className = "" }) => {
                  changeColors={handleChangeColors}
                  isOnSaleValue={isOnSale}
                  onSaleHandler={handleOnSale}
+                 sizeState={colorsState} 
+                 changeSizes={handleChangeSizes}
+                 rangePrice={rangePrices}
+                 changePrice={handlePriceRange}
                 />
               </div>
 

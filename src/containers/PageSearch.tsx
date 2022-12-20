@@ -10,15 +10,25 @@ import ButtonCircle from "shared/Button/ButtonCircle";
 import ProductCard from "components/ProductCard";
 import { PRODUCTS } from "data/data";
 
+import { useLocation } from 'react-router-dom'
+import { useGetSearchedProductsQuery } from "features/product/productApiSlice"
+
 export interface PageSearchProps {
   className?: string;
 }
 
 const PageSearch: FC<PageSearchProps> = ({ className = "" }) => {
+  const { state } = useLocation();
+  console.log(state);
+
+  
+  const { data:searchedProducts, isSuccess } = useGetSearchedProductsQuery(state);
+  console.log(searchedProducts);
+  
   return (
     <div className={`nc-PageSearch  ${className}`} data-nc-id="PageSearch">
       <Helmet>
-        <title>Search || Ciseco Ecommerce Template</title>
+        <title>Search || EcoFreaky</title>
       </Helmet>
 
       <div
@@ -79,7 +89,7 @@ const PageSearch: FC<PageSearchProps> = ({ className = "" }) => {
       <div className="container py-16 lg:pb-28 lg:pt-20 space-y-16 lg:space-y-28">
         <main>
           {/* FILTER */}
-          <HeaderFilterSearchPage />
+          {/* <HeaderFilterSearchPage /> */}
 
           {/* LOOP ITEMS */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-10 mt-8 lg:mt-10">
@@ -89,19 +99,12 @@ const PageSearch: FC<PageSearchProps> = ({ className = "" }) => {
           </div>
 
           {/* PAGINATION */}
-          <div className="flex flex-col mt-12 lg:mt-16 space-y-5 sm:space-y-0 sm:space-x-3 sm:flex-row sm:justify-between sm:items-center">
+          {/* <div className="flex flex-col mt-12 lg:mt-16 space-y-5 sm:space-y-0 sm:space-x-3 sm:flex-row sm:justify-between sm:items-center">
             <Pagination />
             <ButtonPrimary loading>Show me more</ButtonPrimary>
-          </div>
+          </div> */}
         </main>
-
-        {/* === SECTION 5 === */}
-        <hr className="border-slate-200 dark:border-slate-700" />
-        <SectionSliderCollections />
-        <hr className="border-slate-200 dark:border-slate-700" />
-
-        {/* SUBCRIBES */}
-        <SectionPromo1 />
+        
       </div>
     </div>
   );

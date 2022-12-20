@@ -1,11 +1,11 @@
 import React, { FC } from "react";
 
-import { useGetCustomerQuery, useUpdateCustomerMutation } from "features/customer/customerApiSlice";
-import { useAppDispatch, useAppSelector } from "app/hooks";
+import { useGetCustomerQuery } from "features/customer/customerApiSlice";
+import { useAppSelector } from "app/hooks";
 
 import Label from "components/Label/Label";
-import ButtonPrimary from "shared/Button/ButtonPrimary";
 import Input from "shared/Input/Input";
+import ButtonPrimary from "shared/Button/ButtonPrimary";
 import CommonLayout from "./CommonLayout";
 import { Helmet } from "react-helmet";
 
@@ -39,6 +39,7 @@ const AccountPage: FC<AccountPageProps> = ({ className = "" }) => {
                   type="file"
                   className="absolute inset-0 opacity-0 cursor-pointer"
                 />
+
               </div>
             </div>
             <div className="flex-grow mt-10 md:mt-0 md:pl-16 max-w-3xl space-y-6">

@@ -44,6 +44,7 @@ function App() {
             path="/products/:category"
             element={<PageCollection2 />}
           ></Route>
+
           <Route path="/search" element={<PageSearch />}></Route>
 
           <Route path="/about" element={<PageAbout />}></Route>

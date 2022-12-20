@@ -5,7 +5,6 @@ import AccordionInfo from "./AccordionInfo";
 import { StarIcon } from "@heroicons/react/24/solid";
 import BagIcon from "components/BagIcon";
 import NcInputNumber from "components/NcInputNumber";
-import { PRODUCTS } from "data/data";
 import {
   NoSymbolIcon,
   SparklesIcon,
@@ -14,20 +13,22 @@ import IconDiscount from "components/IconDiscount";
 import Prices from "components/Prices";
 import toast from "react-hot-toast";
 import SectionSliderProductCard from "components/SectionSliderProductCard";
-// import detail1JPG from "images/products/detail1.jpg";
-// import detail2JPG from "images/products/detail2.jpg";
-// import detail3JPG from "images/products/detail3.jpg";
 import Policy from "./Policy";
 import ReviewItem from "components/ReviewItem";
 import ButtonSecondary from "shared/Button/ButtonSecondary";
-// import SectionPromo2 from "components/SectionPromo2";
 import ModalViewAllReviews from "./ModalViewAllReviews";
 import NotifyAddTocart from "components/NotifyAddTocart";
+
+//
+import FiveStartIconForRate from "components/FiveStartIconForRate"; 
+import Label from "components/Label/Label";
+import Textarea from "shared/Textarea/Textarea";
 
 // 
 import { addProductToCart } from "app/cartSlice";
 import { useParams } from "react-router-dom";
 import { useAppDispatch } from "app/hooks";
+import { useForm, SubmitHandler } from 'react-hook-form'
 
 import { useGetProductQuery, useGetProductVariationsQuery } from "features/product/productApiSlice"
 
@@ -35,8 +36,16 @@ export interface ProductDetailPageProps {
   className?: string;
 }
 
+type ReviewForm = {
+  product_id: string,
+  review: string,
+  reviewer?: string,
+  reviewer_email: string,
+  rating: number,
+}
+
 const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
-  const  params  = useParams();
+  const params  = useParams();
   const dispatch = useAppDispatch();
   
   // Rtk query hook
@@ -45,10 +54,20 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
   
   const { data:productVariations, isSuccess } = useGetProductVariationsQuery(params?.id);
   console.log(productVariations);
+
+  const {register, handleSubmit} = useForm<ReviewForm>();
+
+  const onSubmit: SubmitHandler<ReviewForm> = async (data) => {
+    try {
+
+      console.log(data);
+      
+    } catch (error) {
+      console.log(error);
+    }
+  };
   
   // Component States
-  // const { sizes, variants, allOfSizes } = PRODUCTS[0];
-  // const LIST_IMAGES_DEMO = [detail1JPG, detail2JPG, detail3JPG];
   const [variantActive, setVariantActive] = React.useState(0);
   const [colorSizeVariant, setcolorSizeVariant] = useState<string[]>([]);
   
@@ -58,6 +77,9 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
   const [sizeSelected, setSizeSelected] = React.useState("");
   const [colorSelected, setColorSelected] = React.useState("");
   const [packSetSelected, setPackSetSelected] = React.useState("");
+
+  // Rating State
+  const [point, setPoints] = useState(3);
   
   const [isOpenModalViewAllReviews, setIsOpenModalViewAllReviews] =
     useState(false);
@@ -543,6 +565,7 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
           <span className="ml-1.5"> 4,87 · 142 Reviews</span>
         </h2>
 
+
         {/* comment */}
         <div className="mt-10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-y-11 gap-x-28">
@@ -587,9 +610,31 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
     );
   };
 
+  const renderReviewForm = () => {
+    return (
+      <div>
+        <form>
+          
+          <div className="my-4">
+           <Label>Rate this product</Label>
+           <FiveStartIconForRate defaultPoint={point} setPoint={setPoints}/>
+          </div>
+          
+          <div className="my-4">
+            <Label>Review this product</Label>
+            <Textarea className="mt-1.5" defaultValue="..." />
+          </div>
+
+          <input type="text" />
+
+        </form>
+      </div>
+    )
+  }
+
   return (
     <div className={`nc-ProductDetailPage ${className}`}>
-      {/* MAIn */}
+      {/* Main */}
       <main className="container mt-5 lg:mt-11">
         <div className="lg:flex">
           {/* CONTENT */}
@@ -644,6 +689,10 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
           {renderDetailSection()}
 
           <hr className="border-slate-200 dark:border-slate-700" />
+
+          { renderReviewForm() }
+
+          {/* <hr className="border-slate-200 dark:border-slate-700" /> */}
 
           {renderReviews()}
 

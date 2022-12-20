@@ -45,8 +45,12 @@ export interface SidebarFiltersProps {
   className?: string;
   colorState?: any;
   changeColors: (checked: boolean, item:any) => void;
+  sizeState?: any;
+  changeSizes: (checked: boolean, item:any) => void;
   isOnSaleValue?: boolean;
   onSaleHandler: () => void;
+  rangePrice?: any,
+  changePrice?: (_input: number | number[]) => void;
 }
 
 //
@@ -54,26 +58,24 @@ const SidebarFilters: FC<SidebarFiltersProps> = ({
   className = "", 
   colorState, 
   changeColors,
+  sizeState,
+  changeSizes,
   isOnSaleValue, 
-  onSaleHandler 
+  onSaleHandler,
+  rangePrice,
+  changePrice
 }) => {
 
-  const [skip, setSkip] = useState(true);
-
-  const { data:colorTerms, isSuccess:attributeTermsFullfilled } = useGetAttributeTermsQuery(1, {
-    skip
-  });
-
-  useEffect(() => {
-    setSkip((prev) => !prev)
-  },[])
+  const { data:colorTerms, isSuccess:colorTermsFullfilled } = useGetAttributeTermsQuery(1);
+  const { data:sizeTerms, isSuccess:sizeTermsFullfilled } = useGetAttributeTermsQuery(2);
 
   //
-  // const [isOnSale, setIsIsOnSale] = useState(true);
-  const [rangePrices, setRangePrices] = useState([100, 500]);
-  // const [colorsState, setColorsState] = useState<string[]>([]);
+  // const [rangePrices, setRangePrices] = useState([100, 500]);
   const [sortOrderStates, setSortOrderStates] = useState<string>("");
+  // const [isOnSale, setIsIsOnSale] = useState(true);
+  // const [colorsState, setColorsState] = useState<string[]>([]);
   // const [categoriesState, setCategoriesState] = useState<string[]>([]);
+  
 
   //
   // const handleChangeCategories = (checked: boolean, name: string) => {
@@ -114,7 +116,28 @@ const SidebarFilters: FC<SidebarFiltersProps> = ({
     return (
       <div className="relative flex flex-col py-8 space-y-4">
         <h3 className="font-semibold mb-2.5">Colors</h3>
-        {attributeTermsFullfilled && colorTerms?.map((item: any) => (
+        {colorTermsFullfilled && colorTerms?.map((item: any) => (
+          <div key={item.name} className="">
+            <Checkbox
+              sizeClassName="w-5 h-5"
+              labelClassName="text-sm font-normal"
+              name={item.name}
+              label={item.name}
+              // defaultChecked={colorsState.includes(item.name)}
+              onChange={(checked) => changeColors(checked, item.name)}
+            />
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  //Ok
+  const renderTabsSize = () => {
+    return (
+      <div className="relative flex flex-col py-8 space-y-4">
+        <h3 className="font-semibold mb-2.5">Colors</h3>
+        {sizeTermsFullfilled && sizeTerms?.map((item: any) => (
           <div key={item.name} className="">
             <Checkbox
               sizeClassName="w-5 h-5"
@@ -131,71 +154,71 @@ const SidebarFilters: FC<SidebarFiltersProps> = ({
   };
 
   // OK
-  // const renderTabsPriceRage = () => {
-  //   return (
-  //     <div className="relative flex flex-col py-8 space-y-5 pr-3">
-  //       <div className="space-y-5">
-  //         <span className="font-semibold">Price range</span>
-  //         <Slider
-  //           range
-  //           min={PRICE_RANGE[0]}
-  //           max={PRICE_RANGE[1]}
-  //           step={1}
-  //           defaultValue={[rangePrices[0], rangePrices[1]]}
-  //           allowCross={false}
-  //           onChange={(_input: number | number[]) =>
-  //             setRangePrices(_input as number[])
-  //           }
-  //         />
-  //       </div>
+  const renderTabsPriceRage = () => {
+    return (
+      <div className="relative flex flex-col py-8 space-y-5 pr-3">
+        <div className="space-y-5">
+          <span className="font-semibold">Price range</span>
+          <Slider
+            range
+            min={PRICE_RANGE[0]}
+            max={PRICE_RANGE[1]}
+            step={1}
+            defaultValue={[rangePrice[0], rangePrice[1]]}
+            allowCross={false}
+            onChange={
+              changePrice
+            }
+          />
+        </div>
 
-  //       <div className="flex justify-between space-x-5">
-  //         <div>
-  //             <label
-  //             htmlFor="minPrice"
-  //             className="block text-sm font-medium text-neutral-700 dark:text-neutral-300"
-  //           >
-  //             Min price
-  //           </label>
-  //           <div className="mt-1 relative rounded-md">
-  //             <span className="absolute inset-y-0 right-4 flex items-center pointer-events-none text-neutral-500 sm:text-sm">
-  //               ₹
-  //             </span>
-  //             <input
-  //               type="text"
-  //               name="minPrice"
-  //               disabled
-  //               id="minPrice"
-  //               className="block w-32 pr-10 pl-4 sm:text-sm border-neutral-200 dark:border-neutral-700 rounded-full bg-transparent"
-  //               value={rangePrices[0]}
-  //             />
-  //           </div>
-  //         </div>
-  //         <div>
-  //           <label
-  //             htmlFor="maxPrice"
-  //             className="block text-sm font-medium text-neutral-700 dark:text-neutral-300"
-  //           >
-  //             Max price
-  //           </label>
-  //           <div className="mt-1 relative rounded-md">
-  //             <span className="absolute inset-y-0 right-4 flex items-center pointer-events-none text-neutral-500 sm:text-sm">
-  //               ₹
-  //             </span>
-  //             <input
-  //               type="text"
-  //               disabled
-  //               name="maxPrice"
-  //               id="maxPrice"
-  //               className="block w-32 pr-10 pl-4 sm:text-sm border-neutral-200 dark:border-neutral-700 rounded-full bg-transparent"
-  //               value={rangePrices[1]}
-  //             />
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   );
-  // };
+        <div className="flex justify-between space-x-5">
+          <div>
+              <label
+              htmlFor="minPrice"
+              className="block text-sm font-medium text-neutral-700 dark:text-neutral-300"
+            >
+              Min price
+            </label>
+            <div className="mt-1 relative rounded-md">
+              <span className="absolute inset-y-0 right-4 flex items-center pointer-events-none text-neutral-500 sm:text-sm">
+                ₹
+              </span>
+              <input
+                type="text"
+                name="minPrice"
+                disabled
+                id="minPrice"
+                className="block w-32 pr-10 pl-4 sm:text-sm border-neutral-200 dark:border-neutral-700 rounded-full bg-transparent"
+                value={rangePrice[0]}
+              />
+            </div>
+          </div>
+          <div>
+            <label
+              htmlFor="maxPrice"
+              className="block text-sm font-medium text-neutral-700 dark:text-neutral-300"
+            >
+              Max price
+            </label>
+            <div className="mt-1 relative rounded-md">
+              <span className="absolute inset-y-0 right-4 flex items-center pointer-events-none text-neutral-500 sm:text-sm">
+                ₹
+              </span>
+              <input
+                type="text"
+                disabled
+                name="maxPrice"
+                id="maxPrice"
+                className="block w-32 pr-10 pl-4 sm:text-sm border-neutral-200 dark:border-neutral-700 rounded-full bg-transparent"
+                value={rangePrice[1]}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   // // OK
   // const renderTabsSortOrder = () => {
@@ -221,17 +244,25 @@ const SidebarFilters: FC<SidebarFiltersProps> = ({
   return (
     <div className="divide-y divide-slate-200 dark:divide-slate-700">
       {/* {renderTabsCategories()} */}
+      
       {renderTabsColor()}
+
+      {renderTabsSize()}
+
       {/* {renderTabsPriceRage()} */}
-      <div className="py-8 pr-2">
+
+
+      {/* <div className="py-8 pr-2">
         <MySwitch
           label="On sale!"
           desc="Products currently on sale"
           enabled={isOnSaleValue}
           onChange={onSaleHandler}
         />
-      </div>
+      </div> */}
+
       {/* {renderTabsSortOrder()} */}
+
     </div>
   );
 };
