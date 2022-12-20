@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import facebookSvg from "images/Facebook.svg";
 import twitterSvg from "images/Twitter.svg";
 import googleSvg from "images/Google.svg";
@@ -43,14 +43,27 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
 
   const [ createCustomer, { isLoading } ] = useCreateCustomerMutation();  
 
-  const {register, handleSubmit} = useForm<SignUp>();
-
+  const {register, handleSubmit, formState: { errors }} = useForm<SignUp>();
+  
+  const [errMsg, setErrMsg] = useState('');
+  console.log(errMsg);
+  
   const onSubmit: SubmitHandler<SignUp> = async (data) => {
     try {
       await createCustomer(data).unwrap();
       navigate('/login')
-    } catch (error) {
-      console.log(error);
+    } catch (error:any) {
+      
+      if(error.status === 400){
+        
+        if(error.data.code === 'registration-error-email-exists'){
+          setErrMsg('An account is already registered with your email address')
+        }
+        
+      }else if(error.data.status === 401){
+        setErrMsg(error.data.message)
+      }
+
     }
   };
 
@@ -96,30 +109,91 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
                 Name
               </span>
               <Input
-                {...register("first_name")} 
+                {...register("first_name", 
+                  { 
+                  required: true,
+                  pattern: /^[A-Za-z]+$/i
+                  }
+                )} 
                 id="first_name" 
                 type="text"
                 className="mt-1"
               />
+              {/* Form Validation */}
+              {errors.first_name ? (
+                <>
+                  {errors.first_name.type === "required" && (
+                    <p className="text-lime-400 my-2 mx-2">
+                      {'Please enter a your name'}
+                    </p>
+                  )}
+                  {errors.first_name.type === "pattern" && (
+                    <p className="text-lime-400 my-2 mx-2">
+                      {'Please enter a valid name'}
+                    </p>
+                  )}
+                </>
+                ) : null
+              }
             </label>
             <label className="block">
               <span className="text-neutral-800 dark:text-neutral-200">
                 Email address
               </span>
               <Input
-                {...register("email")} 
+                {...register("email", 
+                 { 
+                  required: true,
+                  pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ 
+                 }
+                )} 
                 id="email"
                 name="email"
                 type="email"
                 className="mt-1"
               />
+              {errors.email ? (
+                <>
+                  {errors.email.type === "required" && (
+                    <p className="text-lime-400 my-2 mx-2">
+                      {'Please enter a your email'}
+                    </p>
+                  )}
+                  {errors.email.type === "pattern" && (
+                    <p className="text-lime-400 my-2 mx-2">
+                      {'Please enter a valid email'}
+                    </p>
+                  )}
+                </>
+                ) : null
+              }
             </label>
+
             <label className="block">
               <span className="flex justify-between items-center text-neutral-800 dark:text-neutral-200">
                 Password
               </span>
-              <Input {...register("password")} id="password" name="password" type="password" className="mt-1" />
-            </label>
+              <Input 
+                {...register("password", { required: true })} 
+                id="password" 
+                name="password" 
+                type="password" 
+                className="mt-1"
+               />
+               {errors.password ? (
+                <>
+                  {errors.password.type === "required" && (
+                    <p className="text-lime-400 my-2 mx-2">
+                      {'Please enter a password'}
+                    </p>
+                  )}
+                </>
+                ) : null
+                }
+            </label> 
+
+            <p className="text-lime-400">{errMsg === '' ? '' : errMsg}</p>
+
             <ButtonPrimary type="submit">Continue</ButtonPrimary>
           </form>
 
@@ -130,6 +204,8 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
               Sign in
             </Link>
           </span>
+
+
         </div>
       </div>
     </div>

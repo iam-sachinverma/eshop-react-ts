@@ -47,23 +47,11 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch()
 
-  const {register, handleSubmit} = useForm<LogIn>();
+  const {register, handleSubmit, formState: { errors }} = useForm<LogIn>();
 
-  const userRef = useRef();
-  const errRef = useRef();
-  const [user, setUser] = useState('');
-  const [pwd, setPwd] = useState('');
   const [errMsg, setErrMsg] = useState('');
 
   const [login, {isLoading}] = useLoginMutation()
-
-  // useEffect(()=>{
-  //   userRef?.current?.focus()
-  // },[])
-
-  useEffect(() => {
-    setErrMsg('')
-  },[user, pwd])
 
   // const { loading, userInfo, error, success }  = useAppSelector((state) => state.auth);
 
@@ -77,8 +65,21 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
       console.log(userData);
       dispatch(setCredentials(userData));
       navigate('/')
-    } catch (error) {
-      console.log(error);
+    } catch (error:any) {
+
+      if(error.status === 403){
+         
+       if(error.data.code === '[jwt_auth] incorrect_password'){
+        setErrMsg('The password you entered is incorrect')
+       }
+
+       if(error.data.code === '[jwt_auth] invalid_email'){
+        setErrMsg('Unknown email address. Check again or Create an account')
+       }
+
+      }else if(error.data.status === 401){
+        setErrMsg(error.data.message)
+      }
     }
   }; 
   
@@ -123,13 +124,36 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
               <span className="text-neutral-800 dark:text-neutral-200">
                 Email address
               </span>
+
               <Input
-                {...register("username")}
+                {...register("username", 
+                 { 
+                  required: true,
+                  pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ 
+                 }
+                )} 
                 id="username"
                 name="username"
                 type="email"
                 className="mt-1"
               />
+
+              {errors.username ? (
+                <>
+                  {errors.username.type === "required" && (
+                    <p className="text-lime-400 my-2 mx-2">
+                      {'Please enter a your email'}
+                    </p>
+                  )}
+                  {errors.username.type === "pattern" && (
+                    <p className="text-lime-400 my-2 mx-2">
+                      {'Please enter a valid email'}
+                    </p>
+                  )}
+                </>
+                ) : null
+              }
+
             </label>
             <label className="block">
               <span className="flex justify-between items-center text-neutral-800 dark:text-neutral-200">
@@ -139,9 +163,29 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
                 </Link>
               </span>
 
-              <Input {...register("password")} id="password" name="password" type="password" className="mt-1" />
+              <Input 
+                {...register("password", { required: true })} 
+                id="password"
+                name="password" 
+                type="password" 
+                className="mt-1"
+               />
+
+               {errors.password ? (
+                <>
+                  {errors.password.type === "required" && (
+                    <p className="text-lime-400 my-2 mx-2">
+                      {'Please enter a password'}
+                    </p>
+                  )}
+                </>
+                ) : null
+                }
 
             </label>
+
+            <p className="text-lime-400">{errMsg === '' ? '' : errMsg}</p>
+
             <ButtonPrimary type="submit">Continue</ButtonPrimary>
           </form>
 

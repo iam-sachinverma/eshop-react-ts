@@ -73,11 +73,11 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
   };
   
   // Component States
+  const [attributeVariant, setAttributeVariant] = useState<any>([]);
+
   const [variantActive, setVariantActive] = React.useState(0);
   const [colorSizeVariant, setcolorSizeVariant] = useState<string[]>([]);
   
-  const [attributeVariant, setAttributeVariant] = useState<any>([]);
-
   const [quantitySelected, setQuantitySelected] = React.useState(1);
   const [sizeSelected, setSizeSelected] = React.useState("");
   const [colorSelected, setColorSelected] = React.useState("");
@@ -102,17 +102,19 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
     setAttributeVariant(variation);
   },[colorSelected])
 
-  // const addRemoveVariant = (variant: string) => {
-  //   let arr:any = [...colorSizeVariant];
+  
+  const addRemoveVariant = (variant: string) => {
+    let arr:any = [...colorSizeVariant];
     
-  //   let isColorContain = arr.includes(variant);
-  //   let isSizeContain = arr.includes(variant);
+    let isColorContain = arr.includes(variant);
+    let isSizeContain = arr.includes(variant);
+      
 
-  //   if(!isColorContain || !isSizeContain ){
-  //     arr.push(variant);
-  //     setcolorSizeVariant(arr);
-  //   }
-  // }
+    if(!isColorContain || !isSizeContain ){
+      arr.push(variant);
+      setcolorSizeVariant(arr);
+    }
+  }
   
   const DescriptionData = [
     {

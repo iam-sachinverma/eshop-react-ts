@@ -34,7 +34,7 @@ const CheckoutPage = () => {
   const createLineItems = (products: any) => {
     let arr = [...orderItems];
 
-    products.map((product: any) => {
+    products?.map((product: any) => {
       if(product?.type === 'simple'){
         console.log('simple');
         
@@ -112,11 +112,8 @@ const CheckoutPage = () => {
   };
 
   const renderProduct = (item: any, index: number) => {
-    const { image, price, name } = item;
-
-    console.log(item);
-    
-
+    // const { image, price, name } = item;
+  
     return (
       <div key={index} className="relative flex py-7 first:pt-0 last:pb-0">
         <div className="relative h-36 w-24 sm:w-28 flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
@@ -144,7 +141,7 @@ const CheckoutPage = () => {
                   <Link to={`/product/${item?.id}`}>{item?.name}</Link>
                 </h3>
                 <div className="mt-1.5 sm:mt-2.5 flex text-sm text-slate-600 dark:text-slate-300">
-                  { item?.attributes.length === 0 ? "" :
+                  { item?.attributes?.length === 0 ? "" :
                   
                   (
                     <div className="flex items-center space-x-1.5">
