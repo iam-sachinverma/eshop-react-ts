@@ -33,14 +33,14 @@ const ReviewItem: FC<ReviewItemProps> = ({
       data-nc-id="ReviewItem"
     >
       <div className=" flex space-x-4 ">
-        <div className="flex-shrink-0 pt-0.5">
+        {/* <div className="flex-shrink-0 pt-0.5">
           <Avatar
             sizeClass="h-10 w-10 text-lg"
             radius="rounded-full"
             userName={data.name}
             imgUrl={data.avatar}
           />
-        </div>
+        </div> */}
 
         <div className="flex-1 flex justify-between">
           <div className="text-sm sm:text-base">

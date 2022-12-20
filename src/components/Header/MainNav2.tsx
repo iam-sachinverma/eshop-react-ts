@@ -42,7 +42,6 @@ const MainNav2: FC<MainNav2Props> = ({ className = "" }) => {
     }
   };
   
-  
   const renderMagnifyingGlassIcon = () => {
     return (
       <svg

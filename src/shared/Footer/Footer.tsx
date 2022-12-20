@@ -2,6 +2,7 @@ import Logo from "shared/Logo/Logo";
 import SocialsList1 from "shared/SocialsList1/SocialsList1";
 import { CustomLink } from "data/types";
 import React from "react";
+import { Link } from "react-router-dom";
 
 export interface WidgetFooterMenu {
   id: string;
@@ -52,6 +53,7 @@ const widgetMenus: WidgetFooterMenu[] = [
 ];
 
 const Footer: React.FC = () => {
+
   const renderWidgetMenuItem = (menu: WidgetFooterMenu, index: number) => {
     return (
       <div key={index} className="text-sm">
@@ -61,7 +63,7 @@ const Footer: React.FC = () => {
         <ul className="mt-5 space-y-4">
           {menu.menus.map((item, index) => (
             <li key={index}>
-              <a
+              {/* <a
                 key={index}
                 className="text-neutral-6000 dark:text-neutral-300 hover:text-black dark:hover:text-white"
                 href={item.href}
@@ -69,7 +71,14 @@ const Footer: React.FC = () => {
                 rel="noopener noreferrer"
               >
                 {item.label}
-              </a>
+              </a> */}
+              <Link 
+                key={index}
+                to={`${item.href}`} 
+                className="text-neutral-6000 dark:text-neutral-300 hover:text-black dark:hover:text-white"
+              >
+                {item.label}
+              </Link>
             </li>
           ))}
         </ul>

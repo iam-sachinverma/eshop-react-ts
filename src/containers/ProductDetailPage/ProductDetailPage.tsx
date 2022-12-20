@@ -14,20 +14,18 @@ import Prices from "components/Prices";
 import toast from "react-hot-toast";
 import SectionSliderProductCard from "components/SectionSliderProductCard";
 import Policy from "./Policy";
-import ReviewItem from "components/ReviewItem";
-import ButtonSecondary from "shared/Button/ButtonSecondary";
-import ModalViewAllReviews from "./ModalViewAllReviews";
 import NotifyAddTocart from "components/NotifyAddTocart";
 
 //
 import FiveStartIconForRate from "components/FiveStartIconForRate"; 
 import Label from "components/Label/Label";
 import Textarea from "shared/Textarea/Textarea";
+import Review from "./Review"
 
 // 
 import { addProductToCart } from "app/cartSlice";
 import { useParams } from "react-router-dom";
-import { useAppDispatch } from "app/hooks";
+import { useAppDispatch, useAppSelector } from "app/hooks";
 import { useForm, SubmitHandler } from 'react-hook-form'
 
 import { useGetProductQuery, useGetProductVariationsQuery } from "features/product/productApiSlice"
@@ -47,6 +45,9 @@ type ReviewForm = {
 const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
   const params  = useParams();
   const dispatch = useAppDispatch();
+
+  const user:any = useAppSelector((state) => state.auth.user)
+  console.log(user);
   
   // Rtk query hook
   const { data:product, isSuccess:productFullfilled } = useGetProductQuery(params?.id);
@@ -58,10 +59,14 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
   const {register, handleSubmit} = useForm<ReviewForm>();
 
   const onSubmit: SubmitHandler<ReviewForm> = async (data) => {
-    try {
+    
+    if(user === null) {
+      alert('Please Login To Rate Product')
+      return;
+    }
 
+    try {
       console.log(data);
-      
     } catch (error) {
       console.log(error);
     }
@@ -80,9 +85,7 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
 
   // Rating State
   const [point, setPoints] = useState(3);
-  
-  const [isOpenModalViewAllReviews, setIsOpenModalViewAllReviews] =
-    useState(false);
+
 
   useEffect(() => {
     const variation = productVariations?.filter((v:any) => v.attributes.some((attr: any) => attr.option === packSetSelected ))
@@ -556,77 +559,33 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
     );
   };
 
-  const renderReviews = () => {
-    return (
-      <div className="">
-        {/* HEADING */}
-        <h2 className="text-2xl font-semibold flex items-center">
-          <StarIcon className="w-7 h-7 mb-0.5" />
-          <span className="ml-1.5"> 4,87 · 142 Reviews</span>
-        </h2>
-
-
-        {/* comment */}
-        <div className="mt-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-y-11 gap-x-28">
-            <ReviewItem />
-            <ReviewItem
-              data={{
-                comment: `I love the charcoal heavyweight hoodie. Still looks new after plenty of washes. 
-                  If you’re unsure which hoodie to pick.`,
-                date: "December 22, 2021",
-                name: "Stiven Hokinhs",
-                starPoint: 5,
-              }}
-            />
-            <ReviewItem
-              data={{
-                comment: `The quality and sizing mentioned were accurate and really happy with the purchase. Such a cozy and comfortable hoodie. 
-                Now that it’s colder, my husband wears his all the time. I wear hoodies all the time. `,
-                date: "August 15, 2022",
-                name: "Gropishta keo",
-                starPoint: 5,
-              }}
-            />
-            <ReviewItem
-              data={{
-                comment: `Before buying this, I didn't really know how I would tell a "high quality" sweatshirt, but after opening, I was very impressed. 
-                The material is super soft and comfortable and the sweatshirt also has a good weight to it.`,
-                date: "December 12, 2022",
-                name: "Dahon Stiven",
-                starPoint: 5,
-              }}
-            />
-          </div>
-
-          <ButtonSecondary
-            onClick={() => setIsOpenModalViewAllReviews(true)}
-            className="mt-10 border border-slate-300 dark:border-slate-700 "
-          >
-            Show me all 142 reviews
-          </ButtonSecondary>
-        </div>
-      </div>
-    );
-  };
-
   const renderReviewForm = () => {
     return (
       <div>
-        <form>
+        <form className="grid grid-cols-1 gap-12" onSubmit={handleSubmit(onSubmit)}>
           
-          <div className="my-4">
+          <input type="text" {...register("product_id")} id="product_id" hidden value={product?.id}/>
+
+          <div className="">
            <Label>Rate this product</Label>
            <FiveStartIconForRate defaultPoint={point} setPoint={setPoints}/>
           </div>
           
-          <div className="my-4">
+          <div className="">
             <Label>Review this product</Label>
-            <Textarea className="mt-1.5" defaultValue="..." />
+            <Textarea {...register("review")} id="review"  className="mt-1.5"  placeholder="Your review should be about your experience with the product" />
           </div>
 
-          <input type="text" />
-
+          <input type="text" hidden {...register("reviewer")} id="reviewer" value={user?.user_email}/>
+          <input type="text" hidden {...register("reviewer_email")} id="reviewer_email" value={user?.user_nicename}/>
+          
+          <ButtonPrimary
+            type="submit"
+            className="flex-1"
+            >
+            Submit
+          </ButtonPrimary>
+           
         </form>
       </div>
     )
@@ -692,9 +651,9 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
 
           { renderReviewForm() }
 
-          {/* <hr className="border-slate-200 dark:border-slate-700" /> */}
+          <hr className="border-slate-200 dark:border-slate-700" />
 
-          {renderReviews()}
+          <Review/>
 
           <hr className="border-slate-200 dark:border-slate-700" />
 
@@ -709,11 +668,7 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
         </div>
       </main>
 
-      {/* MODAL VIEW ALL REVIEW */}
-      <ModalViewAllReviews
-        show={isOpenModalViewAllReviews}
-        onCloseModalViewAllReviews={() => setIsOpenModalViewAllReviews(false)}
-      />
+      
     </div>
   );
 };
