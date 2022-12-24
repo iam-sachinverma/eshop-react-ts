@@ -10,7 +10,7 @@ import ButtonCircle from "shared/Button/ButtonCircle";
 import ProductCard from "components/ProductCard";
 import { PRODUCTS } from "data/data";
 
-import { useLocation } from 'react-router-dom'
+import { useSearchParams } from "react-router-dom";
 import { useGetSearchedProductsQuery } from "features/product/productApiSlice"
 
 export interface PageSearchProps {
@@ -18,12 +18,26 @@ export interface PageSearchProps {
 }
 
 const PageSearch: FC<PageSearchProps> = ({ className = "" }) => {
-  const { state } = useLocation();
-  console.log(state);
 
+  const [searchParams, setSearchParams] = useSearchParams();
+  console.log(typeof searchParams.get("q"));
   
-  const { data:searchedProducts, isSuccess } = useGetSearchedProductsQuery(state);
+  const { data:searchedProducts, isLoading, isSuccess } = useGetSearchedProductsQuery(searchParams.get("q"));
   console.log(searchedProducts);
+
+  let content;
+
+  if(isLoading){
+    content = 'Loading products....'
+  }else if(isSuccess) {
+    content = (
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-10 mt-8 lg:mt-10">
+        {searchedProducts.map((item: any, index: number) => (
+          <ProductCard data={item} key={index} />
+        ))}
+     </div>
+    )
+  }
   
   return (
     <div className={`nc-PageSearch  ${className}`} data-nc-id="PageSearch">
@@ -31,11 +45,11 @@ const PageSearch: FC<PageSearchProps> = ({ className = "" }) => {
         <title>Search || EcoFreaky</title>
       </Helmet>
 
-      <div
+      {/* <div
         className={`nc-HeadBackgroundCommon h-24 2xl:h-28 top-0 left-0 right-0 w-full bg-primary-50 dark:bg-neutral-800/20 `}
         data-nc-id="HeadBackgroundCommon"
-      />
-      <div className="container">
+      /> */}
+      {/* <div className="container">
         <header className="max-w-2xl mx-auto -mt-10 flex flex-col lg:-mt-7">
           <form className="relative w-full " method="post">
             <label
@@ -84,7 +98,7 @@ const PageSearch: FC<PageSearchProps> = ({ className = "" }) => {
             </label>
           </form>
         </header>
-      </div>
+      </div> */}
 
       <div className="container py-16 lg:pb-28 lg:pt-20 space-y-16 lg:space-y-28">
         <main>
@@ -92,11 +106,8 @@ const PageSearch: FC<PageSearchProps> = ({ className = "" }) => {
           {/* <HeaderFilterSearchPage /> */}
 
           {/* LOOP ITEMS */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-10 mt-8 lg:mt-10">
-            {PRODUCTS.map((item, index) => (
-              <ProductCard data={item} key={index} />
-            ))}
-          </div>
+          { content }
+          
 
           {/* PAGINATION */}
           {/* <div className="flex flex-col mt-12 lg:mt-16 space-y-5 sm:space-y-0 sm:space-x-3 sm:flex-row sm:justify-between sm:items-center">

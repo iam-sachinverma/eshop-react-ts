@@ -5,8 +5,8 @@ import ProductCard from "components/ProductCard";
 import SidebarFilters from "./SidebarFilters";
 
 import { useParams } from "react-router-dom";
-import { useGetCategoryOnSaleProductsQuery, useGetCategoryProductsQuery } from "features/product/productApiSlice";
-import  SectionSliderProductCard  from "components/SectionSliderProductCard";
+
+import { useGetCategoryProductsQuery } from "features/product/categoryProductApiSlice";
 
 export interface PageCollection2Props {
   className?: string;
@@ -26,8 +26,8 @@ const PageCollection2: FC<PageCollection2Props> = ({ className = "" }) => {
   const [rangePrices, setRangePrices] = useState([100, 500]);
   console.log(`Max Min Price`, rangePrices);
 
-  const { data:onSaleProducts } = useGetCategoryOnSaleProductsQuery({categoryID:params?.category,OnSale: isOnSale});
-  console.log(onSaleProducts);
+  // const { data:onSaleProducts } = useGetCategoryOnSaleProductsQuery({categoryID:params?.category,OnSale: isOnSale});
+  // console.log(onSaleProducts);
   
   // Filter State
 

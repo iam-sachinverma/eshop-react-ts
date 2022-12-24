@@ -68,7 +68,7 @@ const SidebarFilters: FC<SidebarFiltersProps> = ({
 
   const { data:colorTerms, isSuccess:colorTermsFullfilled } = useGetAttributeTermsQuery(1);
   const { data:sizeTerms, isSuccess:sizeTermsFullfilled } = useGetAttributeTermsQuery(2);
-
+  
   //
   // const [rangePrices, setRangePrices] = useState([100, 500]);
   const [sortOrderStates, setSortOrderStates] = useState<string>("");

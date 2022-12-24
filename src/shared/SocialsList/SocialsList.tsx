@@ -12,9 +12,9 @@ export interface SocialsListProps {
 }
 
 const socialsDemo: SocialType[] = [
-  { name: "Facebook", icon: facebook, href: "#" },
+  { name: "Facebook", icon: facebook, href: "https://www.facebook.com/EcoFreaky" },
+  { name: "Youtube", icon: youtube, href: "https://www.youtube.com/channel/UCkVypisBUrIxwn0IzF4mVsw" },
   { name: "Twitter", icon: twitter, href: "#" },
-  { name: "Youtube", icon: youtube, href: "#" },
   { name: "Telegram", icon: telegram, href: "#" },
 ];
 

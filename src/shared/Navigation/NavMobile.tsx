@@ -10,15 +10,44 @@ import SocialsList from "shared/SocialsList/SocialsList";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import SwitchDarkMode from "shared/SwitchDarkMode/SwitchDarkMode";
 
+import { useForm, SubmitHandler } from 'react-hook-form'
+import { useNavigate, createSearchParams } from 'react-router-dom'
+
 export interface NavMobileProps {
   data?: NavItemType[];
-  onClickClose?: () => void;
+  onClickClose: () => void;
+}
+
+type SearchValue  = {
+  search?: string;
 }
 
 const NavMobile: React.FC<NavMobileProps> = ({
   data = NAVIGATION_DEMO_2,
   onClickClose,
 }) => {
+
+  const navigate = useNavigate();
+
+  const {register, handleSubmit} = useForm<SearchValue>();
+
+  const onSubmit: SubmitHandler<SearchValue> = async (data) => {
+    const { search } = data;
+    try {
+      // close sidebar
+      onClickClose();
+      
+      navigate({
+        pathname: "search",
+        search: createSearchParams({
+            q: `${search}`
+        }).toString()
+    })      
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const _renderMenuChild = (
     item: NavItemType,
     itemClass = " pl-3 text-neutral-900 dark:text-neutral-200 font-medium "
@@ -148,15 +177,16 @@ const NavMobile: React.FC<NavMobileProps> = ({
   const renderSearchForm = () => {
     return (
       <form
-        action=""
-        method="POST"
+        onSubmit={handleSubmit(onSubmit)}
         className="flex-1 text-slate-900 dark:text-slate-200"
       >
         <div className="bg-slate-50 dark:bg-slate-800 flex items-center space-x-1 py-2 px-4 rounded-xl h-full">
           {renderMagnifyingGlassIcon()}
           <input
+            {...register("search")} 
             type="search"
-            placeholder="Type and press enter"
+            id="search"
+            placeholder="Search for products"
             className="border-none bg-transparent focus:outline-none focus:ring-0 w-full text-sm "
           />
         </div>

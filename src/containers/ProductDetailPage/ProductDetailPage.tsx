@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useState, useMemo } from "react";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
 import LikeButton from "components/LikeButton";
 import AccordionInfo from "./AccordionInfo";
@@ -34,6 +34,21 @@ export interface ProductDetailPageProps {
   className?: string;
 }
 
+export interface ProductAttributes {
+  id: string,
+  name: string,
+  position: string,
+  visible: boolean,
+  variation: boolean,
+  options: string[]
+}
+
+export interface VariantAttribute {
+  id: string,
+  name: string,
+  option: string,
+}
+
 type ReviewForm = {
   product_id: string,
   review: string,
@@ -47,14 +62,74 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
   const dispatch = useAppDispatch();
 
   const user:any = useAppSelector((state) => state.auth.user)
-  console.log(user);
-  
+
   // Rtk query hook
   const { data:product, isSuccess:productFullfilled } = useGetProductQuery(params?.id);
-  console.log(product);
-  
   const { data:productVariations, isSuccess } = useGetProductVariationsQuery(params?.id);
-  console.log(productVariations);
+
+  // Variations State
+  const [variants, setVariants] = useState<VariantAttribute>({ id:'', name:'', option:'' });
+  console.log(variants);
+
+  const [selectedVariant, setSelectedVariant] = useState([]);
+  console.log(selectedVariant);
+
+  const addRemoveVariant = () => {
+    let arr:VariantAttribute[] = [];
+
+    arr.push(variants);
+
+    console.log(arr);
+
+    // let res = variants.filter(obj => Object.entries(variant).every(([prop, find]) => find.includes(obj[prop]) ))
+  }
+
+  const productVariant = useMemo(() => addRemoveVariant(),[variants]);
+
+  const renderProductAttributes = (item : ProductAttributes, index:number) => {
+    if(product.type !== 'variable'){
+      return;
+    }
+
+    const { id, name, options } = item;
+
+    return (
+      <div key={index}>
+        <div className="flex justify-between font-medium text-sm">
+          <label htmlFor="">
+            <span className="">
+              { name }: 
+              <span className="ml-1 font-semibold">{}</span>
+            </span>
+          </label>
+        </div>
+        <div className="grid grid-cols-4 gap-2 mt-3">
+          {item.options?.map((option: string, index: number) => {
+            // const isActive = size === sizeSelected;
+            return (
+              <div
+                key={index}
+                className={`relative h-10 sm:h-11 rounded-2xl border flex items-center justify-center 
+                text-sm sm:text-base uppercase font-semibold select-none overflow-hidden z-0 ${
+                  ""
+                    ? "text-opacity-20 dark:text-opacity-20 cursor-not-allowed"
+                    : "cursor-pointer"
+                }`}
+                onClick={() => {
+                  // if (sizeOutStock) {
+                  //   return;
+                  // }
+                  setVariants({ id, name, option })
+                }}
+              >
+                {option}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    )
+  }
 
   const {register, handleSubmit} = useForm<ReviewForm>();
 
@@ -76,16 +151,17 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
   const [attributeVariant, setAttributeVariant] = useState<any>([]);
 
   const [variantActive, setVariantActive] = React.useState(0);
+
   const [colorSizeVariant, setcolorSizeVariant] = useState<string[]>([]);
   
   const [quantitySelected, setQuantitySelected] = React.useState(1);
+
   const [sizeSelected, setSizeSelected] = React.useState("");
   const [colorSelected, setColorSelected] = React.useState("");
   const [packSetSelected, setPackSetSelected] = React.useState("");
 
   // Rating State
   const [point, setPoints] = useState(3);
-
 
   useEffect(() => {
     const variation = productVariations?.filter((v:any) => v.attributes.some((attr: any) => attr.option === packSetSelected ))
@@ -101,20 +177,6 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
     const variation = productVariations?.filter((v:any) => v.attributes.some((attr: any) => attr.option === colorSelected ))
     setAttributeVariant(variation);
   },[colorSelected])
-
-  
-  const addRemoveVariant = (variant: string) => {
-    let arr:any = [...colorSizeVariant];
-    
-    let isColorContain = arr.includes(variant);
-    let isSizeContain = arr.includes(variant);
-      
-
-    if(!isColorContain || !isSizeContain ){
-      arr.push(variant);
-      setcolorSizeVariant(arr);
-    }
-  }
   
   const DescriptionData = [
     {
@@ -497,7 +559,9 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "" }) => {
         {/* ---------- 3 VARIANTS AND SIZE LIST ----------  */}
         {/* <div className="">{renderVariants()}</div>
         <div className="">{renderSizeList()}</div> */}
-        <div className="">{renderV()}</div>
+        {/* <div className="">{renderV()}</div> */}
+
+        { product?.attributes.map(renderProductAttributes) }
 
         {/*  ---------- 4  QTY AND ADD TO CART BUTTON */}
         <div className="flex space-x-3.5">

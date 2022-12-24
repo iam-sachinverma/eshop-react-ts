@@ -34,7 +34,7 @@ const PageContact: FC<PageContactProps> = ({ className = "" }) => {
       data-nc-id="PageContact"
     >
       <Helmet>
-        <title>Contact || NFT React Template</title>
+        <title>Contact || Ecofreaky</title>
       </Helmet>
       <div className="">
         <h2 className="my-20 flex items-center text-3xl leading-[115%] md:text-5xl md:leading-[115%] font-semibold text-neutral-900 dark:text-neutral-100 justify-center">

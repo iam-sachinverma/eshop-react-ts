@@ -19,8 +19,6 @@ const FiveStartIconForRate: FC<FiveStartIconForRateProps> = ({
   // const [point, setPoint] = useState(defaultPoint);
   const [currentHover, setCurrentHover] = useState(0);
 
-  console.log(defaultPoint);
-
   useEffect(() => {
     setPoint(defaultPoint);
   }, [defaultPoint]);
