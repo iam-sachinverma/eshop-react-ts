@@ -1,23 +1,18 @@
 import React, {useEffect, useState} from "react";
-// import SectionHowItWork from "components/SectionHowItWork/SectionHowItWork";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
-// import SectionPromo1 from "components/SectionPromo1";
 import { Helmet } from "react-helmet";
 import SectionHero2 from "components/SectionHero/SectionHero2";
 import SectionSliderLargeProduct from "components/SectionSliderLargeProduct";
 import SectionSliderProductCard from "components/SectionSliderProductCard";
 import DiscoverMoreSlider from "components/DiscoverMoreSlider";
-// import SectionGridMoreExplore from "components/SectionGridMoreExplore/SectionGridMoreExplore";
-// import SectionPromo2 from "components/SectionPromo2";
 import SectionSliderCategories from "components/SectionSliderCategories/SectionSliderCategories";
-// import SectionGridFeatureItems from "./SectionGridFeatureItems";
 import SectionPromo3 from "components/SectionPromo3";
 import SectionClientSay from "components/SectionClientSay/SectionClientSay";
 import SectionMagazine5 from "containers/BlogPage/SectionMagazine5";
 import Heading from "components/Heading/Heading";
 import ButtonSecondary from "shared/Button/ButtonSecondary";
-import { PRODUCTS, SPORT_PRODUCTS } from "data/data";
 import { useAppSelector } from "app/hooks";
+
 
 function PageHome() {
   
@@ -51,31 +46,12 @@ function PageHome() {
         </div>
 
 
-        {/* <div className="py-24 lg:py-32 border-t border-b border-slate-200 dark:border-slate-700">
-          <SectionHowItWork />
-        </div> */}
-
-        {/* SECTION */}
-        {/* <SectionPromo1 /> */}
-
-        {/* SECTION */}
-        {/* <div className="relative py-24 lg:py-32">
-          <BackgroundSection />
-          <SectionGridMoreExplore />
-        </div> */}
-
-        {/*  */}
-        {/* <SectionSliderCategories /> */}
-
         <SectionSliderProductCard
           heading="Best Sellers"
           subHeading="Best selling of the month"
           data={[...products].reverse()}
         />
         
-
-        {/*  */}
-        {/* <SectionPromo2 /> */}
 
         {/* SECTION 3 */}
         <SectionSliderLargeProduct data={products} cardStyle="style2" />
@@ -84,9 +60,6 @@ function PageHome() {
 
         {/* SECTION */}
         <SectionPromo3 />
-
-        {/* SECTION */}
-        {/* <SectionGridFeatureItems /> */}
 
         <div className="relative py-24 lg:py-32">
           <BackgroundSection />

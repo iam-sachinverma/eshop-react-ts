@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState, useMemo } from "react";
+import React, { FC } from "react";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
 import LikeButton from "components/LikeButton";
 import AccordionInfo from "./AccordionInfo";
@@ -15,163 +15,32 @@ import toast from "react-hot-toast";
 import SectionSliderProductCard from "components/SectionSliderProductCard";
 import Policy from "./Policy";
 import NotifyAddTocart from "components/NotifyAddTocart";
-
-//
-import FiveStartIconForRate from "components/FiveStartIconForRate"; 
-import Label from "components/Label/Label";
-import Textarea from "shared/Textarea/Textarea";
 import Review from "./Review"
 
 // 
 import { addProductToCart } from "app/cartSlice";
-import { useParams } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "app/hooks";
-import { useForm, SubmitHandler } from 'react-hook-form'
+import { useAppDispatch } from "app/hooks";
 
-import { useGetProductQuery, useGetProductVariationsQuery } from "features/product/productApiSlice"
-
-
-export interface ProductDetailPageProps {
+export interface SimpleProductDetailPageProps {
   className?: string;
-  product?: any;
+  product?: any,
 }
 
-export interface ProductAttributes {
-  id: string,
-  name: string,
-  position: string,
-  visible: boolean,
-  variation: boolean,
-  options: string[]
-}
-
-export interface VariantAttribute {
-  id: string,
-  name: string,
-  option: string,
-}
-
-type ReviewForm = {
-  product_id: string,
-  review: string,
-  reviewer?: string,
-  reviewer_email: string,
-  rating: number,
-}
-
-const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product }) => {
-  const params  = useParams();
+const SimpleProductDetailPage: FC<SimpleProductDetailPageProps> = ({ className = "", product }) => {
   const dispatch = useAppDispatch();
 
-  // Rtk query hook
-  const { data:productVariants } = useGetProductVariationsQuery(params?.id);
-  console.log(productVariants);
-
-  // Variations State
   const [quantitySelected, setQuantitySelected] = React.useState(1);
-  const [selectedVariant, setSelectedVariant] = useState<any>([]);
   
-  const renderProductAttributes = (item : ProductAttributes, indexAttr:number) => {
-    if(product.attributes.length === 0){
-      return;
-    }
-
-    const { id, name, options } = item;
-
-    return (
-      <div key={indexAttr}>
-        <div className="flex justify-between font-medium text-sm">
-          <label htmlFor="">
-            <span className="">
-              { name }: 
-              <span className="ml-1 font-semibold">
-                {
-                 
-                }
-              </span>
-            </span>
-          </label>
-        </div>
-        <div className="grid grid-cols-5 gap-2 mt-2">
-          {item.options?.map((option: string, index: number) => {
-
-            const isActive =  selectedVariant.length > 0 &&  selectedVariant.find((attr:any) => attr.option === option)
-            
-            const outStock = false
-            
-            return (
-              <div
-                key={index}
-                className={`relative h-10 sm:h-11 rounded-2xl border flex items-center justify-center 
-                text-sm sm:text-base uppercase font-semibold select-none overflow-hidden z-0 ${
-                  outStock
-                    ? "text-opacity-20 dark:text-opacity-20 cursor-not-allowed"
-                    : "cursor-pointer"
-                } ${
-                  isActive
-                    ? "bg-primary-6000 border-primary-6000 text-white hover:bg-primary-6000"
-                    : "border-slate-300 dark:border-slate-600 text-slate-900 dark:text-slate-200 hover:bg-neutral-50 dark:hover:bg-neutral-700"
-                }`}
-                onClick={() => {
-                  // if (sizeOutStock) {
-                  //   return;
-                  // }
-                  addRemoveVariant({ id: item.id, name: item.name, option: option })
-                }}
-              >
-                {option}
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    )
-  }
-
-  const addRemoveVariant = (variant: any) => {
-    const arr:any = [...selectedVariant];
-
-    const isContain = arr.find((v:any) => v.name === variant.name)
-
-    if(isContain === undefined){
-      arr.push(variant)
-    }else{
-      
-      arr.forEach((attr:any, index:number) => {
-        if(attr.name === variant.name){
-          arr[index] = variant
-        }
-      })   
-    }
-
-    setSelectedVariant(arr);  
-  }
-
-  const getProductVariation = () => {
-    const product = productVariants?.filter((item:any) => JSON.stringify(item.attributes) == JSON.stringify(selectedVariant));
-    
-    return product;
-  }
-
-  const variant = useMemo(() => getProductVariation(),[selectedVariant]);
- 
   const DescriptionData = [
     {
       name: "Description",
       content: product?.short_description
     }
   ]  
-  
+
   const addToCartHandler = () => {
-
-    if(selectedVariant.length < product?.attributes.length){
-      toast.error('Please select Attributes')
-      return 
-    }
-
-    const productName = product?.name;
-
-    dispatch(addProductToCart({...variant[0], name:`${product?.name}`,  quantitySelected}));
+      const variantID = 0;
+      dispatch(addProductToCart({...product, quantitySelected, variantID}));
       toast.custom(
         (t) => (
           <NotifyAddTocart
@@ -187,6 +56,9 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
   };
 
   const renderStatus = () => {
+    if (!product) {
+      return null;
+    }
     const CLASSES =
       "absolute top-3 left-3 px-2.5 py-1.5 text-xs bg-white dark:bg-slate-900 nc-shadow-lg rounded-full flex items-center justify-center text-slate-700 text-slate-900 dark:text-slate-300";
     if (product?.featured === true) {
@@ -213,7 +85,14 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
         </div>
       );
     }
-
+    // if (status === "limited edition") {
+    //   return (
+    //     <div className={CLASSES}>
+    //       <ClockIcon className="w-3.5 h-3.5" />
+    //       <span className="ml-1 leading-none">{status}</span>
+    //     </div>
+    //   );
+    // }
     return null;
   };
 
@@ -228,7 +107,7 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
 
           <div className="flex items-center mt-5 space-x-4 sm:space-x-5">
             {/* <div className="flex text-xl font-semibold">$112.00</div> */}
-
+            
             <Prices
               contentClass="py-1 px-2 md:py-1.5 md:px-3 text-lg font-semibold"
               price={+product?.price}
@@ -254,9 +133,6 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
           </div>
         </div>
 
-        {/* ---------- RENDER VARIANTS ----------  */}
-        { product?.attributes.map(renderProductAttributes) }
-
         {/*  ---------- 4  QTY AND ADD TO CART BUTTON */}
         <div className="flex space-x-3.5">
           <div className="flex items-center justify-center bg-slate-100/70 dark:bg-slate-800/70 px-2 py-3 sm:p-3.5 rounded-full">
@@ -276,6 +152,7 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
 
         {/*  */}
         <hr className=" 2xl:!my-10 border-slate-200 dark:border-slate-700"></hr>
+        {/*  */}
 
         {/* ---------- 5 ----------  */}
         <AccordionInfo data={DescriptionData}/>
@@ -299,6 +176,38 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
       </div>
     );
   };
+
+  // const renderReviewForm = () => {
+  //   return (
+  //     <div>
+  //       <form className="grid grid-cols-1 gap-12" onSubmit={handleSubmit(onSubmit)}>
+          
+  //         <input type="text" {...register("product_id")} id="product_id" hidden value={product?.id}/>
+
+  //         <div className="">
+  //          <Label>Rate this product</Label>
+  //          <FiveStartIconForRate defaultPoint={point} setPoint={setPoints}/>
+  //         </div>
+          
+  //         <div className="">
+  //           <Label>Review this product</Label>
+  //           <Textarea {...register("review")} id="review"  className="mt-1.5"  placeholder="Your review should be about your experience with the product" />
+  //         </div>
+
+  //         <input type="text" hidden {...register("reviewer")} id="reviewer" value={user?.user_email}/>
+  //         <input type="text" hidden {...register("reviewer_email")} id="reviewer_email" value={user?.user_nicename}/>
+          
+  //         <ButtonPrimary
+  //           type="submit"
+  //           className="flex-1"
+  //           >
+  //           Submit
+  //         </ButtonPrimary>
+           
+  //       </form>
+  //     </div>
+  //   )
+  // }
 
   return (
     <div className={`nc-ProductDetailPage ${className}`}>
@@ -358,6 +267,8 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
 
           <hr className="border-slate-200 dark:border-slate-700" />
 
+          <hr className="border-slate-200 dark:border-slate-700" />
+
           <Review/>
 
           <hr className="border-slate-200 dark:border-slate-700" />
@@ -378,4 +289,4 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
   );
 };
 
-export default ProductDetailPage;
+export default SimpleProductDetailPage;

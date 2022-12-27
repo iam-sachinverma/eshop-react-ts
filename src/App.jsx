@@ -1,4 +1,3 @@
-import React from "react";
 import { Route, Routes } from "react-router-dom";
 import PageHome from "containers/PageHome/PageHome";
 import Page404 from "containers/Page404/Page404";
@@ -6,6 +5,8 @@ import PageContact from "containers/PageContact/PageContact";
 import PageAbout from "containers/PageAbout/PageAbout";
 import PageSignUp from "containers/PageSignUp/PageSignUp";
 import PageLogin from "containers/PageLogin/PageLogin";
+
+import ProductType from "containers/ProductDetailPage/ProductType";
 import ProductDetailPage from "containers/ProductDetailPage/ProductDetailPage";
 import PageCollection2 from "containers/PageCollection2";
 import PageSearch from "containers/PageSearch";
@@ -15,9 +16,9 @@ import BlogSingle from "containers/BlogPage/BlogSingle";
 
 import AccountPage from "containers/AccountPage/AccountPage";
 import AccountOrder from "containers/AccountPage/AccountOrder";
-import AccountPass from "containers/AccountPage/AccountPass";
-import AccountBilling from "containers/AccountPage/AccountBilling";
-import AccountSavelists from "containers/AccountPage/AccountSavelists";
+// import AccountPass from "containers/AccountPage/AccountPass";
+// import AccountBilling from "containers/AccountPage/AccountBilling";
+// import AccountSavelists from "containers/AccountPage/AccountSavelists";
 
 import CartPage from "containers/ProductDetailPage/CartPage";
 import CheckoutPage from "containers/PageCheckout/CheckoutPage";
@@ -39,7 +40,7 @@ function App() {
           {/* Public Routes */}
           <Route index element={<PageHome />}></Route>
           <Route path="*" element={<Page404 />}></Route>
-          <Route path="/product/:id" element={<ProductDetailPage />}></Route>
+          <Route path="/product/:id" element={<ProductType />}></Route>
           <Route
             path="/products/:category"
             element={<PageCollection2 />}

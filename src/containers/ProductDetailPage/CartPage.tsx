@@ -70,6 +70,29 @@ const CartPage = () => {
                     <Link to={`/product/${item?.id}`}>{item?.name}</Link>
                   </h3>
 
+
+                  {/* Attributes */}
+                  { item.attributes.length > 0 && (
+
+                
+                    <div className="mt-1.5 sm:mt-2.5 flex text-sm text-slate-600 dark:text-slate-300">
+                      
+                      { item.attributes.map((attr: any, index:number) => (
+                        <div className="flex items-center space-x-1.5" key={index}>
+                        
+                        <span className="font-medium">{`${attr.name} :`}</span>
+              
+                        <span>{`${attr.option}`}</span>
+
+                        <span className="mx-4 border-l border-slate-200 dark:border-slate-700 "></span>
+
+                        </div>
+                      )) }
+                      
+                  </div>
+                  ) }
+            
+
                   <div className="mt-3 flex justify-between w-full sm:hidden relative">
   
                     {/* Increment and Decrement Button Mobile */}
@@ -154,7 +177,6 @@ const CartPage = () => {
           </div>
         </div>
       );
-    
   };
 
   return (

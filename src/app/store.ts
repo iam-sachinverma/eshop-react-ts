@@ -21,6 +21,8 @@ import cartReducer from "./cartSlice.js"
 //
 import authSliceReducer from "features/auth/authSlice"
 
+import { fetchProducts } from "./productSlice"
+
 const isDev = process.env.NODE_ENV === "development";
 
 const persistConfig = {
@@ -31,11 +33,10 @@ const persistConfig = {
 
 const reducers = combineReducers({
   mediaRunning: mediaRunningReducer,
+  [apiSlice.reducerPath]: apiSlice.reducer,
   product: productReducer,
   cart: cartReducer,
   auth: authSliceReducer,
-  //
-  [apiSlice.reducerPath]: apiSlice.reducer
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);
@@ -56,5 +57,6 @@ export let persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+store.dispatch(fetchProducts());
 
 

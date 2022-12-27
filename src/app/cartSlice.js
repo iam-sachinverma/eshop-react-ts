@@ -46,7 +46,6 @@ const cartSlice = createSlice({
         state.quantity = quantity;
       } else {
         console.log("New Items in Cart");
-
         state.products.push(action.payload);
 
         const total = sum(
@@ -87,8 +86,9 @@ const cartSlice = createSlice({
     },
     decreaseProduct: (state, action) => {
       const decreaseIndex = state.products.findIndex(
-        (product) => product._id === action.payload._id
+        (product) => product.id === action.payload.id
       );
+
       if (state.products[decreaseIndex].quantitySelected > 1) {
         console.log("Decrease Cart Qty Greater Then 1");
         state.products[decreaseIndex].quantitySelected -= 1;
