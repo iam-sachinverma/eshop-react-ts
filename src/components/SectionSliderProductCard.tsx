@@ -24,6 +24,7 @@ const SectionSliderProductCard: FC<SectionSliderProductCardProps> = ({
   subHeading = "REY backpacks & bags",
   data,
 }) => {
+  
   const sliderRef = useRef(null);
   const id = useId();
   const UNIQUE_CLASS = "glidejs" + id.replace(/:/g, "_");

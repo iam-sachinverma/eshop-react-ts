@@ -104,10 +104,10 @@ export default function DropdownCategories() {
               className={`${open ? "" : "text-opacity-90"}
                 group py-2 h-10 sm:h-12 flex items-center rounded-md text-sm sm:text-base font-medium hover:text-opacity-100 focus:outline-none focus-visible:ring-0 `}
             >
-              <span>Shops</span>
+              <span className="text-white">Shops</span>
               <ChevronDownIcon
                 className={`${open ? "-rotate-180" : "text-opacity-70 "}
-                  ml-2 h-5 w-5 text-neutral-700 group-hover:text-opacity-80 transition ease-in-out duration-150 `}
+                  ml-2 h-5 w-5 text-white group-hover:text-opacity-80 transition ease-in-out duration-150 `}
                 aria-hidden="true"
               />
             </Popover.Button>

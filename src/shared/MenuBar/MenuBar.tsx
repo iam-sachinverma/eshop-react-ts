@@ -14,7 +14,7 @@ const MenuBar: React.FC<MenuBarProps> = () => {
       <Transition appear show={isVisable} as={Fragment}>
         <Dialog
           as="div"
-          className="fixed inset-0 z-50 overflow-y-auto"
+          className="fixed inset-0 z-50 overflow-y-auto "
           onClose={handleCloseMenu}
         >
           <div className="fixed left-0 top-0 bottom-0 w-full max-w-md md:w-auto z-max outline-none focus:outline-none">
@@ -59,7 +59,7 @@ const MenuBar: React.FC<MenuBarProps> = () => {
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-7 w-7"
+          className="h-7 w-7 text-white"
           viewBox="0 0 20 20"
           fill="currentColor"
         >

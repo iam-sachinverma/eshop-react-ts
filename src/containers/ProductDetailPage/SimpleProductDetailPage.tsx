@@ -19,7 +19,7 @@ import Review from "./Review"
 
 // 
 import { addProductToCart } from "app/cartSlice";
-import { useAppDispatch } from "app/hooks";
+import { useAppDispatch, useAppSelector } from "app/hooks";
 
 export interface SimpleProductDetailPageProps {
   className?: string;
@@ -30,6 +30,9 @@ const SimpleProductDetailPage: FC<SimpleProductDetailPageProps> = ({ className =
   const dispatch = useAppDispatch();
 
   const [quantitySelected, setQuantitySelected] = React.useState(1);
+
+  const fetchProducts = useAppSelector((state) => state.product.products)
+  const [relatedProducts, setRelatedProducts] = React.useState([]);
   
   const DescriptionData = [
     {

@@ -56,6 +56,7 @@ const MainNav2: FC<MainNav2Props> = ({ className = "" }) => {
         viewBox="0 0 24 24"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
+        className="text-white"
       >
         <path
           d="M11.5 21C16.7467 21 21 16.7467 21 11.5C21 6.25329 16.7467 2 11.5 2C6.25329 2 2 6.25329 2 11.5C2 16.7467 6.25329 21 11.5 21Z"
@@ -101,9 +102,10 @@ const MainNav2: FC<MainNav2Props> = ({ className = "" }) => {
   };
 
   return (
-    <div className="nc-MainNav2Logged relative z-10 bg-white dark:bg-slate-900 ">
+    <div className="nc-MainNav2Logged relative z-10 bg-navBg ">
       <div className="container">
         <div className="h-20 flex justify-between">
+
           <div className="flex items-center md:hidden flex-1">
             <MenuBar />
           </div>
@@ -126,24 +128,22 @@ const MainNav2: FC<MainNav2Props> = ({ className = "" }) => {
             </div>
           )}
           
-
           <div className="flex-1 flex items-center justify-end ">
             {!showSearchForm && (
               <button
-                className="hidden lg:flex w-10 h-10 sm:w-12 sm:h-12 rounded-full text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none items-center justify-center"
+                className="hidden lg:flex w-10 h-10 sm:w-12 sm:h-12 rounded-full text-slate-700 dark:text-slate-300 hover:bg-dark-100 dark:hover:bg-dark-800 focus:outline-none items-center justify-center"
                 onClick={() => setShowSearchForm(!showSearchForm)}
               >
                 {renderMagnifyingGlassIcon()}
               </button>
             )}
 
-            { user === null ? <Link className="mx-2" to={`/login`}>Login</Link>  :  <AvatarDropdown />}
+            { user === null ? <Link className="mx-2 text-white" to={`/login`}>Login</Link>  :  <AvatarDropdown />}
             
             <CartDropdown />
             {/* <MenuBar /> */}
-
-    
           </div>
+
         </div>
       </div>
     </div>

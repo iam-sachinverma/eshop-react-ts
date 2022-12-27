@@ -49,11 +49,17 @@ export default function CartDropdown() {
                     {item?.name}
                   </Link>
                 </h3>
-                <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                  <span>{`Natural`}</span>
-                  <span className="mx-2 border-l border-slate-200 dark:border-slate-700 h-4"></span>
-                  <span>{"XL"}</span>
-                </p>
+                { item.attributes.map((attr: any, index:number) => (
+                        <div className="flex items-center space-x-1.5 text-sm" key={index}>
+                        
+                        <span className="font-medium">{`${attr.name} :`}</span>
+              
+                        <span>{`${attr.option}`}</span>
+
+                        <span className="mx-4 border-l border-slate-200 dark:border-slate-700 "></span>
+
+                        </div>
+                      )) }
               </div>
               <Prices price={+item?.price} className="mt-0.5" />
             </div>
@@ -83,13 +89,13 @@ export default function CartDropdown() {
           <Popover.Button
             className={`
                 ${open ? "" : "text-opacity-90"}
-                 group w-10 h-10 sm:w-12 sm:h-12 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full inline-flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 relative`}
+                 group w-10 h-10 sm:w-12 sm:h-12 hover:bg-dark-100 dark:hover:bg-slate-800 rounded-full inline-flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 relative`}
           >
             <div className="w-3.5 h-3.5 flex items-center justify-center bg-primary-500 absolute top-1.5 right-1.5 rounded-full text-[10px] leading-none text-white font-medium">
               <span className="mt-[2px]">{cartItems?.quantity}</span>
             </div>
             <svg
-              className="w-6 h-6"
+              className="w-6 h-6 text-white"
               viewBox="0 0 24 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"

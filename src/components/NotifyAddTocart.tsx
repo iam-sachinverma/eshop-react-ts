@@ -10,9 +10,8 @@ interface Props {
   productName?: string,
   productPrice?: number;
   variantActive?: number;
-  sizeSelected?: string;
-  colorSelected?: string;
   qualitySelected: number;
+  productVariant?: any,
 }
 
 const NotifyAddTocart: FC<Props> = ({
@@ -22,8 +21,7 @@ const NotifyAddTocart: FC<Props> = ({
   productPrice,
   variantActive,
   qualitySelected,
-  sizeSelected,
-  colorSelected,
+  productVariant
 }) => {
   const { name, price, variants } = PRODUCTS[0];
 
@@ -43,16 +41,21 @@ const NotifyAddTocart: FC<Props> = ({
             <div className="flex justify-between ">
               <div>
                 <h3 className="text-base font-medium ">{productName}</h3>
+
                 <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                  {/* <span>
-                    {variants ? variants[variantActive].name : `Natural`}
-                  </span> */}
-                  <span>
-                    {colorSelected}
-                  </span>
-                  <span className="mx-2 border-l border-slate-200 dark:border-slate-700 h-4"></span>
-                  <span>{sizeSelected}</span>
+                  {productVariant?.map((variant:any, index:number) => (
+                    <div className="flex items-center space-x-1.5 text-sm" key={index}>
+                        
+                    <span className="font-medium">{`${variant.name} :`}</span>
+          
+                    <span>{`${variant.option}`}</span>
+
+                    <span className="mx-4 border-l border-slate-200 dark:border-slate-700 "></span>
+
+                    </div>
+                  ))}
                 </p>
+                
               </div>
               <Prices price={productPrice} className="mt-0.5" />
             </div>

@@ -169,16 +169,15 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
       return 
     }
 
-    const productName = product?.name;
-
     dispatch(addProductToCart({...variant[0], name:`${product?.name}`,  quantitySelected}));
       toast.custom(
         (t) => (
           <NotifyAddTocart
             productName={product?.name}
-            productImage={product?.images?.[0]?.src}
+            productImage={variant !== undefined && variant[0].image.src}
             qualitySelected={quantitySelected}
             productPrice={+product?.price}
+            productVariant={selectedVariant}
             show={t.visible}
           />
         ),

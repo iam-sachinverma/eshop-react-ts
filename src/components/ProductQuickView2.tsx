@@ -45,7 +45,6 @@ const ProductQuickView2: FC<ProductQuickView2Props> = ({ className = "", data })
           qualitySelected={quantitySelected}
           productName={productDetails?.name}
           show={t.visible}
-          sizeSelected={sizeSelected}
           variantActive={variantActive}
         />
       ),
