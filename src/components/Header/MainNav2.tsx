@@ -15,6 +15,8 @@ import { useNavigate, createSearchParams } from 'react-router-dom'
 
 import SearchDropdown from "shared/Header/SearchDropdown";
 
+import Navigation from "shared/Navigation/Navigation";
+
 
 export interface MainNav2Props {
   className?: string;
@@ -112,12 +114,10 @@ const MainNav2: FC<MainNav2Props> = ({ className = "" }) => {
 
           <div className="flex lg:flex-1 items-center space-x-3 sm:space-x-8">
             <Logo />
+            
             {!showSearchForm && (
-              <div className="hidden md:block h-10 border-l border-slate-200 dark:border-slate-700"></div>
-            )}
-            {!showSearchForm && (
-              <div className="hidden md:block">
-                <DropdownCategories />
+              <div className="hidden md:block text-white">
+                <Navigation />
               </div>
             )}
           </div>

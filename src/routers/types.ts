@@ -11,17 +11,14 @@ export interface LocationStates {
   "/products/:category"?: {};
   
   //
-  "products/personal-care"?: {},
-  "products/body-care"?: {},
-  "oral-care"?: {},
-  "hair-care"?: {},
-  "products/sanitary-care"?: {},
-  "products/body-hygiene"?: {},
-  "products/fashion"?: {},
-  "products/t-shirts"?: {},
-  "products/stationery"?: {},
+  "products/16"?: {},
+  "products/17"?: {},
+  "products/18"?: {},
+  "products/19"?: {},
+  "products/39"?: {},
+  "products/32"?: {},
 
-
+  
   //
   "/product-detail"?: {};
   "/product-detail-2"?: {};

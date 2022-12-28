@@ -1,7 +1,6 @@
 import { NavItemType } from "shared/Navigation/NavigationItem";
 import ncNanoId from "utils/ncNanoId";
 
-
 const MEGAMENU_DEMO: NavItemType[] = [
   {
     id: ncNanoId(),
@@ -112,57 +111,59 @@ export const MEGAMENU_TEMPLATES: NavItemType[] = [
 ];
 
 const OTHER_PAGE_CHILD: NavItemType[] = [
+  // {
+  //   id: ncNanoId(),
+  //   href: "products/personal-care",
+  //   name: "Body Care",
+  //   // type: "dropdown",
+  //   // children: [
+  //   //   {
+  //   //     id: ncNanoId(),
+  //   //     href: "products/personal-care",
+  //   //     name: "Body Hygiene",
+  //   //   },
+  //   //   {
+  //   //     id: ncNanoId(),
+  //   //     href: "/page-collection-2",
+  //   //     name: "Santiary Care",
+  //   //   },
+  //   // ],
+  // },
   {
     id: ncNanoId(),
-    href: "products/personal-care",
+    href: "products/39",
     name: "Body Care",
-    type: "dropdown",
-    children: [
-      {
-        id: ncNanoId(),
-        href: "products/personal-care",
-        name: "Body Hygiene",
-      },
-      {
-        id: ncNanoId(),
-        href: "/page-collection-2",
-        name: "Santiary Care",
-      },
-    ],
   },
   {
     id: ncNanoId(),
-    href: "oral-care",
+    href: "products/18",
     name: "Oral Care",
   },
   {
     id: ncNanoId(),
-    href: "hair-care",
+    href: "products/19",
     name: "Hair Care",
   },
 ];
-
 
 // Main Parent Category
 export const NAVIGATION_DEMO_2: NavItemType[] = [
   // Parent Category with Nested Sub-Category
   {
     id: ncNanoId(),
-    href: "#",
+    href: "products/16",
     name: "Personal Care",
     type: "dropdown",
     children: OTHER_PAGE_CHILD,
   },
   {
     id: ncNanoId(),
-    href: "products/stationery",
+    href: "products/17",
     name: "Stationery",
   },
   {
     id: ncNanoId(),
-    href: "/#",
-    name: "Templates",
-    type: "megaMenu",
-    children: MEGAMENU_TEMPLATES,
+    href: "products/32",
+    name: "Bamboo Products",
   },
 ];

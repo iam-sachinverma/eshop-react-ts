@@ -1,4 +1,10 @@
+import React, { lazy } from "react";
 import { Route, Routes } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
+
+import Layout from "routers/Layout";
+import RequireAuth from "routers/RequiredAuth";
+
 import PageHome from "containers/PageHome/PageHome";
 import Page404 from "containers/Page404/Page404";
 import PageContact from "containers/PageContact/PageContact";
@@ -22,10 +28,6 @@ import AccountOrder from "containers/AccountPage/AccountOrder";
 
 import CartPage from "containers/ProductDetailPage/CartPage";
 import CheckoutPage from "containers/PageCheckout/CheckoutPage";
-
-import { Toaster } from "react-hot-toast";
-import Layout from "routers/Layout";
-import RequireAuth from "routers/RequiredAuth";
 
 function App() {
   return (
