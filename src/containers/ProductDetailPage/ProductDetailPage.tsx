@@ -147,13 +147,13 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
     setSelectedVariant(arr);  
   }
 
-  const getProductVariation = () => {
+  const getProductVariant = () => {
     const product = productVariants?.filter((item:any) => JSON.stringify(item.attributes) == JSON.stringify(selectedVariant));
     
     return product;
   }
 
-  const variant = useMemo(() => getProductVariation(),[selectedVariant]);
+  const variant = useMemo(() => getProductVariant(),[selectedVariant]);
  
   const DescriptionData = [
     {

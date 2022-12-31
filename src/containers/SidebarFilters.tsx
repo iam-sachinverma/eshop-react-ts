@@ -51,11 +51,15 @@ export interface SidebarFiltersProps {
   onSaleHandler: () => void;
   rangePrice?: any,
   changePrice?: (_input: number | number[]) => void;
+  attributeState: any,
+  changeAttributes: (checked: boolean, item:any) => void;
 }
 
 //
 const SidebarFilters: FC<SidebarFiltersProps> = ({ 
   className = "", 
+  attributeState,
+  changeAttributes,
   colorState, 
   changeColors,
   sizeState,
@@ -76,7 +80,6 @@ const SidebarFilters: FC<SidebarFiltersProps> = ({
   // const [colorsState, setColorsState] = useState<string[]>([]);
   // const [categoriesState, setCategoriesState] = useState<string[]>([]);
   
-
   //
   // const handleChangeCategories = (checked: boolean, name: string) => {
   //   checked

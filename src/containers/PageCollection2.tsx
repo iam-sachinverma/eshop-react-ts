@@ -21,6 +21,8 @@ const PageCollection2: FC<PageCollection2Props> = ({ className = "" }) => {
   const [isOnSale, setIsIsOnSale] = useState(false);
   const [colorsState, setColorsState] = useState<string[]>([]);
   const [sizesState, setSizesState] = useState<string[]>([]);
+
+  const [attributesState, setAttributesState] = useState<string[]>([]);
   
   // max _ min price
   const [rangePrices, setRangePrices] = useState([100, 500]);
@@ -61,6 +63,12 @@ const PageCollection2: FC<PageCollection2Props> = ({ className = "" }) => {
 
   const filteredProduct  = useMemo(() => filterProduct(products),[colorsState, sizesState]);
   console.log(filteredProduct);
+
+  const handleChangeAttributesFilter = (checked: boolean, name: string) => {
+    checked
+      ? setAttributesState([...attributesState, name])
+      : setAttributesState(attributesState.filter((i) => i !== name))
+  }
   
   const handleChangeColors = (checked: boolean, name: string) => {
     checked
@@ -119,6 +127,8 @@ const PageCollection2: FC<PageCollection2Props> = ({ className = "" }) => {
                  changeSizes={handleChangeSizes}
                  rangePrice={rangePrices}
                  changePrice={handlePriceRange}
+                 attributeState={attributesState}
+                 changeAttributes={handleChangeAttributesFilter}
                 />
               </div>
 
