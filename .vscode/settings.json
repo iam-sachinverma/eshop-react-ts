@@ -1,4 +1,4 @@
 {
     "deepscan.enable": true,
-    "dotenv.enableAutocloaking": true
+    "dotenv.enableAutocloaking": false
 }

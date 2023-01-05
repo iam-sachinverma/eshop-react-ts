@@ -34,62 +34,6 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
     });
   };
 
-  // ===================== MENU MEGAMENU =====================
-  const renderMegaMenu = (menu: NavItemType) => {
-    if (!menu.children) {
-      return null;
-    }
-    return (
-      <li
-        className={`menu-item flex-shrink-0 menu-megamenu menu-megamenu--large`}
-      >
-        {renderMainItem(menu)}
-
-        <div className="invisible sub-menu absolute top-full inset-x-0 transform z-50">
-          <div className="bg-white dark:bg-neutral-900 shadow-lg">
-            <div className="container">
-              <div className="flex text-sm border-t border-slate-200 dark:border-slate-700 py-14">
-                <div className="flex-1 grid grid-cols-4 gap-6 xl:gap-8 pr-6 xl:pr-8">
-                  {menu.children.map((item, index) => (
-                    <div key={index}>
-                      <p className="font-medium text-slate-900 dark:text-neutral-200">
-                        {item.name}ss
-                      </p>
-                      <ul className="grid space-y-4 mt-4">
-                        {item.children?.map(renderMegaMenuNavlink)}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-                <div className="w-[40%] xl:w-[35%]">
-                  <CardCategory3 />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </li>
-    );
-  };
-
-  const renderMegaMenuNavlink = (item: NavItemType) => {
-    return (
-      <li key={item.id} className={`${item.isNew ? "menuIsNew" : ""}`}>
-        <NavLink
-          end
-          target={item.targetBlank ? "_blank" : undefined}
-          rel="noopener noreferrer"
-          className="font-normal text-slate-600 hover:text-black dark:text-slate-400 dark:hover:text-white "
-          // to={{
-          //   pathname: item.href || undefined,
-          // }}
-          to={`${item?.href}`}
-        >
-          {item.name}
-        </NavLink>
-      </li>
-    );
-  };
 
   // ===================== MENU DROPDOW =====================
   const renderDropdownMenu = (menuDropdown: NavItemType) => {
@@ -246,8 +190,6 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
   switch (menuItem.type) {
     case "dropdown":
       return renderDropdownMenu(menuItem);
-    case "megaMenu":
-      return renderMegaMenu(menuItem);
     default:
       return (
         <li className="menu-item flex-shrink-0">{renderMainItem(menuItem)}</li>

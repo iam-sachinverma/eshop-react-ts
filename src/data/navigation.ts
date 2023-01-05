@@ -163,7 +163,12 @@ export const NAVIGATION_DEMO_2: NavItemType[] = [
   },
   {
     id: ncNanoId(),
-    href: "products/32",
+    href: "products/42",
     name: "Bamboo Products",
+  },
+  {
+    id: ncNanoId(),
+    href: "products/38",
+    name: "Home & Décor",
   },
 ];

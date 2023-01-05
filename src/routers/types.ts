@@ -16,7 +16,9 @@ export interface LocationStates {
   "products/18"?: {},
   "products/19"?: {},
   "products/39"?: {},
-  "products/32"?: {},
+  "products/42"?: {},
+  "products/38"?: {},
+
 
   
   //
