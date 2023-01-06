@@ -14,21 +14,9 @@ function Navigation() {
       return
     }
   
-    const navigation: NavItemType[] = [];
+    const navigation_menu = categories.filter((category: NavItemType) => category.parent === 0)
 
-    categories.map((category: NavItemType) => {
-      if(category.parent === 0){
-        navigation.push(category);
-      }else{
-        navigation.map((parent: any) => {
-          if(parent.id === category.parent){
-            console.log(parent);
-          }
-        })
-      }
-    })
-
-    return navigation;
+    return navigation_menu;
   }
 
   const navigation_menu = useMemo(() => allCategories(),[isSuccess])

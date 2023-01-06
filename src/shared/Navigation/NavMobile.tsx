@@ -3,17 +3,18 @@ import ButtonClose from "shared/ButtonClose/ButtonClose";
 import Logo from "shared/Logo/Logo";
 import { Disclosure } from "@headlessui/react";
 import { NavLink } from "react-router-dom";
-import { NavItemType } from "./NavigationItem";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
 import SocialsList from "shared/SocialsList/SocialsList";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import SwitchDarkMode from "shared/SwitchDarkMode/SwitchDarkMode";
 
+import { NavItemType } from "./NavigationItem"
+
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { useNavigate, createSearchParams } from 'react-router-dom'
 
 export interface NavMobileProps {
-  data?: any[];
+  data?: NavItemType[];
   onClickClose: () => void;
 }
 
@@ -53,7 +54,7 @@ const NavMobile: React.FC<NavMobileProps> = ({
   ) => {
     return (
       <ul className="nav-mobile-sub-menu pl-6 pb-1 text-base">
-        {item.children?.map((i, index) => (
+        {item.children?.map((i: NavItemType, index:number) => (
           <Disclosure key={i.id + index} as="li"> 
             <NavLink
               end
@@ -110,9 +111,6 @@ const NavMobile: React.FC<NavMobileProps> = ({
         <NavLink
           end
           className={({ isActive }) => isActive ? "flex text-secondary w-full items-center py-2.5 px-4 font-medium uppercase tracking-wide text-sm hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg" : "flex w-full items-center py-2.5 px-4 font-medium uppercase tracking-wide text-sm hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg"}
-          // to={{
-          //   pathname: item.href || undefined,
-          // }}
           to={item.id}
 
         >

@@ -14,8 +14,8 @@ export interface NavItemType {
   menu_order?: number;
   count?: number;
   _links?: any;
-  children?: NavItemType[];
-  type?: "dropdown";
+  // children?: NavItemType[];
+  [key: string]: any;
 }
 
 export interface NavigationItemProps {
@@ -68,7 +68,7 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
                 className="sub-menu absolute transform z-10 w-56 top-full left-0"
               >
                 <ul className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 dark:ring-white dark:ring-opacity-10 text-sm relative bg-white dark:bg-neutral-900 py-4 grid space-y-1">
-                  {menuDropdown.children?.map((i) => {
+                  {menuDropdown.children?.map((i:NavItemType) => {
                     if (i.type) {
                       return renderDropdownMenuNavlinkHasChild(i);
                     } else {
@@ -92,13 +92,8 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
     return (
       <NavLink
         end
-        
-        target={"_blank"}
         rel="noopener noreferrer"
         className={({ isActive }) => isActive ? "flex items-center font-normal text-neutral-6000 dark:text-neutral-400 py-2 px-4 rounded-md hover:text-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-neutral-200" : "flex items-center font-normal text-neutral-6000 dark:text-neutral-400 py-2 px-4 rounded-md hover:text-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-neutral-200"}
-        // to={{
-        //   pathname: item.href || undefined,
-        // }}
         to={`products/${item?.id}`}
       >
         {item.name}
@@ -142,7 +137,7 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
                 className="sub-menu absolute z-10 w-56 left-full pl-2 top-0"
               >
                 <ul className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 dark:ring-white dark:ring-opacity-10 text-sm relative bg-white dark:bg-neutral-900 py-4 grid space-y-1">
-                  {item.children?.map((i) => {
+                  {item.children?.map((i:NavItemType) => {
                     if (i.type) {
                       return renderDropdownMenuNavlinkHasChild(i);
                     } else {
@@ -172,12 +167,9 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
       <div className="h-20 flex-shrink-0 flex items-center">
         <NavLink
           end
-          target="_blank"
+          
           rel="noopener noreferrer"
           className="inline-flex items-center text-sm lg:text-[15px] font-medium text-white dark:text-slate-300 py-2.5 px-4 xl:px-5 rounded-full hover:text-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 dark:hover:text-slate-200"
-          // to={{
-          //   pathname: item.href || undefined,
-          // }}
           to={`products/${item?.id}`}
         >
           {item.name}
