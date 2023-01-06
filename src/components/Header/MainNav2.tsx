@@ -1,21 +1,18 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useMemo } from "react";
 import Logo from "shared/Logo/Logo";
 import MenuBar from "shared/MenuBar/MenuBar";
-import LangDropdown from "./LangDropdown";
 import AvatarDropdown from "./AvatarDropdown";
-import TemplatesDropdown from "./TemplatesDropdown";
-import DropdownCategories from "./DropdownCategories";
 import CartDropdown from "./CartDropdown";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import Navigation from "shared/Navigation/Navigation";
 
-import { useAppSelector } from "app/hooks";
 import { Link } from "react-router-dom";
+import { useAppSelector } from "app/hooks";
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { useNavigate, createSearchParams } from 'react-router-dom'
 
-import SearchDropdown from "shared/Header/SearchDropdown";
-
-import Navigation from "shared/Navigation/Navigation";
+import { NavItemType } from "shared/Navigation/NavigationItem";
+import { useGetAllCategoryQuery } from "features/category/categoryApiSlice";
 
 
 export interface MainNav2Props {

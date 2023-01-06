@@ -4,7 +4,6 @@ import Logo from "shared/Logo/Logo";
 import { Disclosure } from "@headlessui/react";
 import { NavLink } from "react-router-dom";
 import { NavItemType } from "./NavigationItem";
-import { NAVIGATION_DEMO_2 } from "data/navigation";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
 import SocialsList from "shared/SocialsList/SocialsList";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
@@ -14,7 +13,7 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import { useNavigate, createSearchParams } from 'react-router-dom'
 
 export interface NavMobileProps {
-  data?: NavItemType[];
+  data?: any[];
   onClickClose: () => void;
 }
 
@@ -23,7 +22,7 @@ type SearchValue  = {
 }
 
 const NavMobile: React.FC<NavMobileProps> = ({
-  data = NAVIGATION_DEMO_2,
+  data,
   onClickClose,
 }) => {
 
@@ -55,13 +54,13 @@ const NavMobile: React.FC<NavMobileProps> = ({
     return (
       <ul className="nav-mobile-sub-menu pl-6 pb-1 text-base">
         {item.children?.map((i, index) => (
-          <Disclosure key={i.href + index} as="li"> 
+          <Disclosure key={i.id + index} as="li"> 
             <NavLink
               end
               // to={{
               //   pathname: i.href || undefined,
               // }}
-              to={`${i?.href}`}
+              to={`products/${i?.id}`}
               className={({ isActive }) => isActive ? `flex text-sm text-secondary rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 mt-0.5 pr-4 ${itemClass}` : `flex text-sm rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 mt-0.5 pr-4 ${itemClass}`}
             >
               <span
@@ -114,7 +113,7 @@ const NavMobile: React.FC<NavMobileProps> = ({
           // to={{
           //   pathname: item.href || undefined,
           // }}
-          to={item.href}
+          to={item.id}
 
         >
           <span
@@ -219,7 +218,7 @@ const NavMobile: React.FC<NavMobileProps> = ({
         <div className="mt-5">{renderSearchForm()}</div>
       </div>
       <ul className="flex flex-col py-6 px-2 space-y-1">
-        {data.map(_renderItem)}
+        {data?.map(_renderItem)}
       </ul>
       <div className="flex items-center justify-between py-6 px-5 space-x-2">
         <ButtonPrimary href={"/"} className="!px-10">

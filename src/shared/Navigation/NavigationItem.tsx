@@ -1,18 +1,21 @@
 import { Popover, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
-import CardCategory3 from "components/CardCategories/CardCategory3";
 import React, { FC, Fragment, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { LocationStates } from "routers/types";
 
 export interface NavItemType {
   id: string;
   name: string;
-  href: keyof LocationStates | "#" | "/#";
-  targetBlank?: boolean;
+  slug: string;
+  parent: number;
+  description?: string;
+  display?: string;
+  image?: any;
+  menu_order?: number;
+  count?: number;
+  _links?: any;
   children?: NavItemType[];
-  type?: "dropdown" | "megaMenu" | "none";
-  isNew?: boolean;
+  type?: "dropdown";
 }
 
 export interface NavigationItemProps {
@@ -85,6 +88,30 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
     );
   };
 
+  const renderDropdownMenuNavlink = (item: NavItemType) => {
+    return (
+      <NavLink
+        end
+        
+        target={"_blank"}
+        rel="noopener noreferrer"
+        className={({ isActive }) => isActive ? "flex items-center font-normal text-neutral-6000 dark:text-neutral-400 py-2 px-4 rounded-md hover:text-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-neutral-200" : "flex items-center font-normal text-neutral-6000 dark:text-neutral-400 py-2 px-4 rounded-md hover:text-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-neutral-200"}
+        // to={{
+        //   pathname: item.href || undefined,
+        // }}
+        to={`products/${item?.id}`}
+      >
+        {item.name}
+        {item.type && (
+          <ChevronDownIcon
+            className="ml-2 h-4 w-4 text-neutral-500"
+            aria-hidden="true"
+          />
+        )}
+      </NavLink>
+    );
+  };
+
   const renderDropdownMenuNavlinkHasChild = (item: NavItemType) => {
     const isHover = menuCurrentHovers.includes(item.id);
     return (
@@ -135,29 +162,7 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
     );
   };
 
-  const renderDropdownMenuNavlink = (item: NavItemType) => {
-    return (
-      <NavLink
-        end
-        
-        target={item.targetBlank ? "_blank" : undefined}
-        rel="noopener noreferrer"
-        className={({ isActive }) => isActive ? "flex !font-medium !text-neutral-900 dark:!text-neutral-100  items-center font-normal text-neutral-6000 dark:text-neutral-400 py-2 px-4 rounded-md hover:text-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-neutral-200" : "flex items-center font-normal text-neutral-6000 dark:text-neutral-400 py-2 px-4 rounded-md hover:text-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-neutral-200"}
-        // to={{
-        //   pathname: item.href || undefined,
-        // }}
-        to={`${item?.href}`}
-      >
-        {item.name}
-        {item.type && (
-          <ChevronDownIcon
-            className="ml-2 h-4 w-4 text-neutral-500"
-            aria-hidden="true"
-          />
-        )}
-      </NavLink>
-    );
-  };
+  
 
   // ===================== MENU MAIN MENU =====================
 
@@ -167,13 +172,13 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
       <div className="h-20 flex-shrink-0 flex items-center">
         <NavLink
           end
-          target={item.targetBlank ? "_blank" : undefined}
+          target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center text-sm lg:text-[15px] font-medium text-white dark:text-slate-300 py-2.5 px-4 xl:px-5 rounded-full hover:text-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 dark:hover:text-slate-200"
           // to={{
           //   pathname: item.href || undefined,
           // }}
-          to={`${item?.href}`}
+          to={`products/${item?.id}`}
         >
           {item.name}
           {item.type && (
@@ -195,6 +200,7 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
         <li className="menu-item flex-shrink-0">{renderMainItem(menuItem)}</li>
       );
   }
+  
 };
 
 export default NavigationItem;
