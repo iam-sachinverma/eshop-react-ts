@@ -4,7 +4,7 @@ import { setCredentials, logOut } from "features/auth/authSlice";
 export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://ecofreaky.backto.ga/wp-json/jwt-auth/v1",
+    baseUrl: "https://ecofreaky.com/wp-json/jwt-auth/v1",
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.token;
       console.log(token);

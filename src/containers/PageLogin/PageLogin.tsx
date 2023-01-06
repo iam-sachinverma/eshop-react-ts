@@ -53,12 +53,6 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
 
   const [login, {isLoading}] = useLoginMutation()
 
-  // const { loading, userInfo, error, success }  = useAppSelector((state) => state.auth);
-
-   // useEffect(() => {
-  //   if (userInfo !== null) history.push('/')
-  // }, [history, userInfo, success])
-
   const onSubmit: SubmitHandler<LogIn> = async (data) => {
     try {
       const userData = await login(data).unwrap()
@@ -68,6 +62,8 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
     } catch (error:any) {
 
       if(error.status === 403){
+
+       console.log(error);
          
        if(error.data.code === '[jwt_auth] incorrect_password'){
         setErrMsg('The password you entered is incorrect')

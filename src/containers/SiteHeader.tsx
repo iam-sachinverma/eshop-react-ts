@@ -1,7 +1,7 @@
-import Header from "components/Header/Header";
+import HeaderLogged from "components/Header/HeaderLogged";
 
 const SiteHeader = () => {
-  return <Header /> 
+  return <HeaderLogged /> 
 };
 
 export default SiteHeader;

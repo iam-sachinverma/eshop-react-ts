@@ -95,7 +95,7 @@ const MainNav2: FC<MainNav2Props> = ({ className = "" }) => {
             <XMarkIcon className="w-5 h-5" />
           </button>
         </div>
-        <input type="submit" hidden />
+        <input type="submit" hidden value='' />
       </form>
     );
   };
@@ -108,6 +108,10 @@ const MainNav2: FC<MainNav2Props> = ({ className = "" }) => {
           <div className="flex items-center md:hidden flex-1">
             <MenuBar />
           </div>
+
+          {/* <div className="flex-[2] hidden lg:flex justify-center mx-4">
+            {showSearchForm ? renderSearchForm() : <Navigation />}
+          </div> */}
 
           <div className="flex lg:flex-1 items-center space-x-3 sm:space-x-8">
             <Logo />
