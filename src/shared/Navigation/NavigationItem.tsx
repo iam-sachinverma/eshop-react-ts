@@ -171,8 +171,8 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
           rel="noopener noreferrer"
           className="inline-flex items-center text-sm lg:text-[15px] font-medium text-white dark:text-slate-300 py-2.5 px-4 xl:px-5 rounded-full hover:text-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 dark:hover:text-slate-200"
           to={`products/${item?.id}`}
-        >
-          {item.name}
+        > 
+          {item.name.includes('&amp;') ? item.name.replace('&amp;', '&') : item.name}
           {item.type && (
             <ChevronDownIcon
               className="ml-1 -mr-1 h-4 w-4 text-slate-400"

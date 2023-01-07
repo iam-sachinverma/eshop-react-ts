@@ -120,7 +120,7 @@ const NavMobile: React.FC<NavMobileProps> = ({
             className={!item.children ? "block w-full" : ""}
             onClick={onClickClose}
           >
-            {item.name}
+            {item.name.includes('&amp;') ? item.name.replace('&amp;', '&') : item.name}
           </span>
           {item.children && (
             <span
