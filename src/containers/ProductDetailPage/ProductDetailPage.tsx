@@ -25,11 +25,9 @@ import Review from "./Review"
 // 
 import { addProductToCart } from "app/cartSlice";
 import { useParams } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "app/hooks";
-import { useForm, SubmitHandler } from 'react-hook-form'
+import { useAppDispatch } from "app/hooks";
 
-import { useGetProductQuery, useGetProductVariationsQuery } from "features/product/productApiSlice"
-
+import { useGetProductVariationsQuery } from "features/product/productApiSlice"
 
 export interface ProductDetailPageProps {
   className?: string;
@@ -65,7 +63,6 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
 
   // Rtk query hook
   const { data:productVariants } = useGetProductVariationsQuery(params?.id);
-  console.log(productVariants);
 
   // Variations State
   const [quantitySelected, setQuantitySelected] = React.useState(1);
@@ -154,7 +151,9 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
   }
 
   const variant = useMemo(() => getProductVariant(),[selectedVariant]);
- 
+
+  console.log('Variant', variant);
+  
   const DescriptionData = [
     {
       name: "Description",
@@ -199,8 +198,8 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
     if (product?.on_sale === true) {
       return (
         <div className={CLASSES}>
-          <IconDiscount className="w-3.5 h-3.5" />
           <span className="ml-1 leading-none">On Sale</span>
+          <IconDiscount className="w-5 h-4" />
         </div>
       );
     }
@@ -226,12 +225,18 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
           </h2>
 
           <div className="flex items-center mt-5 space-x-4 sm:space-x-5">
-            {/* <div className="flex text-xl font-semibold">$112.00</div> */}
 
-            <Prices
-              contentClass="py-1 px-2 md:py-1.5 md:px-3 text-lg font-semibold"
-              price={+product?.price}
-            />
+            {variant !== undefined && variant.length > 0 ? (
+              <Prices
+               contentClass="py-1 px-2 md:py-1.5 md:px-3 text-lg font-semibold"
+               price={+variant[0]?.price}
+              />
+            ) : (
+              <Prices
+               contentClass="py-1 px-2 md:py-1.5 md:px-3 text-lg font-semibold"
+               price={+product?.price}
+              />
+            ) }
             
             <div className="h-7 border-l border-slate-300 dark:border-slate-700"></div>
 
@@ -309,11 +314,21 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
             {/* HEADING */}
             <div className="relative">
               <div className="aspect-w-16 aspect-h-16">
-                <img
-                  src={product?.images?.[0]?.src}
-                  className="w-full rounded-2xl object-cover"
-                  alt="product detail 1"
-                />
+                {
+                  variant !== undefined && variant.length > 0 ? (
+                    <img
+                      src={variant[0].image?.src}
+                      className="w-full rounded-2xl object-cover"
+                      alt="product detail 1"
+                    />
+                  ) : (
+                    <img
+                     src={product?.images?.[0]?.src}
+                     className="w-full rounded-2xl object-cover"
+                     alt="product detail 1"
+                    />
+                  )
+                }
               </div>
               {/* Render Status */}
               {renderStatus()}

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import { Helmet } from "react-helmet";
 import SectionHero2 from "components/SectionHero/SectionHero2";
-import SectionSliderLargeProduct from "components/SectionSliderLargeProduct";
+// import SectionSliderLargeProduct from "components/SectionSliderLargeProduct";
 import SectionSliderProductCard from "components/SectionSliderProductCard";
 import DiscoverMoreSlider from "components/DiscoverMoreSlider";
 import SectionSliderCategories from "components/SectionSliderCategories/SectionSliderCategories";
@@ -51,11 +51,6 @@ function PageHome() {
           subHeading="Best selling of the month"
           data={[...products].reverse()}
         />
-        
-
-        {/* SECTION 3 */}
-        <SectionSliderLargeProduct data={products} cardStyle="style2" />
-
        
 
         {/* SECTION */}

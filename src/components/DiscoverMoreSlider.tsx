@@ -1,16 +1,11 @@
-import React, { useEffect, useId, useState } from "react";
+import React, { useEffect, useId } from "react";
 import Heading from "./Heading/Heading";
-import img1 from "images/collections/1.png";
-import img2 from "images/collections/5.png";
-import img3 from "images/collections/4.png";
-import img4 from "images/collections/3.png";
 import CardCategory3, {
   CardCategory3Props,
 } from "./CardCategories/CardCategory3";
 import Glide from "@glidejs/glide";
 
 import { useGetAllCategoryQuery } from "features/category/categoryApiSlice";
-
 
 interface CardCategory {
   className?: string;
@@ -64,7 +59,7 @@ const DiscoverMoreSlider = () => {
   const id = useId();
   const UNIQUE_CLASS = "glidejs" + id.replace(/:/g, "_");
 
-  const {data:categoriesArray, isLoading, isSuccess, isError, error} = useGetAllCategoryQuery();
+  const {data:categoriesArray, isSuccess} = useGetAllCategoryQuery();
 
   useEffect(() => {
     const OPTIONS: Glide.Options = {
@@ -99,7 +94,7 @@ const DiscoverMoreSlider = () => {
     slider.mount();
     // @ts-ignore
     return () => slider.destroy();
-  }, [UNIQUE_CLASS, isSuccess]);
+  }, [UNIQUE_CLASS]);
 
   return (
     <div className={`nc-DiscoverMoreSlider ${UNIQUE_CLASS} `}>
@@ -115,7 +110,9 @@ const DiscoverMoreSlider = () => {
       <div className="" data-glide-el="track">
         <ul className="glide__slides">
           { isSuccess && categoriesArray?.map((item:any, index:number) => (
-            <li key={index} className={`glide__slide`}>
+
+            item.parent === 0 && (
+              <li key={index} className={`glide__slide`}>
               <CardCategory3
                 name={item?.name}
                 id={item?.id}
@@ -124,7 +121,9 @@ const DiscoverMoreSlider = () => {
                 color={colors[index]}
                 slug={item?.slug}
               />
-            </li>
+             </li>
+            )
+            
           ))}
         </ul>
       </div>
