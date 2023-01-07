@@ -21,7 +21,7 @@ type SearchValue  = {
 }
 
 const MainNav2Logged: FC<MainNav2LoggedProps> = (data) => {
-    
+
   const navigate = useNavigate();
 
   const [showSearchForm, setShowSearchForm] = useState(false);
@@ -108,7 +108,7 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = (data) => {
         </div>
 
 
-        <div className="flex items-start mr-10">
+        <div className="lg:flex flex items-center mr-10">
           <Logo className="flex-shrink-0" />
         </div>
 

@@ -25,7 +25,6 @@ const HeaderLogged: FC<HeaderLoggedProps> = () => {
 
   console.log(navigation_menu);
   
-
   return (
     <div className="nc-HeaderLogged sticky top-0 w-full z-40">
       <MainNav2Logged data={navigation_menu} />
