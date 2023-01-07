@@ -2,8 +2,11 @@ import React, { useState, Fragment } from "react";
 import { Transition, Dialog } from "@headlessui/react";
 import NavMobile from "shared/Navigation/NavMobile";
 
-export interface MenuBarProps {}
-const MenuBar: React.FC<MenuBarProps> = () => {
+export interface MenuBarProps {
+  navigation: any;
+}
+
+const MenuBar: React.FC<MenuBarProps> = (navigation) => {
   const [isVisable, setIsVisable] = useState(false);
 
   const handleOpenMenu = () => setIsVisable(true);
@@ -29,7 +32,7 @@ const MenuBar: React.FC<MenuBarProps> = () => {
                 leaveTo="opacity-0 -translate-x-14"
               >
                 <div className="z-20 relative">
-                  <NavMobile onClickClose={handleCloseMenu} />
+                  <NavMobile  data={navigation}  onClickClose={handleCloseMenu} />
                 </div>
               </Transition.Child>
 

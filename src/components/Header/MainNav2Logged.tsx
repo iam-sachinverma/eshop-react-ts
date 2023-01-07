@@ -10,14 +10,18 @@ import { Link } from "react-router-dom";
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { useNavigate, createSearchParams } from 'react-router-dom'
 import { useAppSelector } from "app/hooks";
+import { NavItemType } from "shared/Navigation/NavigationItem";
 
-export interface MainNav2LoggedProps {}
+export interface MainNav2LoggedProps {
+  data?: NavItemType[];
+}
 
 type SearchValue  = {
   search?: string;
 }
 
-const MainNav2Logged: FC<MainNav2LoggedProps> = () => {
+const MainNav2Logged: FC<MainNav2LoggedProps> = (data) => {
+    
   const navigate = useNavigate();
 
   const [showSearchForm, setShowSearchForm] = useState(false);
@@ -100,15 +104,16 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = () => {
     return (
       <div className="h-20 flex justify-between">
         <div className="flex items-center lg:hidden flex-1">
-          <MenuBar />
+          <MenuBar  navigation={data}/>
         </div>
+
 
         <div className="flex items-start mr-10">
           <Logo className="flex-shrink-0" />
         </div>
 
         <div className="flex-[2] hidden lg:flex justify-center">
-          {showSearchForm ? renderSearchForm() : <Navigation />}
+          {showSearchForm ? renderSearchForm() : <Navigation navigation={data}/>}
         </div>
 
         <div className="flex-1 flex items-center justify-end text-slate-700 dark:text-slate-100">

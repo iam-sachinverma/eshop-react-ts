@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import Loader from "components/Loader/Loader";
 
-import Layout from "routers/Layout";
+// import Layout from "routers/Layout";
 import RequireAuth from "routers/RequiredAuth";
 
 import PageHome from "containers/PageHome/PageHome";
@@ -33,6 +33,8 @@ import PageSearch from "containers/PageSearch";
 // import PageLogin from "containers/PageLogin/PageLogin";
 
 // Lazy Load Components
+
+const Layout = lazy(() => import("routers/Layout"));
 
 const AccountPage = lazy(() => import("containers/AccountPage/AccountPage"));
 const AccountOrder = lazy(() => import("containers/AccountPage/AccountOrder"));

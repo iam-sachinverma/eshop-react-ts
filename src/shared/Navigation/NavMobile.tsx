@@ -14,7 +14,7 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import { useNavigate, createSearchParams } from 'react-router-dom'
 
 export interface NavMobileProps {
-  data?: NavItemType[];
+  data?: any;
   onClickClose: () => void;
 }
 
@@ -26,6 +26,8 @@ const NavMobile: React.FC<NavMobileProps> = ({
   data,
   onClickClose,
 }) => {
+
+  console.log(data.navigation.data);
 
   const navigate = useNavigate();
 
@@ -111,7 +113,7 @@ const NavMobile: React.FC<NavMobileProps> = ({
         <NavLink
           end
           className={({ isActive }) => isActive ? "flex text-secondary w-full items-center py-2.5 px-4 font-medium uppercase tracking-wide text-sm hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg" : "flex w-full items-center py-2.5 px-4 font-medium uppercase tracking-wide text-sm hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg"}
-          to={item.id}
+          to={`products/${item.id}`}
 
         >
           <span
@@ -216,7 +218,7 @@ const NavMobile: React.FC<NavMobileProps> = ({
         <div className="mt-5">{renderSearchForm()}</div>
       </div>
       <ul className="flex flex-col py-6 px-2 space-y-1">
-        {data?.map(_renderItem)}
+        {data.navigation.data?.map(_renderItem)}
       </ul>
     </div>
   );
