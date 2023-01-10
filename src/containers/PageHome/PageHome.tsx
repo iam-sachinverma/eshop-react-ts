@@ -5,7 +5,6 @@ import SectionHero2 from "components/SectionHero/SectionHero2";
 // import SectionSliderLargeProduct from "components/SectionSliderLargeProduct";
 import SectionSliderProductCard from "components/SectionSliderProductCard";
 import DiscoverMoreSlider from "components/DiscoverMoreSlider";
-import SectionSliderCategories from "components/SectionSliderCategories/SectionSliderCategories";
 import SectionPromo3 from "components/SectionPromo3";
 import SectionClientSay from "components/SectionClientSay/SectionClientSay";
 import SectionMagazine5 from "containers/BlogPage/SectionMagazine5";

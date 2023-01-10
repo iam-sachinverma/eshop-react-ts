@@ -1,8 +1,8 @@
 import { SocialType } from "shared/SocialsShare/SocialsShare";
 import React, { FC } from "react";
 import facebook from "images/socials/facebook.svg";
-import twitter from "images/socials/twitter.svg";
-import telegram from "images/socials/telegram.svg";
+import instagram from "images/socials/instagram.svg";
+import linkedin from "images/socials/linkedin.svg";
 import youtube from "images/socials/youtube.svg";
 
 export interface SocialsListProps {
@@ -13,9 +13,9 @@ export interface SocialsListProps {
 
 const socialsDemo: SocialType[] = [
   { name: "Facebook", icon: facebook, href: "https://www.facebook.com/EcoFreaky" },
+  { name: "Instagram", icon: instagram, href: "https://www.instagram.com/ecofreaky/" },
+  { name: "Linkedin", icon: linkedin, href: "https://in.linkedin.com/company/ecofreaky" },
   { name: "Youtube", icon: youtube, href: "https://www.youtube.com/channel/UCkVypisBUrIxwn0IzF4mVsw" },
-  { name: "Twitter", icon: twitter, href: "#" },
-  { name: "Telegram", icon: telegram, href: "#" },
 ];
 
 const SocialsList: FC<SocialsListProps> = ({

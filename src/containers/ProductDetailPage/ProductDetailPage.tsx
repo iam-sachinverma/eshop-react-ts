@@ -173,9 +173,9 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
         (t) => (
           <NotifyAddTocart
             productName={product?.name}
-            productImage={variant !== undefined && variant[0].image.src}
+            productImage={variant[0].image.src}
             qualitySelected={quantitySelected}
-            productPrice={+product?.price}
+            productPrice={+variant[0].price}
             productVariant={selectedVariant}
             show={t.visible}
           />

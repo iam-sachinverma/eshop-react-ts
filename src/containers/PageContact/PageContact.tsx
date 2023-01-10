@@ -5,8 +5,6 @@ import Label from "components/Label/Label";
 import Input from "shared/Input/Input";
 import Textarea from "shared/Textarea/Textarea";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
-import BackgroundSection from "components/BackgroundSection/BackgroundSection";
-import SectionPromo1 from "components/SectionPromo1";
 
 export interface PageContactProps {
   className?: string;
@@ -15,15 +13,15 @@ export interface PageContactProps {
 const info = [
   {
     title: "🗺 ADDRESS",
-    desc: "Photo booth tattooed prism, portland taiyaki hoodie neutra typewriter",
+    desc: "Western Marg, Saket, South Delhi – 110017",
   },
   {
     title: "💌 EMAIL",
-    desc: "nc.example@example.com",
+    desc: "team@ecofreaky.com",
   },
   {
     title: "☎ PHONE",
-    desc: "000-123-456-7890",
+    desc: "+91 7048947169",
   },
 ];
 
@@ -36,7 +34,7 @@ const PageContact: FC<PageContactProps> = ({ className = "" }) => {
       <Helmet>
         <title>Contact || Ecofreaky</title>
       </Helmet>
-      <div className="">
+      <div className="mb-20">
         <h2 className="my-20 flex items-center text-3xl leading-[115%] md:text-5xl md:leading-[115%] font-semibold text-neutral-900 dark:text-neutral-100 justify-center">
           Contact
         </h2>
@@ -66,7 +64,7 @@ const PageContact: FC<PageContactProps> = ({ className = "" }) => {
                   <Label>Full name</Label>
 
                   <Input
-                    placeholder="Example Doe"
+                    placeholder="Please enter your name"
                     type="text"
                     className="mt-1"
                   />
@@ -76,7 +74,7 @@ const PageContact: FC<PageContactProps> = ({ className = "" }) => {
 
                   <Input
                     type="email"
-                    placeholder="example@example.com"
+                    placeholder="Please enter your email"
                     className="mt-1"
                   />
                 </label>
@@ -91,14 +89,6 @@ const PageContact: FC<PageContactProps> = ({ className = "" }) => {
               </form>
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* OTHER SECTIONS */}
-      <div className="container">
-        <div className="relative my-24 lg:my-32 py-24 lg:py-32">
-          <BackgroundSection />
-          <SectionPromo1 />
         </div>
       </div>
     </div>

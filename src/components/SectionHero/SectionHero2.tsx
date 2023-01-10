@@ -2,10 +2,6 @@ import React, { FC, useState } from "react";
 import imageRightPng from "images/hero-right.jpg";
 import imageRightPng2 from "images/hero-right-2.jpg";
 import imageRightPng3 from "images/hero-right-3.jpg";
-import imageRightPng4 from "images/hero-right-4.jpg";
-
-import backgroundLineSvg from "images/Moon.svg";
-import ButtonPrimary from "shared/Button/ButtonPrimary";
 import Next from "shared/NextPrev/Next";
 import Prev from "shared/NextPrev/Prev";
 import useInterval from "react-use/lib/useInterval";

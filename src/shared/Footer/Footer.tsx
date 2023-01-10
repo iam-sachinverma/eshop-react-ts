@@ -1,7 +1,7 @@
 import Logo from "shared/Logo/Logo";
 import SocialsList1 from "shared/SocialsList1/SocialsList1";
 import { CustomLink } from "data/types";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 export interface WidgetFooterMenu {
@@ -11,45 +11,35 @@ export interface WidgetFooterMenu {
 }
 
 const widgetMenus: WidgetFooterMenu[] = [
-  // {
-  //   id: "5",
-  //   title: "Getting started",
-  //   menus: [
-  //     { href: "#", label: "Release Notes" },
-  //     { href: "#", label: "Upgrade Guide" },
-  //     { href: "#", label: "Browser Support" },
-  //     { href: "#", label: "Dark Mode" },
-  //   ],
-  // },
   {
     id: "1",
-    title: "Explore",
+    title: "About",
     menus: [
       { href: "/about", label: "About Us" },
       { href: "/contact", label: "Contact Us" },
       { href: "/blog", label: "Blog" },
-      // { href: "#", label: "Security" },
     ],
   },
   {
     id: "2",
-    title: "Category",
+    title: "Product Categories",
     menus: [
-      { href: "/products/16", label: "Personal Care" },
-      { href: "/products/17", label: "Stationery" },
-      { href: "/products/20", label: "Fashion" },
+      { href: "/products/46", label: "Save more on combos" },
+      { href: "/products/33", label: "Personal Care" },
+      { href: "/products/42", label: "Bamboo Products" },
+      { href: "/products/37", label: "Stationery" },
+      { href: "/products/38", label: "Home & Decor" },
     ],
   },
-  // {
-  //   id: "4",
-  //   title: "Community",
-  //   menus: [
-  //     { href: "#", label: "Discussion Forums" },
-  //     { href: "#", label: "Code of Conduct" },
-  //     { href: "#", label: "Contributing" },
-  //     { href: "#", label: "API Reference" },
-  //   ],
-  // },
+  {
+    id: "3",
+    title: "Known More",
+    menus: [
+      { href: "#", label: "Privacy Policy" },
+      { href: "#", label: "Refund, Exchange and Returns Policy" },
+      { href: "#", label: "Terms and conditions" },
+    ],
+  },
 ];
 
 const Footer: React.FC = () => {
@@ -75,7 +65,9 @@ const Footer: React.FC = () => {
               <Link 
                 key={index}
                 to={`${item.href}`} 
-                className=" text-white hover:text-black dark:hover:text-white"
+                className=" text-white hover:text-white dark:hover:text-white"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 {item.label}
               </Link>
