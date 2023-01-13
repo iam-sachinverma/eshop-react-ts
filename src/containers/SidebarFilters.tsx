@@ -32,11 +32,11 @@ const DATA_colors = [
 ];
 
 const DATA_sortOrderRadios = [
-  { name: "Most Popular", id: "Most-Popular" },
-  { name: "Best Rating", id: "Best-Rating" },
   { name: "Newest", id: "Newest" },
-  { name: "Price Low - Hight", id: "Price-low-hight" },
-  { name: "Price Hight - Low", id: "Price-hight-low" },
+  { name: "Most Popular", id: "Most-Popular" },
+  // { name: "Best Rating", id: "Best-Rating" },
+  { name: "Price Low - High", id: "Price-low-high" },
+  { name: "Price High - Low", id: "Price-high-low" },
 ];
 
 const PRICE_RANGE = [1, 500];
@@ -52,12 +52,16 @@ export interface SidebarFiltersProps {
   rangePrice?: any,
   changePrice?: (_input: number | number[]) => void;
   attributeState: any,
-  changeAttributes: (checked: boolean, item:any) => void;
+  changeAttributes: (checked: boolean, item:any) => void,
+  sortStates?: any,
+  setSortStates?: any,
 }
 
 //
 const SidebarFilters: FC<SidebarFiltersProps> = ({ 
   className = "", 
+  sortStates,
+  setSortStates,
   attributeState,
   changeAttributes,
   colorState, 
@@ -224,33 +228,33 @@ const SidebarFilters: FC<SidebarFiltersProps> = ({
   };
 
   // // OK
-  // const renderTabsSortOrder = () => {
-  //   return (
-  //     <div className="relative flex flex-col py-8 space-y-4">
-  //       <h3 className="font-semibold mb-2.5">Sort order</h3>
-  //       {DATA_sortOrderRadios.map((item) => (
-  //         <Radio
-  //           id={item.id}
-  //           key={item.id}
-  //           name="radioNameSort"
-  //           label={item.name}
-  //           defaultChecked={sortOrderStates === item.id}
-  //           sizeClassName="w-5 h-5"
-  //           onChange={setSortOrderStates}
-  //           className="!text-sm"
-  //         />
-  //       ))}
-  //     </div>
-  //   );
-  // };
+  const renderTabsSortOrder = () => {
+    return (
+      <div className="relative flex flex-col py-8 space-y-4">
+        <h3 className="font-semibold mb-2.5">Sort order</h3>
+        {DATA_sortOrderRadios.map((item) => (
+          <Radio
+            id={item.id}
+            key={item.id}
+            name="radioNameSort"
+            label={item.name}
+            defaultChecked={sortStates === item.id}
+            sizeClassName="w-5 h-5"
+            onChange={setSortStates}
+            className="!text-sm"
+          />
+        ))}
+      </div>
+    );
+  };
 
   return (
     <div className="divide-y divide-slate-200 dark:divide-slate-700">
       {/* {renderTabsCategories()} */}
       
-      {renderTabsColor()}
+      {/* {renderTabsColor()} */}
 
-      {renderTabsSize()}
+      {/* {renderTabsSize()} */}
 
       {/* {renderTabsPriceRage()} */}
 
@@ -264,7 +268,7 @@ const SidebarFilters: FC<SidebarFiltersProps> = ({
         />
       </div> */}
 
-      {/* {renderTabsSortOrder()} */}
+      {renderTabsSortOrder()}
 
     </div>
   );

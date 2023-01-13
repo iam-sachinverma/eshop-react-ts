@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from "react";
+import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import Loader from "components/Loader/Loader";
@@ -9,11 +9,14 @@ import RequireAuth from "routers/RequiredAuth";
 
 import PageHome from "containers/PageHome/PageHome";
 
-import ProductType from "containers/ProductDetailPage/ProductType";
-import ProductDetailPage from "containers/ProductDetailPage/ProductDetailPage";
-import PageCollection2 from "containers/PageCollection2";
+// import ProductDetailPage from "containers/ProductDetailPage/ProductDetailPage";
 
 // Lazy Load Components
+
+const ProductType = lazy(() =>
+  import("containers/ProductDetailPage/ProductType")
+);
+const PageCollection2 = lazy(() => import("containers/PageCollection2"));
 
 const PageSearch = lazy(() => import("containers/PageSearch"));
 
