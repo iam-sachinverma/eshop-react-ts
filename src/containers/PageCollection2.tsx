@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect, useMemo } from "react";
+import React, { FC, useState, useCallback, useMemo } from "react";
 import { Helmet } from "react-helmet";
 import SectionSliderCollections from "components/SectionSliderLargeProduct";
 import ProductCard from "components/ProductCard";
@@ -36,34 +36,6 @@ const PageCollection2: FC<PageCollection2Props> = ({ className = "" }) => {
   // const [rangePrices, setRangePrices] = useState([100, 500]);
   // const [sortOrderStates, setSortOrderStates] = useState<string>("");
 
-  const filterProduct = (products: any) => {
-    
-    let arr = [];
-
-    if(colorsState && colorsState.length > 0){
-      const data = products.filter((product: any) => {
-        return product.attributes.some((attr: any) => attr.options.includes(...colorsState))
-      })
-      arr.push(...data);
-    }
-
-    // if(isOnSale === true){
-    //   //
-    // }
-
-    if(sizesState && sizesState.length > 0){
-      const data = products.filter((product: any) => {
-        return product.attributes.some((attr: any) => attr.options.includes(...sizesState))
-      })
-      arr.push(...data);
-    }
-
-    return arr;
-  }
-
-  const filteredProduct  = useMemo(() => filterProduct(products),[colorsState, sizesState]);
-  console.log(filteredProduct);
-
   const handleChangeAttributesFilter = (checked: boolean, name: string) => {
     checked
       ? setAttributesState([...attributesState, name])
@@ -88,6 +60,29 @@ const PageCollection2: FC<PageCollection2Props> = ({ className = "" }) => {
   const handleOnSale = () => {
     setIsIsOnSale((prev) => !prev)
   }
+
+  const filterProduct = (products: any) => {
+    
+    let arr = [];
+
+    if(colorsState && colorsState.length > 0){
+      const data = products.filter((product: any) => {
+        return product.attributes.some((attr: any) => attr.options.includes(...colorsState))
+      })
+      arr.push(...data);
+    }
+
+    if(sizesState && sizesState.length > 0){
+      const data = products.filter((product: any) => {
+        return product.attributes.some((attr: any) => attr.options.includes(...sizesState))
+      })
+      arr.push(...data);
+    }
+
+    return arr;
+  }
+
+  const filteredProduct  = useMemo(() => filterProduct(products),[colorsState, sizesState]);
 
   return (
     <div

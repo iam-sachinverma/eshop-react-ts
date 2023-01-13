@@ -67,7 +67,36 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
   // Variations State
   const [quantitySelected, setQuantitySelected] = React.useState(1);
   const [selectedVariant, setSelectedVariant] = useState<any>([]);
-  
+
+  const addRemoveVariant = (variant: any) => {
+    const arr:any = [...selectedVariant];
+
+    const isContain = arr.find((v:any) => v.name === variant.name)
+
+    if(isContain === undefined){
+      arr.push(variant)
+    }else{
+      
+      arr.forEach((attr:any, index:number) => {
+        if(attr.name === variant.name){
+          arr[index] = variant
+        }
+      })   
+    }
+
+    setSelectedVariant(arr);  
+  }
+
+  const getProductVariant = () => {
+    const product = productVariants?.filter((item:any) => JSON.stringify(item.attributes) == JSON.stringify(selectedVariant));
+    
+    return product;
+  }
+
+  const variant = useMemo(() => getProductVariant(),[selectedVariant]);
+
+  console.log('Variant', variant);
+
   const renderProductAttributes = (item : ProductAttributes, indexAttr:number) => {
     if(product.attributes.length === 0){
       return;
@@ -124,35 +153,6 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
       </div>
     )
   }
-
-  const addRemoveVariant = (variant: any) => {
-    const arr:any = [...selectedVariant];
-
-    const isContain = arr.find((v:any) => v.name === variant.name)
-
-    if(isContain === undefined){
-      arr.push(variant)
-    }else{
-      
-      arr.forEach((attr:any, index:number) => {
-        if(attr.name === variant.name){
-          arr[index] = variant
-        }
-      })   
-    }
-
-    setSelectedVariant(arr);  
-  }
-
-  const getProductVariant = () => {
-    const product = productVariants?.filter((item:any) => JSON.stringify(item.attributes) == JSON.stringify(selectedVariant));
-    
-    return product;
-  }
-
-  const variant = useMemo(() => getProductVariant(),[selectedVariant]);
-
-  console.log('Variant', variant);
   
   const DescriptionData = [
     {

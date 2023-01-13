@@ -19,10 +19,8 @@ export interface PageSearchProps {
 const PageSearch: FC<PageSearchProps> = ({ className = "" }) => {
 
   const [searchParams, setSearchParams] = useSearchParams();
-  console.log(typeof searchParams.get("q"));
   
   const { data:searchedProducts, isLoading, isSuccess } = useGetSearchedProductsQuery(searchParams.get("q"));
-  console.log(searchedProducts);
 
   let content;
 

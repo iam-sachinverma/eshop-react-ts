@@ -139,7 +139,7 @@ const SidebarFilters: FC<SidebarFiltersProps> = ({
   const renderTabsSize = () => {
     return (
       <div className="relative flex flex-col py-8 space-y-4">
-        <h3 className="font-semibold mb-2.5">Colors</h3>
+        <h3 className="font-semibold mb-2.5">Sizes</h3>
         {sizeTermsFullfilled && sizeTerms?.map((item: any) => (
           <div key={item.name} className="">
             <Checkbox

@@ -108,7 +108,6 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = (data) => {
           <MenuBar  navigation={data}/>
         </div>
 
-
         <div className="lg:flex flex items-center mr-10">
           <Logo className="flex-shrink-0" />
         </div>

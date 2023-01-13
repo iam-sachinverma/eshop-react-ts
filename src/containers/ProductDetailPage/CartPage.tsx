@@ -1,8 +1,7 @@
+import React, { useMemo } from "react";
 import { NoSymbolIcon, CheckIcon } from "@heroicons/react/24/outline";
-// import NcInputNumber from "components/NcInputNumber";
 import Prices from "components/Prices";
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/solid";
-// import { Product, PRODUCTS } from "data/data";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
@@ -10,13 +9,13 @@ import ButtonPrimary from "shared/Button/ButtonPrimary";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { removeProduct, decreaseProduct, addProductToCart } from "app/cartSlice";
 
+const MAX_SHIPPING = 499;
+
 const CartPage = () => {
   const dispatch = useAppDispatch();
   const cartItems = useAppSelector((state) => state.cart);
   const quantitySelected = 1;
-
-  console.log(cartItems);
-  
+    
   const renderStatusSoldout = () => {
     return (
       <div className="rounded-full flex items-center justify-center px-2.5 py-1.5 text-xs text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
@@ -34,6 +33,31 @@ const CartPage = () => {
       </div>
     );
   };
+
+  // const calculateTaxes = () => {
+  //   cartItems?.products?.map((item: any) => {
+
+  //    if(item.tax_status !== "taxable"){
+  //     return;
+  //    }
+
+  //    let max_tax = 0;
+
+
+  //    console.log( +item.price, +item.tax_class);
+     
+  //    const tax = +item.price - ( +item.price / ( ( +item.tax_class / 100 ) + 1 ) );
+  //    max_tax += tax;     
+
+  //    return max_tax;
+
+  //   })
+  // }
+
+  // const total_tax = useMemo(() => calculateTaxes(),[cartItems])
+
+  // console.log(total_tax);
+  
 
   const renderProduct = (item: any, index: number) => {
     const { image, price, name } = item;
@@ -182,14 +206,19 @@ const CartPage = () => {
   return (
     <div className="nc-CartPage">
       <Helmet>
-        <title>EcoFreaky || Shopping Cart</title>
+        <title>Your Shopping Cart - EcoFreaky</title>
       </Helmet>
 
-      <main className="container py-16 lg:pb-28 lg:pt-20 ">
+      <main className="container py-8 md:py-14 lg:pb-28 lg:pt-10 ">
         <div className="mb-12 sm:mb-16">
-          <h2 className="block text-2xl sm:text-3xl lg:text-4xl font-semibold ">
-            Shopping Cart
+          <h2 className="block text-2xl sm:text-3xl lg:text-4xl font-semibold">
+            My Cart
           </h2>
+          <p className="text-sm md:text-md mt-4">{ 
+            cartItems.total < MAX_SHIPPING ? 
+             (`Spend  ₹${MAX_SHIPPING - cartItems.total} more to get FREE Shipping`) : 
+             (`You are eligible for FREE SHIPPING!`)}
+          </p>
           {/* <div className="block mt-3 sm:mt-5 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-400">
             <Link to={"/#"} className="">
               Homepage
@@ -223,7 +252,7 @@ const CartPage = () => {
                     ₹ {cartItems?.total}
                   </span>
                 </div>
-                <div className="flex justify-between py-4">
+                {/* <div className="flex justify-between py-4">
                   <span>Shpping estimate</span>
                   <span className="font-semibold text-slate-900 dark:text-slate-200">
                     ₹ 0.00
@@ -232,10 +261,10 @@ const CartPage = () => {
                 <div className="flex justify-between py-4">
                   <span>Tax estimate</span>
                   <span className="font-semibold text-slate-900 dark:text-slate-200">
-                    ₹ 0.00
+                    ₹ {`${total_tax}`}
                   </span>
-                </div>
-                <div className="flex justify-between font-semibold text-slate-900 dark:text-slate-200 text-base pt-4">
+                </div> */}
+                <div className="flex justify-between text-slate-900 dark:text-slate-200 text-base pt-4">
                   <span>Order total</span>
                   <span>₹ {cartItems?.total}</span>
                 </div>
@@ -272,8 +301,8 @@ const CartPage = () => {
                       strokeLinejoin="round"
                     />
                   </svg>
-                  Learn more{` `}
-                  <a
+                  Tax Included.{` `}
+                  {/* <a
                     target="_blank"
                     rel="noopener noreferrer"
                     href="##"
@@ -283,7 +312,7 @@ const CartPage = () => {
                   </a>
                   <span>
                     {` `}and{` `}
-                  </span>
+                  </span> */}
                   <a
                     target="_blank"
                     rel="noopener noreferrer"
@@ -292,7 +321,7 @@ const CartPage = () => {
                   >
                     Shipping
                   </a>
-                  {` `} infomation
+                  {` `} calculated at checkout
                 </p>
               </div>
             </div>
