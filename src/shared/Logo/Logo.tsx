@@ -28,6 +28,8 @@ const Logo: React.FC<LogoProps> = ({
           }`}
           src={img}
           alt="Logo"
+          width={70}
+          height={70}
         />
       ) : (
         "Logo Here"
@@ -37,6 +39,8 @@ const Logo: React.FC<LogoProps> = ({
           className="hidden max-h-8 sm:max-h-10 dark:block"
           src={imgLight}
           alt="Logo-Light"
+          width={70}
+          height={70}
         />
       )}
     </Link>
