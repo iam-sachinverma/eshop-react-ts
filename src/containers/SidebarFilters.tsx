@@ -54,7 +54,7 @@ export interface SidebarFiltersProps {
   attributeState: any,
   changeAttributes: (checked: boolean, item:any) => void,
   sortStates?: any,
-  setSortStates?: any,
+  setSortStates?: (_input: string) => void,
 }
 
 //

@@ -3,8 +3,6 @@ import { Helmet } from "react-helmet";
 import ProductCard from "components/ProductCard";
 import SidebarFilters from "./SidebarFilters";
 
-import { store } from "app/store";
-
 import { useParams } from "react-router-dom";
 
 import { useGetCategoryProductsQuery } from "features/product/categoryProductApiSlice";
@@ -26,13 +24,11 @@ const PageCollection2: FC<PageCollection2Props> = ({ className = "" }) => {
   
   // max _ min price
   const [rangePrices, setRangePrices] = useState([100, 500]);
-  console.log(`Max Min Price`, rangePrices);
 
   const [sortOrderStates, setSortOrderStates] = useState<string>("");
 
   console.log(sortOrderStates);
   
-
   const handleChangeAttributesFilter = (checked: boolean, name: string) => {
     checked
       ? setAttributesState([...attributesState, name])
@@ -58,16 +54,22 @@ const PageCollection2: FC<PageCollection2Props> = ({ className = "" }) => {
     setIsIsOnSale((prev) => !prev)
   }
 
-  const handleSortOrder = (_input: string) => {
-    setSortOrderStates(_input)
-  }
+  const handleSortOrder = useCallback(
+    (_input: string) => {
+      setSortOrderStates(_input)
+    },[sortOrderStates]
+  )
 
   const filterProduct = (products: any) => {
+
+    if(!isSuccess){
+      return
+    }
     
     let arr = [...products];
 
     if(sortOrderStates === 'Newest'){
-      arr.sort((a, b) => +new Date(a.date_created) - +new(b.date_created))
+      arr.sort((a, b) => +new Date(a.date_created) - +new Date(b.date_created))
     }
 
     if(sortOrderStates === 'Price-low-high'){
@@ -76,6 +78,10 @@ const PageCollection2: FC<PageCollection2Props> = ({ className = "" }) => {
 
     if(sortOrderStates === 'Price-high-low'){
       arr.sort((a, b) => b.price - a.price)
+    }
+
+    if(sortOrderStates === 'Newest'){
+      arr.sort((a, b) => b.total_sales - a.total_sales)
     }
 
     // if(colorsState && colorsState.length > 0){
@@ -120,7 +126,7 @@ const PageCollection2: FC<PageCollection2Props> = ({ className = "" }) => {
                  attributeState={attributesState}
                  changeAttributes={handleChangeAttributesFilter}
                  sortStates={sortOrderStates}
-                 setSortStates={setSortOrderStates}
+                 setSortStates={handleSortOrder}
                 />
               </div>
 
