@@ -15,13 +15,10 @@ import logger from "redux-logger";
 import { apiSlice } from "./api/apiSlice";
 
 import mediaRunningReducer from "./mediaRunning/mediaRunning";
-import productReducer from "./productSlice.js"
 import cartReducer from "./cartSlice.js"
 
 //
 import authSliceReducer from "features/auth/authSlice"
-
-import { fetchProducts } from "./productSlice"
 
 const isDev = process.env.NODE_ENV === "development";
 

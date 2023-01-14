@@ -1,4 +1,3 @@
-import React, {useEffect, useState} from "react";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import { Helmet } from "react-helmet";
 import SectionHero2 from "components/SectionHero/SectionHero2";
@@ -12,10 +11,9 @@ import Heading from "components/Heading/Heading";
 import ButtonSecondary from "shared/Button/ButtonSecondary";
 import { useGetAllProductsQuery } from "features/product/productApiSlice";
 
-
 function PageHome() {
   
-  const { data:products, isSuccess, isLoading } = useGetAllProductsQuery(null);
+  const { data:products, isSuccess } = useGetAllProductsQuery(null);
 
   console.log(products);
   
