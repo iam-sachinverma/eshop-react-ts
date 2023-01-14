@@ -77,26 +77,6 @@ const SidebarFilters: FC<SidebarFiltersProps> = ({
   const { data:colorTerms, isSuccess:colorTermsFullfilled } = useGetAttributeTermsQuery(1);
   const { data:sizeTerms, isSuccess:sizeTermsFullfilled } = useGetAttributeTermsQuery(2);
   
-  //
-  // const [rangePrices, setRangePrices] = useState([100, 500]);
-  const [sortOrderStates, setSortOrderStates] = useState<string>("");
-  // const [isOnSale, setIsIsOnSale] = useState(true);
-  // const [colorsState, setColorsState] = useState<string[]>([]);
-  // const [categoriesState, setCategoriesState] = useState<string[]>([]);
-  
-  //
-  // const handleChangeCategories = (checked: boolean, name: string) => {
-  //   checked
-  //     ? setCategoriesState([...categoriesState, name])
-  //     : setCategoriesState(categoriesState.filter((i) => i !== name));
-  // };
-
-  // const handleChangeColors = (checked: boolean, name: string) => {
-  //   checked
-  //     ? setColorsState([...colorsState, name])
-  //     : setColorsState(colorsState.filter((i) => i !== name));
-  // };
-
   // OK
   // const renderTabsCategories = () => {
   //   return (

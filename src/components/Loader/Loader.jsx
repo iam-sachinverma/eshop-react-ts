@@ -1,9 +1,8 @@
-import React from "react";
 import "./Loader.css";
 
 const Loader = () => {
   return (
-    <div>
+    <div className="loader-container">
       <svg className="loader_tree" x="0" y="0" width="258" height="258">
         <g clipPath="url(#clip-path)">
           <path
@@ -100,9 +99,6 @@ const Loader = () => {
           />
         </clipPath>
       </svg>
-      <div className="absolute bottom-1/3 flex items-center justify-center w-full">
-        <h1 className="text-4xl">Planting Trees...</h1>
-      </div>
     </div>
   );
 };

@@ -8,15 +8,13 @@ import Layout from "routers/Layout";
 import RequireAuth from "routers/RequiredAuth";
 
 import PageHome from "containers/PageHome/PageHome";
-
-// import ProductDetailPage from "containers/ProductDetailPage/ProductDetailPage";
+import PageCollection2 from "containers/PageCollection2";
 
 // Lazy Load Components
 
 const ProductType = lazy(() =>
   import("containers/ProductDetailPage/ProductType")
 );
-const PageCollection2 = lazy(() => import("containers/PageCollection2"));
 
 const PageSearch = lazy(() => import("containers/PageSearch"));
 

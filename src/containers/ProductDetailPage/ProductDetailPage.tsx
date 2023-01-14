@@ -95,8 +95,6 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
 
   const variant = useMemo(() => getProductVariant(),[selectedVariant]);
 
-  console.log('Variant', variant);
-
   const renderProductAttributes = (item : ProductAttributes, indexAttr:number) => {
     if(product.attributes.length === 0){
       return;
@@ -387,7 +385,6 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
         </div>
       </main>
 
-      
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from "react";
+import React, { FC } from "react";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
 import LikeButton from "components/LikeButton";
 import AccordionInfo from "./AccordionInfo";
@@ -29,18 +29,7 @@ export interface SimpleProductDetailPageProps {
 const SimpleProductDetailPage: FC<SimpleProductDetailPageProps> = ({ className = "", product }) => {
   const dispatch = useAppDispatch();
 
-  const [quantitySelected, setQuantitySelected] = React.useState(1);
-
-  const allProducts = useAppSelector((state) => state.product.products)
-  // const [relatedProducts, setRelatedProducts] = React.useState([]);
-
-  const getRelatedProducts = () => {
-    const related = allProducts.filter((item: any) => item.categories.some((item:any) => product.categories.includes(item.name)))
-    return related;
-  }
-
-  const relatedProducts = useMemo(() => getRelatedProducts(),[]);
-  console.log(relatedProducts);
+  const [quantitySelected, setQuantitySelected] = React.useState(1);  
   
   const DescriptionData = [
     {
@@ -290,7 +279,7 @@ const SimpleProductDetailPage: FC<SimpleProductDetailPageProps> = ({ className =
             subHeading=""
             headingFontClassName="text-2xl font-semibold"
             headingClassName="mb-10 text-neutral-900 dark:text-neutral-50"
-            data={relatedProducts}
+            // data={relatedProducts}
           />
 
         </div>

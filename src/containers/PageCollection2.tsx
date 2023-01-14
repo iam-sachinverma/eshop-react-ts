@@ -94,7 +94,7 @@ const PageCollection2: FC<PageCollection2Props> = ({ className = "" }) => {
     return arr;
   }
 
-  const filteredProduct  = useMemo(() => filterProduct(products),[sortOrderStates]);
+  const filteredProduct  = useMemo(() => filterProduct(products),[sortOrderStates, isSuccess, products]);
 
   return (
     <div
@@ -137,7 +137,7 @@ const PageCollection2: FC<PageCollection2Props> = ({ className = "" }) => {
                 <div className="flex-1 grid sm:grid-cols-2 xl:grid-cols-3 gap-x-8 gap-y-10 ">
                 {
                    
-                  filteredProduct?.map((item: any, index: number) => (
+                  isSuccess && filteredProduct?.map((item: any, index: number) => (
                     <ProductCard data={item} key={index} />
                   ))
                     

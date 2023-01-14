@@ -44,13 +44,11 @@ function PageHome() {
           <DiscoverMoreSlider />
         </div>
 
-
         <SectionSliderProductCard
           heading="Best Sellers"
           subHeading="Best selling of the month"
           data={[...products].reverse()}
         />
-       
 
         {/* SECTION */}
         <SectionPromo3 />
