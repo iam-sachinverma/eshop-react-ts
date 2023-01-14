@@ -10,18 +10,13 @@ import SectionClientSay from "components/SectionClientSay/SectionClientSay";
 import SectionMagazine5 from "containers/BlogPage/SectionMagazine5";
 import Heading from "components/Heading/Heading";
 import ButtonSecondary from "shared/Button/ButtonSecondary";
-import { useAppSelector } from "app/hooks";
+import { useGetAllProductsQuery } from "features/product/productApiSlice";
 
 
 function PageHome() {
   
-  const fetchProducts = useAppSelector((state) => state.product.products)
-  const [products, setProducts] = useState(fetchProducts);
-  
-  useEffect(() => {
-    setProducts(fetchProducts)
-  },[fetchProducts])
-  
+  const { data:products, isSuccess, isLoading } = useGetAllProductsQuery(null);
+
   console.log(products);
   
   return (
@@ -36,19 +31,24 @@ function PageHome() {
       <div className="container relative space-y-24 my-8 md:my-12 lg:space-y-20 lg:my-14">
         
         {/* SECTION */}
+
+        { isSuccess &&
         <SectionSliderProductCard
-          data={products}
+          data={[...products].slice(0, 5)}
         />
+        }
 
         <div className="mt-20 lg:mt-30">
           <DiscoverMoreSlider />
         </div>
 
+        { isSuccess &&
         <SectionSliderProductCard
           heading="Best Sellers"
           subHeading="Best selling of the month"
-          data={[...products].reverse()}
+          data={[...products].reverse().slice(0, 6)}
         />
+        }
 
         {/* SECTION */}
         <SectionPromo3 />

@@ -3,7 +3,7 @@ import { apiSlice } from "app/api/apiSlice";
 export const productApiSlice = apiSlice.injectEndpoints({
   endpoints: (build) => ({
     getAllProducts: build.query({
-      query: () => `products`,
+      query: () => "products",
     }),
     getProduct: build.query({
       query: (productID) => `products/${productID}`,

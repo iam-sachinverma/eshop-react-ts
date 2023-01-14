@@ -34,7 +34,6 @@ const persistConfig = {
 const reducers = combineReducers({
   mediaRunning: mediaRunningReducer,
   [apiSlice.reducerPath]: apiSlice.reducer,
-  product: productReducer,
   cart: cartReducer,
   auth: authSliceReducer,
 });
@@ -57,6 +56,5 @@ export let persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
-store.dispatch(fetchProducts());
 
 

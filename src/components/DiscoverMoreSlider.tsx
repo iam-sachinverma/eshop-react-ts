@@ -28,33 +28,6 @@ const colors = [
   'bg-sky-50',
 ]
 
-// export const CATS_DISCOVER: CardCategory3Props[] = [
-//   {
-//     name: "Explore new arrivals",
-//     desc: "Shop the latest <br /> from top brands",
-//     featuredImage: img1,
-//     color: "bg-yellow-50",
-//   },
-//   {
-//     name: "Digital gift cards",
-//     desc: "Give the gift <br /> of choice",
-//     featuredImage: img2,
-//     color: "bg-red-50",
-//   },
-//   {
-//     name: "Sale collection",
-//     desc: "Up to <br /> 80% off retail",
-//     featuredImage: img3,
-//     color: "bg-blue-50",
-//   },
-//   {
-//     name: "Sale collection",
-//     desc: "Up to <br /> 80% off retail",
-//     featuredImage: img4,
-//     color: "bg-green-50",
-//   },
-// ];
-
 const DiscoverMoreSlider = () => {
   const id = useId();
   const UNIQUE_CLASS = "glidejs" + id.replace(/:/g, "_");
@@ -94,7 +67,7 @@ const DiscoverMoreSlider = () => {
     slider.mount();
     // @ts-ignore
     return () => slider.destroy();
-  }, [UNIQUE_CLASS]);
+  }, [UNIQUE_CLASS, isSuccess]);
 
   return (
     <div className={`nc-DiscoverMoreSlider ${UNIQUE_CLASS} `}>
