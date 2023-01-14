@@ -1,7 +1,7 @@
 import { Popover, Transition } from "@headlessui/react";
-import { avatarImgs } from "contains/fakeData";
+// import { avatarImgs } from "contains/fakeData";
 import { Fragment } from "react";
-import Avatar from "shared/Avatar/Avatar";
+// import Avatar from "shared/Avatar/Avatar";
 import SwitchDarkMode2 from "shared/SwitchDarkMode/SwitchDarkMode2";
 
 import { Link, useNavigate } from "react-router-dom";

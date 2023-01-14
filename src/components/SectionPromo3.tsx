@@ -1,6 +1,4 @@
 import React, { FC } from "react";
-import NcImage from "shared/NcImage/NcImage";
-import rightImgDemo from "images/promo3.png";
 import backgroundLineSvg from "images/BackgroundLine.svg";
 import Badge from "shared/Badge/Badge";
 import Input from "shared/Input/Input";
@@ -23,7 +21,7 @@ const SectionPromo3: FC<SectionPromo3Props> = ({ className = "lg:pt-10" }) => {
           />
         </div>
 
-        <div className="lg:w-[50%] max-w-lg relative">
+        <div className="lg:w-[50%] max-w-lg relative items-center">
           <h2 className="font-semibold text-4xl md:text-5xl">
             Don't miss out on special offers
           </h2>
@@ -67,11 +65,6 @@ const SectionPromo3: FC<SectionPromo3Props> = ({ className = "lg:pt-10" }) => {
             </ButtonCircle>
           </form>
         </div>
-
-        <NcImage
-          containerClassName="relative block lg:absolute lg:right-0 lg:bottom-0 mt-10 lg:mt-0 max-w-lg lg:max-w-[calc(50%-40px)]"
-          src={rightImgDemo}
-        />
       </div>
     </div>
   );

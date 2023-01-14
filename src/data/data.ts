@@ -1,18 +1,10 @@
 import { productImgs } from "contains/fakeData";
+
 import productVariantImg2 from "images/products/v2.jpg";
-import productVariantImg3 from "images/products/v3.jpg";
-import productVariantImg4 from "images/products/v4.jpg";
-import productVariantImg5 from "images/products/v5.jpg";
-import productVariantImg6 from "images/products/v6.jpg";
+
 //
 import productSport1 from "images/products/sport-1.png";
-import productSport2 from "images/products/sport-2.png";
-import productSport3 from "images/products/sport-3.png";
-import productSport4 from "images/products/sport-4.png";
-import productSport5 from "images/products/sport-5.png";
-import productSport6 from "images/products/sport-6.png";
-import productSport7 from "images/products/sport-7.png";
-import productSport8 from "images/products/sport-8.png";
+
 
 //
 
@@ -43,7 +35,7 @@ const DEMO_VARIANTS: ProductVariant[] = [
   {
     id: 1,
     name: "Black",
-    thumbnail: productVariantImg6,
+    thumbnail: productVariantImg2,
     featuredImage: productImgs[0],
   },
   {
@@ -55,19 +47,19 @@ const DEMO_VARIANTS: ProductVariant[] = [
   {
     id: 3,
     name: "Orange",
-    thumbnail: productVariantImg3,
+    thumbnail: productVariantImg2,
     featuredImage: productImgs[2],
   },
   {
     id: 4,
     name: "Sky Blue",
-    thumbnail: productVariantImg4,
+    thumbnail: productVariantImg2,
     featuredImage: productImgs[3],
   },
   {
     id: 5,
     name: "Natural",
-    thumbnail: productVariantImg5,
+    thumbnail: productVariantImg2,
     featuredImage: productImgs[4],
   },
 ];
@@ -237,7 +229,7 @@ export const SPORT_PRODUCTS: Product[] = [
     name: "Jump Rope Kids",
     description: "Classic green",
     price: 68,
-    image: productSport2,
+    image: productSport1,
     category: "Category 1",
     tags: ["tag1", "tag2"],
     link: "/product-detail/",
@@ -250,7 +242,7 @@ export const SPORT_PRODUCTS: Product[] = [
     name: "Tee Ball Beanie",
     description: "New blue aqua",
     price: 132,
-    image: productSport3,
+    image: productSport1,
     category: "Category 1",
     tags: ["tag1", "tag2"],
     link: "/product-detail/",
@@ -264,7 +256,7 @@ export const SPORT_PRODUCTS: Product[] = [
     name: "Rubber Table Tennis",
     description: "Dark pink 2023",
     price: 28,
-    image: productSport4,
+    image: productSport1,
     category: "Category 1",
     tags: ["tag1", "tag2"],
     variants: DEMO_VARIANT_COLORS,
@@ -277,7 +269,7 @@ export const SPORT_PRODUCTS: Product[] = [
     name: "Classic Blue Rugby",
     description: "Perfect mint green",
     price: 42,
-    image: productSport5,
+    image: productSport1,
     category: "Category 1",
     tags: ["tag1", "tag2"],
     variants: DEMO_VARIANTS,
@@ -291,7 +283,7 @@ export const SPORT_PRODUCTS: Product[] = [
     name: "Manhattan Toy WRT",
     description: "New design 2023",
     price: 30,
-    image: productSport6,
+    image: productSport1,
     category: "Category 1",
     tags: ["tag1", "tag2"],
     variantType: "color",
@@ -303,7 +295,7 @@ export const SPORT_PRODUCTS: Product[] = [
     name: "Tabletop Football ",
     description: "Matte black",
     price: 12,
-    image: productSport7,
+    image: productSport1,
     category: "Category 1",
     tags: ["tag1", "tag2"],
     variants: DEMO_VARIANTS,
@@ -316,7 +308,7 @@ export const SPORT_PRODUCTS: Product[] = [
     name: "Pvc Catching Toy",
     description: "Cream pink",
     price: 145,
-    image: productSport8,
+    image: productSport1,
     category: "Category 1",
     tags: ["tag1", "tag2"],
     variants: DEMO_VARIANT_COLORS,

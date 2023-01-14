@@ -1,7 +1,6 @@
 import { avatarColors } from "contains/contants";
 import React, { FC } from "react";
 
-import { avatarImgs } from "contains/fakeData";
 import VerifyIcon from "components/VerifyIcon";
 
 export interface AvatarProps {
@@ -18,7 +17,8 @@ const Avatar: FC<AvatarProps> = ({
   containerClassName = "ring-1 ring-white dark:ring-neutral-900",
   sizeClass = "h-6 w-6 text-sm",
   radius = "rounded-full",
-  imgUrl = avatarImgs[Math.floor(Math.random() * avatarImgs.length)],
+  imgUrl = "",
+  // imgUrl = avatarImgs[Math.floor(Math.random() * avatarImgs.length)],
   userName,
   hasChecked,
   hasCheckedClass = "w-4 h-4 bottom-1 -right-0.5",
