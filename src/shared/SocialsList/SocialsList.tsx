@@ -37,7 +37,7 @@ const SocialsList: FC<SocialsListProps> = ({
           rel="noopener noreferrer"
           title={item.name}
         >
-          <img src={item.icon} alt="" />
+          <img src={item.icon} alt="" width={30}  height={30} />
         </a>
       ))}
     </nav>

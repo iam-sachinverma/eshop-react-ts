@@ -1,11 +1,7 @@
+import { FC, useId } from "react";
 import Glide from "@glidejs/glide";
 import Heading from "components/Heading/Heading";
-import React, { FC, useId } from "react";
 import { useEffect } from "react";
-import clientSayMain from "images/clientSayMain.png";
-import quotationImg from "images/quotation.png";
-import quotationImg2 from "images/quotation2.png";
-import { StarIcon } from "@heroicons/react/24/solid";
 
 export interface SectionClientSayProps {
   className?: string;
@@ -115,7 +111,12 @@ const SectionClientSay: FC<SectionClientSayProps> = ({ className = "" }) => {
                   key={item.id}
                   className="glide__slide flex flex-col items-center text-center"
                 > 
-                  <img className="mx-auto mb-8 rounded-sm" src={item.image} alt="" />
+                  <img className="mx-auto mb-8 rounded-sm" 
+                   src={item.image} 
+                   width={100}
+                   height={100}
+                   alt="" 
+                  />
 
                   <span className="block text-2xl">{item.content}</span>
                   <span className="block mt-8 text-2xl font-semibold">
