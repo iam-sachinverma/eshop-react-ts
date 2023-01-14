@@ -18,10 +18,10 @@ const SectionPromo3: FC<SectionPromo3Props> = ({ className = "lg:pt-10" }) => {
             className="absolute w-full h-full object-contain object-bottom dark:opacity-5"
             src={backgroundLineSvg}
             alt="backgroundLineSvg"
-          />
+          />    
         </div>
 
-        <div className="lg:w-[50%] max-w-lg relative items-center">
+        <div className="lg:w-[50%]  relative content-center">
           <h2 className="font-semibold text-4xl md:text-5xl">
             Don't miss out on special offers
           </h2>

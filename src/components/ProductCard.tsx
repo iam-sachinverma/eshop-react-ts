@@ -6,10 +6,12 @@ import { StarIcon } from "@heroicons/react/24/solid";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
 import BagIcon from "./BagIcon";
 import IconDiscount from "./IconDiscount";
+
 import {
   NoSymbolIcon,
   SparklesIcon,
 } from "@heroicons/react/24/outline";
+
 
 export interface ProductCardProps {
   className?: string;
@@ -103,6 +105,7 @@ const ProductCard: FC<ProductCardProps> = ({
               src={data?.images?.[0]?.src}
               className="object-cover w-full h-full drop-shadow-xl"
             />
+            
           </Link>
 
           { renderStatus() }

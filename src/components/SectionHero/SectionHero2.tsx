@@ -7,6 +7,8 @@ import Prev from "shared/NextPrev/Prev";
 import useInterval from "react-use/lib/useInterval";
 import useBoolean from "react-use/lib/useBoolean";
 
+<link rel="preload" as="image" href="images/hero-right.jpg"></link>
+
 interface Hero2DataType {
   image: string;
   heading: string;
@@ -157,57 +159,9 @@ const SectionHero2: FC<SectionHero2Props> = ({ className = "" }) => {
               className="w-full h-full object-cover nc-SectionHero2Item__image"
               src={item.image}
               alt="hero"
+              loading="lazy"
             />
           </div>
-
-        {/* Heading SubHeading and Explore Button */}
-        {/* <div className="relative container lg:py-44">
-          <div
-            className={`relative z-[1] w-full max-w-3xl space-y-8 sm:space-y-14 nc-SectionHero2Item__left`}
-          >
-            <div className="space-y-5 sm:space-y-6">
-              <span className="nc-SectionHero2Item__subheading block text-base md:text-xl text-slate-700 font-medium">
-                {item.subHeading}
-              </span>
-              <h2 className="nc-SectionHero2Item__heading font-semibold text-1xl sm:text-2xl md:text-3xl xl:text-4xl 2xl:text-5xl !leading-[114%] text-slate-900">
-                {item.heading}
-              </h2>
-            </div>
-
-            <ButtonPrimary
-              className="nc-SectionHero2Item__button dark:bg-slate-900"
-              sizeClass="py-3 px-6 sm:py-5 sm:px-9"
-              href={item.btnLink as any}
-            >
-              <span>{item.btnText}</span>
-              <span>
-                <svg className="w-5 h-5 ml-2.5" viewBox="0 0 24 24" fill="none">
-                  <path
-                    d="M11.5 21C16.7467 21 21 16.7467 21 11.5C21 6.25329 16.7467 2 11.5 2C6.25329 2 2 6.25329 2 11.5C2 16.7467 6.25329 21 11.5 21Z"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M22 22L20 20"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </span>
-            </ButtonPrimary>
-          </div>
-          <div className="mt-10 lg:mt-0 lg:absolute right-0 bottom-0 top-0 w-full max-w-2xl xl:max-w-3xl 2xl:max-w-4xl">
-            <img
-              className="w-full h-full object-contain object-right-bottom nc-SectionHero2Item__image"
-              src={item.image}
-              alt={item.heading}
-            />
-          </div>
-        </div> */}
         
       </div>
     );
