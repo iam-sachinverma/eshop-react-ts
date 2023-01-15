@@ -48,7 +48,9 @@ function App() {
             {/* Public Routes */}
             <Route index element={<PageHome />}></Route>
             <Route path="*" element={<Page404 />}></Route>
+
             <Route path="/product/:id" element={<ProductType />}></Route>
+
             <Route
               path="/products/:category"
               element={<PageCollection2 />}
