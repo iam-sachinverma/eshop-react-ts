@@ -66,7 +66,6 @@ const Footer: React.FC = () => {
                 key={index}
                 to={`${item.href}`} 
                 className=" text-white hover:text-white dark:hover:text-white"
-                target="_blank"
                 rel="noopener noreferrer"
               >
                 {item.label}
