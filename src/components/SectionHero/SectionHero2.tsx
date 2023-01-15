@@ -1,13 +1,11 @@
 import React, { FC, useState } from "react";
-import imageRightPng from "images/hero-right.jpg";
-import imageRightPng2 from "images/hero-right-2.jpg";
-import imageRightPng3 from "images/hero-right-3.jpg";
+import imageRightPng from "images/hero-right.webp";
+import imageRightPng2 from "images/hero-right-2.webp";
+import imageRightPng3 from "images/hero-right-3.webp";
 import Next from "shared/NextPrev/Next";
 import Prev from "shared/NextPrev/Prev";
 import useInterval from "react-use/lib/useInterval";
 import useBoolean from "react-use/lib/useBoolean";
-
-<link rel="preload" as="image" href="images/hero-right.jpg"></link>
 
 interface Hero2DataType {
   image: string;
@@ -16,6 +14,7 @@ interface Hero2DataType {
   btnText: string;
   btnLink: string;
 }
+
 export interface SectionHero2Props {
   className?: string;
 }
@@ -111,7 +110,7 @@ const SectionHero2: FC<SectionHero2Props> = ({ className = "" }) => {
         className={`nc-SectionHero2Item nc-SectionHero2Item--animation flex flex-col-reverse lg:flex-col relative overflow-hidden ${className}`}
         key={index}
       >
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex justify-center">
+        {/* <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex justify-center">
           {DATA.map((_, index) => {
             const isActive = indexActive === index;
             return (
@@ -137,7 +136,7 @@ const SectionHero2: FC<SectionHero2Props> = ({ className = "" }) => {
               </div>
             );
           })}
-        </div>
+        </div> */}
 
         <Prev
           className="absolute left-1 sm:left-5 top-1/3 sm:top-1/2 sm:-translate-y-1/2 z-10 !text-slate-700"
@@ -154,7 +153,7 @@ const SectionHero2: FC<SectionHero2Props> = ({ className = "" }) => {
 
         {/* BG */}
         {/* <div className=" inset-0 bg-[#E3FFE6]"> */}
-          <div className=" bg-[#F7F0EA]">
+          <div className=" bg-[#F7F0EA] p-0">
             <img
               className="w-full h-full object-cover nc-SectionHero2Item__image"
               src={item.image}
