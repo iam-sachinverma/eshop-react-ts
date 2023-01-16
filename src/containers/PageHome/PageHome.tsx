@@ -51,7 +51,7 @@ function PageHome() {
         {/* SECTION */}
         <SectionPromo3 />
 
-        <div className="relative py-24 lg:py-32">
+        {/* <div className="relative py-24 lg:py-32">
           <BackgroundSection />
           <div>
             <Heading rightDescText="From the Ciseco blog">
@@ -62,7 +62,7 @@ function PageHome() {
               <ButtonSecondary>Show all blog articles</ButtonSecondary>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/*  */}
         <SectionClientSay />
