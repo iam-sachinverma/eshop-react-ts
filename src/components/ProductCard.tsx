@@ -96,10 +96,10 @@ const ProductCard: FC<ProductCardProps> = ({
         className={`nc-ProductCard relative flex flex-col bg-transparent ${className}`}
         data-nc-id="ProductCard"
       >
-        <Link to={`/product/${id}`} className="absolute inset-0"></Link>
+        <Link to={`/product/${id}`} className="absolute inset-0" aria-label={`Open Product ${data?.name}`}></Link>
 
         <div className="relative flex-shrink-0 bg-slate-50 dark:bg-slate-300 rounded-3xl overflow-hidden z-1 group">
-          <Link to={`/product/${id}`} className="block">
+          <Link to={`/product/${id}`} className="block" aria-label={`Open Product ${data?.name}`}>
             <NcImage
               containerClassName="flex aspect-w-11 aspect-h-12 w-full h-0"
               src={data?.images?.[0]?.src}

@@ -126,7 +126,7 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = (data) => {
             </button>
           )}
 
-          { user === null ? <Link className="mx-2 text-white" to={`/login`}>Login</Link>  :  <AvatarDropdown />}
+          { user === null ? <Link className="mx-2 text-white" to={`/login`} aria-label="Go to cart page">Login</Link>  :  <AvatarDropdown />}
 
           <CartDropdown />
         </div>

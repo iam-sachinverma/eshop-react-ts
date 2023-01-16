@@ -9,6 +9,7 @@ import useBoolean from "react-use/lib/useBoolean";
 
 interface Hero2DataType {
   image: string;
+  alt: string;
 }
 
 export interface SectionHero2Props {
@@ -18,12 +19,15 @@ export interface SectionHero2Props {
 const DATA: Hero2DataType[] = [
   {
     image: imageRightPng2,
+    alt: "body-care product category"
   },
   {
     image: imageRightPng3,
+    alt: "eco-friendly recycled stationary"
   },
   {
     image: imageRightPng,
+    alt: "bamboo products"
   },
   
 ];
@@ -114,6 +118,7 @@ const SectionHero2: FC<SectionHero2Props> = ({ className = "" }) => {
             <img
               className="w-full h-full object-contain object-center"
               src={item?.image}
+              alt={item.alt}
             />
         </div>
       </div>
