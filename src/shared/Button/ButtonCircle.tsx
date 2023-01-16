@@ -18,6 +18,7 @@ const ButtonCircle: React.FC<ButtonCircleProps> = ({
         text-slate-50 ${className} ${size} ` +
         twFocusClass(true)
       }
+      aria-label="submit button"
       {...args}
     />
   );
