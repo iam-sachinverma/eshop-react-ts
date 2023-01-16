@@ -75,7 +75,7 @@ const ProductCard: FC<ProductCardProps> = ({
   const renderGroupButtons = () => {
     return (
       <div className="absolute bottom-0 group-hover:bottom-4 inset-x-1 flex justify-center opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
-        <a href={`product/${id}`}>
+        <Link to={`product/${id}`}>
           <ButtonPrimary
             className="shadow-lg"
             fontSize="text-xs"
@@ -84,7 +84,7 @@ const ProductCard: FC<ProductCardProps> = ({
             <BagIcon className="w-3.5 h-3.5 mb-0.5" />
             <span className="ml-1">View Product</span>
           </ButtonPrimary>
-        </a>
+        </Link>
       </div>
     );
   };
