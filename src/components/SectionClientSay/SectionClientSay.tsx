@@ -122,7 +122,7 @@ const SectionClientSay: FC<SectionClientSayProps> = ({ className = "" }) => {
                   <span className="block mt-8 text-2xl font-semibold">
                     {item.clientName}
                   </span>
-                  <div className="flex items-center space-x-0.5 mt-3.5 text-yellow-500">
+                  <div className="flex items-center space-x-0.5 mt-3.5 text-lime-700">
                     {item.designation}
                   </div>
                 </li>
