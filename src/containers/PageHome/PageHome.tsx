@@ -6,9 +6,6 @@ import SectionSliderProductCard from "components/SectionSliderProductCard";
 import DiscoverMoreSlider from "components/DiscoverMoreSlider";
 import SectionPromo3 from "components/SectionPromo3";
 import SectionClientSay from "components/SectionClientSay/SectionClientSay";
-import SectionMagazine5 from "containers/BlogPage/SectionMagazine5";
-import Heading from "components/Heading/Heading";
-import ButtonSecondary from "shared/Button/ButtonSecondary";
 import { useGetAllProductsQuery } from "features/product/productApiSlice";
 
 function PageHome() {

@@ -9,10 +9,6 @@ import useBoolean from "react-use/lib/useBoolean";
 
 interface Hero2DataType {
   image: string;
-  heading: string;
-  subHeading: string;
-  btnText: string;
-  btnLink: string;
 }
 
 export interface SectionHero2Props {
@@ -22,24 +18,12 @@ export interface SectionHero2Props {
 const DATA: Hero2DataType[] = [
   {
     image: imageRightPng2,
-    heading: "Exclusive collection for everyone",
-    subHeading: "In this season, find the best 🔥",
-    btnText: "Explore now",
-    btnLink: "/",
   },
   {
     image: imageRightPng3,
-    heading: "Exclusive collection for everyone",
-    subHeading: "In this season, find the best 🔥",
-    btnText: "Explore now",
-    btnLink: "/",
   },
   {
     image: imageRightPng,
-    heading: "Exclusive collection for everyone",
-    subHeading: "In this season, find the best 🔥",
-    btnText: "Explore now",
-    btnLink: "/",
   },
   
 ];
@@ -102,66 +86,36 @@ const SectionHero2: FC<SectionHero2Props> = ({ className = "" }) => {
   const renderItem = (index: number) => {
     const isActive = indexActive === index;
     const item = DATA[index];
+
     if (!isActive) {
       return null;
     }
+
     return (
       <div
-        className={`nc-SectionHero2Item nc-SectionHero2Item--animation flex flex-col-reverse lg:flex-col relative overflow-hidden ${className}`}
+        className={`nc-SectionHero2Item flex flex-col-reverse lg:flex-col relative overflow-hidden ${className}`}
         key={index}
       >
-        {/* <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex justify-center">
-          {DATA.map((_, index) => {
-            const isActive = indexActive === index;
-            return (
-              <div
-                key={index}
-                onClick={() => {
-                  setIndexActive(index);
-                  handleAfterClick();
-                }}
-                className={`relative px-1 py-1.5 cursor-pointer`}
-              >
-                <div
-                  className={`relative w-20 h-1 shadow-sm rounded-md bg-white invisible md:visible`}
-                >
-                  {isActive && (
-                    <div
-                      className={`nc-SectionHero2Item__dot absolute inset-0 bg-slate-900 rounded-md ${
-                        isActive ? " " : " "
-                      }`}
-                    ></div>
-                  )}
-                </div>
-              </div>
-            );
-          })}
-        </div> */}
 
         <Prev
-          className="absolute left-1 sm:left-5 top-1/3 sm:top-1/2 sm:-translate-y-1/2 z-10 !text-slate-700"
+          className="absolute left-1 sm:left-5 top-1/4 sm:top-1/2 sm:-translate-y-1/2 z-10 !text-slate-700"
           btnClassName="w-12 h-12 hover:border-slate-400 dark:hover:border-slate-400"
           svgSize="w-6 h-6"
           onClickPrev={handleClickPrev}
         />
         <Next
-          className="absolute right-1 sm:right-5 top-1/3 sm:top-1/2 sm:-translate-y-1/2 z-10 !text-slate-700"
+          className="absolute right-1 sm:right-5 top-1/4 sm:top-1/2 sm:-translate-y-1/2 z-10 !text-slate-700"
           btnClassName="w-12 h-12 hover:border-slate-400 dark:hover:border-slate-400"
           svgSize="w-6 h-6"
           onClickNext={handleClickNext}
         />
 
-        {/* BG */}
-        {/* <div className=" inset-0 bg-[#E3FFE6]"> */}
-          <div className=" bg-[#F7F0EA] p-0">
+        <div className="relative p-0">
             <img
-              className="w-full h-full object-cover nc-SectionHero2Item__image"
-              src={item.image}
-              alt="hero"
-              loading="lazy"
+              className="w-full h-full object-contain object-center"
+              src={item?.image}
             />
-          </div>
-        
+        </div>
       </div>
     );
   };
