@@ -121,12 +121,13 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = (data) => {
             <button
               className="hidden lg:flex w-10 h-10 sm:w-12 sm:h-12 rounded-full text-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none items-center justify-center"
               onClick={() => setShowSearchForm(!showSearchForm)}
+              aria-lable="search button"
             >
               {renderMagnifyingGlassIcon()}
             </button>
           )}
 
-          { user === null ? <Link className="mx-2 text-white" to={`/login`} aria-label="Go to cart page">Login</Link>  :  <AvatarDropdown />}
+          { user === null ? <Link className="mx-2 text-white" to={`/login`} aria-label="Go to login page">Login</Link>  :  <AvatarDropdown />}
 
           <CartDropdown />
         </div>
