@@ -1,12 +1,12 @@
 {
   "dev": {
-    "default-src": ["self"],
-    "style-src": ["self"],
+    "default-src": ["https://main--effortless-liger-f6e2ab.netlify.app/"],
+    "style-src": ["https://main--effortless-liger-f6e2ab.netlify.app/"],
     "connect-src": ["https://ecofreaky.com/wp-json/wc/v3/"]
   },
   "prod": {
-    "default-src": "self",
-    "style-src": ["self"],
+    "default-src": "https://main--effortless-liger-f6e2ab.netlify.app/",
+    "style-src": ["https://main--effortless-liger-f6e2ab.netlify.app/"],
     "connect-src": ["https://ecofreaky.com/wp-json/wc/v3/"]
   }
 }
