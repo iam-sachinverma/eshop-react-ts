@@ -6,6 +6,8 @@
   "prod": {
     "default-src": "'self' 'unsafe-inline'",
     "style-src": ["'self'"],
-    "connect-src": ["https://ecofreaky.com/wp-json/wc/v3/"]
+    "connect-src": [
+      "https://ecofreaky.com/wp-json/wc/v3/, 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk='"
+    ]
   }
 }
