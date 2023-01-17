@@ -67,6 +67,7 @@ const Footer: React.FC = () => {
                 to={`${item.href}`} 
                 className=" text-white hover:text-white dark:hover:text-white"
                 rel="noopener noreferrer"
+                aria-label={`${item.label}`}
               >
                 {item.label}
               </Link>

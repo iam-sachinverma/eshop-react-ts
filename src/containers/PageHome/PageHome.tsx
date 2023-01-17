@@ -1,7 +1,5 @@
-import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import { Helmet } from "react-helmet";
 import SectionHero2 from "components/SectionHero/SectionHero2";
-// import SectionSliderLargeProduct from "components/SectionSliderLargeProduct";
 import SectionSliderProductCard from "components/SectionSliderProductCard";
 import DiscoverMoreSlider from "components/DiscoverMoreSlider";
 import SectionPromo3 from "components/SectionPromo3";
@@ -11,13 +9,11 @@ import { useGetAllProductsQuery } from "features/product/productApiSlice";
 function PageHome() {
   
   const { data:products, isSuccess } = useGetAllProductsQuery(null);
-
-  console.log(products);
   
   return (
     <div className="nc-PageHome relative overflow-hidden">
       <Helmet>
-        <title>EcoFreaky</title>
+        <title>EcoFreaky - Shop for economical eco-friendly products</title>
       </Helmet>
 
       {/* SECTION HERO */}
