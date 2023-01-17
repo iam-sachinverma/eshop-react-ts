@@ -1,10 +1,10 @@
 {
   "dev": {
-    "default-src": ["'self' unsafe-inline"],
+    "default-src": ["'self' 'unsafe-inline'"],
     "style-src": ["'self'"]
   },
   "prod": {
-    "default-src": "'self' unsafe-inline",
+    "default-src": "'self' 'unsafe-inline'",
     "style-src": ["'self'"],
     "connect-src": ["https://ecofreaky.com/wp-json/wc/v3/"]
   }
