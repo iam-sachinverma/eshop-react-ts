@@ -121,7 +121,7 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = (data) => {
             <button
               className="hidden lg:flex w-10 h-10 sm:w-12 sm:h-12 rounded-full text-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none items-center justify-center"
               onClick={() => setShowSearchForm(!showSearchForm)}
-              aria-lable="search button"
+              aria-label="search button"
             >
               {renderMagnifyingGlassIcon()}
             </button>

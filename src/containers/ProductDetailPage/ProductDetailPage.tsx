@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState, useMemo } from "react";
+import React, { FC, useState, useMemo } from "react";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
 import LikeButton from "components/LikeButton";
 import AccordionInfo from "./AccordionInfo";
