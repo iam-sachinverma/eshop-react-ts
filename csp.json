@@ -1,13 +1,11 @@
 {
   "dev": {
-    "default-src": ["'self' 'unsafe-inline'"],
-    "style-src": ["'self'"]
+    "default-src": ["'self'"],
+    "style-src": ["'self'", "https://*.google.com"]
   },
   "prod": {
-    "default-src": "'self' 'unsafe-inline'",
-    "style-src": ["'self'"],
-    "connect-src": [
-      "https://ecofreaky.com/wp-json/wc/v3/, 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk='"
-    ]
+    "default-src": "'self'",
+    "style-src": ["'self'", "https://*.facebook.com"],
+    "connect-src": ["'self'", "https://ecofreaky.com/wp-json/wc/v3/"]
   }
 }
