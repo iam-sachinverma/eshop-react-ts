@@ -6,6 +6,6 @@
   "prod": {
     "default-src": "'self'",
     "style-src": ["'self'", "https://*.facebook.com"],
-    "connect-src": ["'self'", "https://ecofreaky.com/wp-json/wc/v3/"]
+    "connect-src": ["https://ecofreaky.com/wp-json/wc/v3/"]
   }
 }
