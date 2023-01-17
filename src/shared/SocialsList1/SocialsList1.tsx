@@ -23,7 +23,7 @@ const SocialsList1: FC<SocialsList1Props> = ({ className = "space-y-3" }) => {
         href={item.href}
         className="flex items-center text-2xl text-white dark:text-neutral-300 dark:hover:text-white leading-none space-x-2 group"
         key={index}
-        aria-lable={`EcoFreaky Social Media Link`}
+        aria-label={`EcoFreaky ${item.name} Link`}
       >
         <div className="flex-shrink-0 w-6 mx-1">
           <img src={item.icon} alt="" width={30}  height={30} />

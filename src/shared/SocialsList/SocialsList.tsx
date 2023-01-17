@@ -36,6 +36,7 @@ const SocialsList: FC<SocialsListProps> = ({
           target="_blank"
           rel="noopener noreferrer"
           title={item.name}
+          aria-label={`EcoFreaky ${item.name} Link`}
         >
           <img src={item.icon} alt="" width={30}  height={30} />
         </a>
