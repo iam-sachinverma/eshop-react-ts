@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import Loader from "components/Loader/Loader";
 
@@ -44,47 +44,45 @@ function App() {
       </div>
       {/* MAIN APP */}
 
-      <BrowserRouter>
-        <Suspense fallback={<Loader />}>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              {/* Public Routes */}
-              <Route index element={<PageHome />}></Route>
-              <Route path="*" element={<Page404 />}></Route>
+      <Suspense fallback={<Loader />}>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            {/* Public Routes */}
+            <Route index element={<PageHome />}></Route>
+            <Route path="*" element={<Page404 />}></Route>
 
-              <Route path="/product/:id" element={<ProductType />}></Route>
+            <Route path="/product/:id" element={<ProductType />}></Route>
 
+            <Route
+              path="/products/:category"
+              element={<PageCollection2 />}
+            ></Route>
+
+            <Route path="/search" element={<PageSearch />}></Route>
+
+            <Route path="/about" element={<PageAbout />}></Route>
+            <Route path="/contact" element={<PageContact />}></Route>
+
+            <Route path="/login" element={<PageLogin />}></Route>
+            <Route path="/signup" element={<PageSignUp />}></Route>
+
+            <Route path="/cart" element={<CartPage />}></Route>
+
+            <Route path="/blog" element={<BlogPage />}></Route>
+            <Route path="/blog-single" element={<BlogSingle />}></Route>
+
+            {/* Protected Routes */}
+            <Route element={<RequireAuth />}>
+              <Route path="/account" element={<AccountPage />}></Route>
               <Route
-                path="/products/:category"
-                element={<PageCollection2 />}
+                path="/account-my-order"
+                element={<AccountOrder />}
               ></Route>
-
-              <Route path="/search" element={<PageSearch />}></Route>
-
-              <Route path="/about" element={<PageAbout />}></Route>
-              <Route path="/contact" element={<PageContact />}></Route>
-
-              <Route path="/login" element={<PageLogin />}></Route>
-              <Route path="/signup" element={<PageSignUp />}></Route>
-
-              <Route path="/cart" element={<CartPage />}></Route>
-
-              <Route path="/blog" element={<BlogPage />}></Route>
-              <Route path="/blog-single" element={<BlogSingle />}></Route>
-
-              {/* Protected Routes */}
-              <Route element={<RequireAuth />}>
-                <Route path="/account" element={<AccountPage />}></Route>
-                <Route
-                  path="/account-my-order"
-                  element={<AccountOrder />}
-                ></Route>
-                <Route path="/checkout" element={<CheckoutPage />}></Route>
-              </Route>
+              <Route path="/checkout" element={<CheckoutPage />}></Route>
             </Route>
-          </Routes>
-        </Suspense>
-      </BrowserRouter>
+          </Route>
+        </Routes>
+      </Suspense>
     </>
   );
 }
