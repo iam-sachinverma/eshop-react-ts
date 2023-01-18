@@ -2,3 +2,8 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; img-src https://ecofreaky.com 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' https://ecofreaky.com; base-uri 'self'; object-src 'none'; upgrade-insecure-requests;"  
