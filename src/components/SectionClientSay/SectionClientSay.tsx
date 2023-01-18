@@ -3,6 +3,11 @@ import Glide from "@glidejs/glide";
 import Heading from "components/Heading/Heading";
 import { useEffect } from "react";
 
+import client1 from "images/Nest_man_of_India.webp";
+import client2 from "images/Subhajit_Mukherjee.webp";
+import client3 from "images/Bamboo_Man_Of_India.webp";
+import client4 from "images/Recycle_Man_on_India.webp";
+
 export interface SectionClientSayProps {
   className?: string;
 }
@@ -10,26 +15,23 @@ export interface SectionClientSayProps {
 const DEMO_DATA = [
   {
     id: 1,
-    image:
-      "https://ik.imagekit.io/de3sec/assets/Subhajit_Mukherjee__KJasOtr2.jpg?ik-sdk-version=javascript-1.4.3&updatedAt=1662201254280",
-    clientName: "Subhajit Mukherjee",
-    content:
-      "I believe that this concept has great potential and my goal of living an eco-friendly life has now become a real possibility.",
-    designation: "Mission Green Mumbai",
-  },
-  {
-    id: 2,
-    image:
-      "https://ik.imagekit.io/de3sec/assets/Nest_man_of_India_8r9Q3Pdvr.jpg?ik-sdk-version=javascript-1.4.3&updatedAt=1662201254279",
+    image: client1,
     clientName: "Rakesh Khatri",
     content:
       "Ecofreaky can really change how we perceive sustainable living.  It will bring us one step closer to save this planet",
     designation: "Nest Man Of India",
   },
   {
+    id: 2,
+    image: client2,
+    clientName: "Subhajit Mukherjee",
+    content:
+      "I believe that this concept has great potential and my goal of living an eco-friendly life has now become a real possibility.",
+    designation: "Mission Green Mumbai",
+  },
+  {
     id: 3,
-    image:
-      "https://ik.imagekit.io/de3sec/assets/Bamboo_Man_Of_India_2YgQApg7ID.jpg?ik-sdk-version=javascript-1.4.3&updatedAt=1662201254292",
+    image: client3,
     clientName: "Yogesh Shinde",
     content:
       "This marketplace will easily provide a guilt-free shopping experience to consumers because other marketplaces generate a lot of waste in deliveries",
@@ -37,8 +39,7 @@ const DEMO_DATA = [
   },
   {
     id: 4,
-    image:
-    "https://ik.imagekit.io/de3sec/assets/Recycle_Man_on_India_7Cfnq6Z5e.jpg?ik-sdk-version=javascript-1.4.3&updatedAt=1662201254289",
+    image: client4,
     clientName: "Binish Desai",
     content:
       "I have always wanted a one-stop marketplace for sustainable products to cut down the hassle of scouring the internet for sustainable products. And Ecofreaky is just that.",

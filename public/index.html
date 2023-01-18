@@ -13,11 +13,12 @@
 
     <meta
       http-equiv="Content-Security-Policy"
-      content="
-       default-src 'self' https: ; 
-       script-src 'self' ; object-src 'none' ; 
-       style-src 'self'; 
-       connect-src 'https://ecofreaky.com/wp-json/wc/v3/';
+      content="default-src 'self'; 
+       img-src https://ecofreaky.com 'self'; 
+       script-src 'self'; 
+       style-src 'self' 'unsafe-inline'; 
+       connect-src 'self' https://ecofreaky.com; 
+       upgrade-insecure-requests;
       "
     />
 

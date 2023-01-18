@@ -12,6 +12,7 @@ function PageHome() {
   
   return (
     <div className="nc-PageHome relative overflow-hidden">
+      
       <Helmet>
         <title>EcoFreaky - Shop for economical eco-friendly products</title>
       </Helmet>
