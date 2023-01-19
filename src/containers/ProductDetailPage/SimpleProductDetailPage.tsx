@@ -19,7 +19,7 @@ import Review from "./Review"
 
 // 
 import { addProductToCart } from "app/cartSlice";
-import { useAppDispatch, useAppSelector } from "app/hooks";
+import { useAppDispatch } from "app/hooks";
 
 export interface SimpleProductDetailPageProps {
   className?: string;
@@ -284,7 +284,6 @@ const SimpleProductDetailPage: FC<SimpleProductDetailPageProps> = ({ className =
 
         </div>
       </main>
-
       
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { FC, useState, useCallback, useMemo } from "react";
+import { FC, useState, useCallback, useMemo } from "react";
 import { Helmet } from "react-helmet";
 import ProductCard from "components/ProductCard";
 import SidebarFilters from "./SidebarFilters";
@@ -16,43 +16,9 @@ const PageCollection2: FC<PageCollection2Props> = ({ className = "" }) => {
 
   const { data:products, isSuccess } = useGetCategoryProductsQuery(params?.category)
 
-  const [isOnSale, setIsIsOnSale] = useState(false);
-  const [colorsState, setColorsState] = useState<string[]>([]);
-  const [sizesState, setSizesState] = useState<string[]>([]);
-
-  const [attributesState, setAttributesState] = useState<string[]>([]);
-  
-  // max _ min price
-  const [rangePrices, setRangePrices] = useState([100, 500]);
-
   const [sortOrderStates, setSortOrderStates] = useState<string>("");
 
   console.log(sortOrderStates);
-  
-  const handleChangeAttributesFilter = (checked: boolean, name: string) => {
-    checked
-      ? setAttributesState([...attributesState, name])
-      : setAttributesState(attributesState.filter((i) => i !== name))
-  }
-  
-  const handleChangeColors = (checked: boolean, name: string) => {
-    checked
-      ? setColorsState([...colorsState, name])
-      : setColorsState(colorsState.filter((i) => i !== name));
-  };
-
-  const handleChangeSizes = (checked: boolean, name: string) => {
-    checked
-      ? setSizesState([...sizesState, name])
-      : setSizesState(sizesState.filter((i) => i !== name));
-  };
-
-  const handlePriceRange = (_input: number | number[]) =>
-  setRangePrices(_input as number[])
-
-  const handleOnSale = () => {
-    setIsIsOnSale((prev) => !prev)
-  }
 
   const handleSortOrder = useCallback(
     (_input: string) => {
@@ -115,16 +81,6 @@ const PageCollection2: FC<PageCollection2Props> = ({ className = "" }) => {
               {/* Sidebar */}
               <div className="lg:w-1/3 xl:w-1/4 pr-4">
                 <SidebarFilters 
-                 colorState={colorsState} 
-                 changeColors={handleChangeColors}
-                 isOnSaleValue={isOnSale}
-                 onSaleHandler={handleOnSale}
-                 sizeState={colorsState} 
-                 changeSizes={handleChangeSizes}
-                 rangePrice={rangePrices}
-                 changePrice={handlePriceRange}
-                 attributeState={attributesState}
-                 changeAttributes={handleChangeAttributesFilter}
                  sortStates={sortOrderStates}
                  setSortStates={handleSortOrder}
                 />

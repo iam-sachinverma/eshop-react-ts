@@ -160,11 +160,11 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
   ]  
   
   const addToCartHandler = () => {
-
     if(selectedVariant.length < product?.attributes.length){
       toast.error('Please select Attributes')
       return 
     }
+  
 
     dispatch(addProductToCart({...variant[0], name:`${product?.name}`,  quantitySelected}));
       toast.custom(
@@ -180,6 +180,7 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
         ),
         { position: "top-right", id: "nc-product-notify", duration: 1000 }
       );
+
   };
 
   const renderStatus = () => {
