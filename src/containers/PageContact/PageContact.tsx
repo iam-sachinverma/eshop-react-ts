@@ -39,7 +39,7 @@ const PageContact: FC<PageContactProps> = ({ className = "" }) => {
           Contact
         </h2>
         <div className="container max-w-7xl mx-auto">
-          <div className="flex-shrink-0 grid grid-cols-1 md:grid-cols-2 gap-12 ">
+          <div className="content-center">
             <div className="max-w-sm space-y-8">
               {info.map((item, index) => (
                 <div key={index}>
@@ -57,36 +57,6 @@ const PageContact: FC<PageContactProps> = ({ className = "" }) => {
                 </h3>
                 <SocialsList className="mt-2" />
               </div>
-            </div>
-            <div>
-              <form className="grid grid-cols-1 gap-6" action="#" method="post">
-                <label className="block">
-                  <Label>Full name</Label>
-
-                  <Input
-                    placeholder="Please enter your name"
-                    type="text"
-                    className="mt-1"
-                  />
-                </label>
-                <label className="block">
-                  <Label>Email address</Label>
-
-                  <Input
-                    type="email"
-                    placeholder="Please enter your email"
-                    className="mt-1"
-                  />
-                </label>
-                <label className="block">
-                  <Label>Message</Label>
-
-                  <Textarea className="mt-1" rows={6} />
-                </label>
-                <div>
-                  <ButtonPrimary type="submit">Send Message</ButtonPrimary>
-                </div>
-              </form>
             </div>
           </div>
         </div>

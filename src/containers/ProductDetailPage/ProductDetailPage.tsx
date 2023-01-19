@@ -116,12 +116,11 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
             </span>
           </label>
         </div>
-        <div className="grid grid-cols-5 gap-2 mt-2">
+        <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-4 gap-2 mt-2">
           {item.options?.map((option: string, index: number) => {
 
-            const isActive =  selectedVariant.length > 0 &&  selectedVariant.find((attr:any) => attr.option === option)
-            
-            const outStock = false
+            const isActive =  selectedVariant.length > 0 &&  selectedVariant.find((attr:any) => attr.option === option)       
+            const outStock =  false
             
             return (
               <div

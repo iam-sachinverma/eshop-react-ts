@@ -2,7 +2,6 @@ import { Helmet } from "react-helmet";
 import SectionHero2 from "components/SectionHero/SectionHero2";
 import SectionSliderProductCard from "components/SectionSliderProductCard";
 import DiscoverMoreSlider from "components/DiscoverMoreSlider";
-import SectionPromo3 from "components/SectionPromo3";
 import SectionClientSay from "components/SectionClientSay/SectionClientSay";
 import { useGetAllProductsQuery } from "features/product/productApiSlice";
 
@@ -42,8 +41,6 @@ function PageHome() {
         />
         }
 
-        {/* SECTION */}
-        <SectionPromo3 />
 
         {/* <div className="relative py-24 lg:py-32">
           <BackgroundSection />

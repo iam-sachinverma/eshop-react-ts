@@ -38,7 +38,7 @@ const SocialsList: FC<SocialsListProps> = ({
           title={item.name}
           aria-label={`EcoFreaky ${item.name} Link`}
         >
-          <img src={item.icon} alt="" width={30}  height={30} />
+          <img src={item.icon} alt="" width={48}  height={48} />
         </a>
       ))}
     </nav>
