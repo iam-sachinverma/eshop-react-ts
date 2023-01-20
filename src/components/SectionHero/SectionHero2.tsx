@@ -7,6 +7,8 @@ import Prev from "shared/NextPrev/Prev";
 import useInterval from "react-use/lib/useInterval";
 import useBoolean from "react-use/lib/useBoolean";
 
+import NcImage from "shared/NcImage/NcImage";
+
 interface Hero2DataType {
   image: string;
   alt: string;
@@ -115,11 +117,8 @@ const SectionHero2: FC<SectionHero2Props> = ({ className = "" }) => {
         />
 
         <div className="relative p-0">
-            <img
-              className="w-full h-full object-contain object-center"
-              src={item?.image}
-              alt={item.alt}
-            />
+          <NcImage className='w-full h-full object-contain object-center' src={item?.image}>
+          </NcImage>
         </div>
       </div>
     );

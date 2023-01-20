@@ -107,7 +107,7 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = (data) => {
           <Logo className="flex-shrink-0" />
         </div>
 
-        <div className="flex-[2] hidden lg:flex justify-center">
+        <div className="flex-[3] hidden lg:flex justify-center">
           {showSearchForm ? renderSearchForm() : <Navigation navigation={data}/>}
         </div>
 
