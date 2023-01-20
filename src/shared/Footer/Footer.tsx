@@ -35,9 +35,9 @@ const widgetMenus: WidgetFooterMenu[] = [
     id: "3",
     title: "Known More",
     menus: [
-      { href: "#", label: "Privacy Policy" },
-      { href: "#", label: "Refund, Exchange and Returns Policy" },
-      { href: "#", label: "Terms and conditions" },
+      { href: "/privacy-policy", label: "Privacy Policy" },
+      { href: "/refund-exchange-returns-policy", label: "Refund, Exchange and Returns Policy" },
+      { href: "/terms-and-conditions", label: "Terms and conditions" },
     ],
   },
 ];

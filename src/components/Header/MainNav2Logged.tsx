@@ -5,11 +5,8 @@ import AvatarDropdown from "./AvatarDropdown";
 import Navigation from "shared/Navigation/Navigation";
 import CartDropdown from "./CartDropdown";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-
-import { Link } from "react-router-dom";
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { useNavigate, createSearchParams } from 'react-router-dom'
-import { useAppSelector } from "app/hooks";
 import { NavItemType } from "shared/Navigation/NavigationItem";
 
 export interface MainNav2LoggedProps {
@@ -25,8 +22,6 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = (data) => {
   const navigate = useNavigate();
 
   const [showSearchForm, setShowSearchForm] = useState(false);
-
-  const user = useAppSelector((state) => state.auth.user);
 
   const {register, handleSubmit} = useForm<SearchValue>();
 
@@ -108,7 +103,7 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = (data) => {
           <MenuBar  navigation={data}/>
         </div>
 
-        <div className="lg:flex flex items-center mr-10">
+        <div className="lg:flex-1 flex items-center">
           <Logo className="flex-shrink-0" />
         </div>
 
@@ -127,9 +122,10 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = (data) => {
             </button>
           )}
 
-          { user === null ? <Link className="mx-2 text-white" to={`/login`} aria-label="Go to login page">Login</Link>  :  <AvatarDropdown />}
+          <AvatarDropdown />
 
           <CartDropdown />
+          
         </div>
       </div>
     );

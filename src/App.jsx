@@ -36,6 +36,16 @@ const PageLogin = lazy(() => import("containers/PageLogin/PageLogin"));
 const BlogPage = lazy(() => import("containers/BlogPage/BlogPage"));
 const BlogSingle = lazy(() => import("containers/BlogPage/BlogSingle"));
 
+const PagePrivacyPolicy = lazy(() =>
+  import("containers/PageKnowMore/PagePrivacyPolicy")
+);
+
+const PageRefundReturnPolicy = lazy(() =>
+  import("containers/PageKnowMore/PageRefundReturnPolicy")
+);
+
+const PageTerms = lazy(() => import("containers/PageKnowMore/PageTerms"));
+
 function App() {
   return (
     <>
@@ -70,6 +80,18 @@ function App() {
 
             <Route path="/blog" element={<BlogPage />}></Route>
             <Route path="/blog-single" element={<BlogSingle />}></Route>
+
+            <Route
+              path="/privacy-policy"
+              element={<PagePrivacyPolicy />}
+            ></Route>
+
+            <Route path="/terms-and-conditions" element={<PageTerms />}></Route>
+
+            <Route
+              path="/refund-exchange-returns-policy"
+              element={<PageRefundReturnPolicy />}
+            ></Route>
 
             {/* Protected Routes */}
             <Route element={<RequireAuth />}>

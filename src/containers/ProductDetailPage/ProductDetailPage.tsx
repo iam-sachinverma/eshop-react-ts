@@ -375,12 +375,12 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
           <hr className="border-slate-200 dark:border-slate-700" />
 
           {/* OTHER SECTION */}
-          <SectionSliderProductCard
+          {/* <SectionSliderProductCard
             heading="Customers also purchased"
             subHeading=""
             headingFontClassName="text-2xl font-semibold"
             headingClassName="mb-10 text-neutral-900 dark:text-neutral-50"
-          />
+          /> */}
 
         </div>
       </main>
