@@ -14,8 +14,8 @@ export interface NavItemType {
   menu_order?: number;
   count?: number;
   _links?: any;
-  // children?: NavItemType[];
-  [key: string]: any;
+  children?: NavItemType[];
+  type?: string;
 }
 
 export interface NavigationItemProps {
@@ -67,7 +67,7 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
                 static
                 className="sub-menu absolute transform z-10 w-56 top-full left-0"
               >
-                <ul className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 dark:ring-white dark:ring-opacity-10 text-sm relative bg-white dark:bg-neutral-900 py-4 grid space-y-1">
+                <ul className="rounded shadow-lg ring-1 ring-black ring-opacity-5 dark:ring-white dark:ring-opacity-10 text-sm relative bg-white dark:bg-neutral-900 py-4 grid space-y-1">
                   {menuDropdown.children?.map((i:NavItemType) => {
                     if (i.type) {
                       return renderDropdownMenuNavlinkHasChild(i);
@@ -161,15 +161,14 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
 
   // ===================== MENU MAIN MENU =====================
 
-  // custom by edit sachin
   const renderMainItem = (item: NavItemType) => {
     return (
-      <div className="h-20 flex-shrink-0 flex items-center">
+      <div className="flex-shrink-0 flex items-center">
         <NavLink
           end
           
           rel="noopener noreferrer"
-          className="inline-flex items-center text-sm lg:text-[15px] font-medium text-white dark:text-slate-300 py-2.5 px-4 xl:px-5 rounded-full hover:text-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 dark:hover:text-slate-200"
+          className="inline-flex items-center text-sm lg:text-[15px] font-medium text-dark dark:text-slate-300 py-2.5 px-4 xl:px-5 rounded-md hover:text-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 dark:hover:text-slate-200"
           to={`products/${item?.id}`}
         > 
           {item.name.includes('&amp;') ? item.name.replace('&amp;', '&') : item.name}

@@ -18,10 +18,10 @@ interface CardCategory {
 }
 
 const colors = [
-  'bg-yellow-50',
   'bg-red-50',
-  'bg-blue-50',
+  'bg-yellow-50',
   'bg-green-50',
+  'bg-blue-50',
   'bg-pink-50',
   'bg-purple-50',
   'bg-emerald-50',
@@ -87,7 +87,7 @@ const DiscoverMoreSlider = () => {
             item.parent === 0 && (
               <li key={index} className={`glide__slide`}>
               <CardCategory3
-                name={item?.name}
+                name={item.name.includes('&amp;') ? item.name.replace('&amp;', '&') : item.name}
                 id={item?.id}
                 description={item?.description}
                 featuredImage={item?.image?.src}

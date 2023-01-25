@@ -28,7 +28,7 @@ const Logo: React.FC<LogoProps> = ({
           }`}
           src={img}
           alt="Logo"
-          width={60}
+          width={70}
           height={70}
         />
       ) : (
@@ -39,7 +39,7 @@ const Logo: React.FC<LogoProps> = ({
           className="hidden max-h-14 sm:max-h-20 dark:block"
           src={imgLight}
           alt="Logo-Light"
-          width={60}
+          width={70}
           height={70}
         />
       )}

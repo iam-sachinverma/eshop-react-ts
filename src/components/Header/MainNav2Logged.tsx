@@ -73,7 +73,7 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = (data) => {
   const renderSearchForm = () => {
     return (
       <form
-        className="flex-1 py-2 text-slate-900 dark:text-slate-100"
+        className="flex-1 py-4 text-slate-900 dark:text-slate-100"
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="bg-slate-50 dark:bg-slate-800 flex items-center space-x-1.5 px-5 h-full rounded">
@@ -108,9 +108,9 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = (data) => {
         </div>
 
         <div className="flex-[3] hidden lg:flex justify-center">
-          {showSearchForm ? renderSearchForm() : <Navigation navigation={data}/>}
+          { showSearchForm && renderSearchForm() }
         </div>
-
+        
         <div className="flex-1 flex items-center justify-end text-slate-700 dark:text-slate-100">
           {!showSearchForm && (
             <button
@@ -131,9 +131,33 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = (data) => {
     );
   };
 
+  const renderTopNavbar = () => {
+    return (
+      <nav className="bg-white border-gray-200 px-2 sm:px-4 py-1.5 dark:bg-gray-900">
+        <div className="container flex flex-wrap items-center justify-center mx-auto">
+          <p className="text-xs font-medium lg:text-sm">FREE Shipping above ₹ 1000* | Delivering Across 🇮🇳</p>
+        </div>
+      </nav>
+    )
+  }
+
+  const renderCategoryNavbar = () => {
+    return (
+      <nav className="bg-white border-gray-200 px-2 sm:px-4 dark:bg-gray-900">
+        <div className="container flex flex-wrap items-center justify-center mx-auto">
+          <div className="hidden w-full md:block md:w-auto" id="navbar-multi-level">
+           <Navigation navigation={data}/>
+          </div>
+        </div>
+      </nav>
+    )
+  }
+
   return (
     <div className="nc-MainNav2Logged relative z-10 bg-navBg dark:bg-neutral-900 border-b border-slate-100 dark:border-slate-700">
+      { renderTopNavbar() }
       <div className="container ">{renderContent()}</div>
+      { renderCategoryNavbar() }
     </div>
   );
 };

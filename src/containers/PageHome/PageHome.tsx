@@ -41,7 +41,6 @@ function PageHome() {
         />
         }
 
-
         {/* <div className="relative py-24 lg:py-32">
           <BackgroundSection />
           <div>
@@ -57,6 +56,7 @@ function PageHome() {
 
         {/*  */}
         <SectionClientSay />
+        
       </div>
     </div>
   );
