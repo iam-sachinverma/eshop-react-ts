@@ -1,6 +1,5 @@
 import React, { FC, useState, useMemo } from "react";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
-import LikeButton from "components/LikeButton";
 import AccordionInfo from "./AccordionInfo";
 import { StarIcon } from "@heroicons/react/24/solid";
 import BagIcon from "components/BagIcon";
@@ -15,6 +14,8 @@ import toast from "react-hot-toast";
 import SectionSliderProductCard from "components/SectionSliderProductCard";
 import Policy from "./Policy";
 import NotifyAddTocart from "components/NotifyAddTocart";
+
+import Photos from "./Photos";
 
 //
 import FiveStartIconForRate from "components/FiveStartIconForRate"; 
@@ -66,18 +67,21 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
 
   // Variations State
   const [quantitySelected, setQuantitySelected] = React.useState(1);
-  const [selectedVariant, setSelectedVariant] = useState<any>([]);
+  const [selectedVariant, setSelectedVariant] = useState<VariantAttribute[]>([]);
 
-  const addRemoveVariant = (variant: any) => {
-    const arr:any = [...selectedVariant];
+  console.log(selectedVariant);
+  
+  const addRemoveVariant = (variant: VariantAttribute) => {
+    
+    const arr:VariantAttribute[] = [...selectedVariant];
 
-    const isContain = arr.find((v:any) => v.name === variant.name)
+    const isContain = arr.find((v:VariantAttribute) => v.name === variant.name)
 
     if(isContain === undefined){
       arr.push(variant)
     }else{
       
-      arr.forEach((attr:any, index:number) => {
+      arr.forEach((attr:VariantAttribute, index:number) => {
         if(attr.name === variant.name){
           arr[index] = variant
         }
@@ -89,18 +93,19 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
 
   const getProductVariant = () => {
     const product = productVariants?.filter((item:any) => JSON.stringify(item.attributes) == JSON.stringify(selectedVariant));
-    
     return product;
   }
 
   const variant = useMemo(() => getProductVariant(),[selectedVariant]);
 
   const renderProductAttributes = (item : ProductAttributes, indexAttr:number) => {
-    if(product.attributes.length === 0){
+    if(product.attributes.length === 0 ){
       return;
     }
 
     const { id, name, options } = item;
+
+    console.log(options);
 
     return (
       <div key={indexAttr}>
@@ -117,9 +122,9 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
           </label>
         </div>
         <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-4 gap-2 mt-2">
-          {item.options?.map((option: string, index: number) => {
+          {options.map((option: string, index: number) => {
 
-            const isActive =  selectedVariant.length > 0 &&  selectedVariant.find((attr:any) => attr.option === option)       
+            const isActive =  selectedVariant.length > 0 &&  selectedVariant.find((attr:VariantAttribute) => attr.option === option)       
             const outStock =  false
             
             return (
@@ -164,7 +169,6 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
       return 
     }
   
-
     dispatch(addProductToCart({...variant[0], name:`${product?.name}`,  quantitySelected}));
       toast.custom(
         (t) => (
@@ -257,7 +261,7 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
         </div>
 
         {/* ---------- RENDER VARIANTS ----------  */}
-        { product?.attributes.map(renderProductAttributes) }
+        { product?.attributes?.map(renderProductAttributes) }
 
         {/*  ---------- 4  QTY AND ADD TO CART BUTTON */}
         <div className="flex space-x-3.5">
@@ -308,9 +312,14 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
       <main className="container mt-5 lg:mt-11">
         <div className="lg:flex">
           {/* CONTENT */}
-          <div className="w-full lg:w-[55%] ">
+          <div className="w-full lg:w-[55%]">
             {/* HEADING */}
             <div className="relative">
+
+              {/* <div className="aspect-w-16 aspect-h-16">
+               <Photos imgs={product?.images}/>
+              </div> */}
+             
               <div className="aspect-w-16 aspect-h-16">
                 {
                   variant !== undefined && variant.length > 0 ? (
@@ -328,11 +337,11 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
                   )
                 }
               </div>
+
               {/* Render Status */}
               {renderStatus()}
 
               {/* META FAVORITES */}
-              <LikeButton className="absolute right-3 top-3 " />
             </div>
             <div className="grid grid-cols-2 gap-3 mt-3 sm:gap-6 sm:mt-6 xl:gap-8 xl:mt-8">
               {product?.images?.map((item: any, index: number) => {

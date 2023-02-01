@@ -37,14 +37,7 @@ const ProductCard: FC<ProductCardProps> = ({
       return null;
     }
     const CLASSES = `nc-shadow-lg rounded-full flex items-center justify-center absolute top-3 left-3 px-2.5 py-1.5 text-xs bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300`;
-    if (data?.featured === true) {
-      return (
-        <div className={CLASSES}>
-          <SparklesIcon className="w-3.5 h-3.5" />
-          <span className="ml-1 leading-none">Best Seller</span>
-        </div>
-      );
-    }
+
     if (data?.on_sale === true) {
       return (
         <div className={CLASSES}>
@@ -53,6 +46,7 @@ const ProductCard: FC<ProductCardProps> = ({
         </div>
       );
     }
+
     if (data?.stock_status === 'outstock') {
       return (
         <div className={CLASSES}>
@@ -61,14 +55,7 @@ const ProductCard: FC<ProductCardProps> = ({
         </div>
       );
     }
-    // if (status === "limited edition") {
-    //   return (
-    //     <div className={CLASSES}>
-    //       <ClockIcon className="w-3.5 h-3.5" />
-    //       <span className="ml-1 leading-none">{status}</span>
-    //     </div>
-    //   );
-    // }
+
     return null;
   };
 
@@ -101,7 +88,7 @@ const ProductCard: FC<ProductCardProps> = ({
         <div className="relative flex-shrink-0 bg-slate-50 dark:bg-slate-300 rounded-3xl overflow-hidden z-1 group">
           <Link to={`/product/${id}`} className="block" aria-label={`Open Product ${data?.name}`}>
             <NcImage
-              containerClassName="flex aspect-w-11 aspect-h-12 w-full h-0"
+              containerClassName="flex aspect-w-11 aspect-h-10 w-full h-0"
               src={data?.images?.[0]?.src}
               className="object-cover w-full h-full drop-shadow-xl"
             />

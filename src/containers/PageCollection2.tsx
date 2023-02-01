@@ -18,8 +18,6 @@ const PageCollection2: FC<PageCollection2Props> = ({ className = "" }) => {
 
   const [sortOrderStates, setSortOrderStates] = useState<string>("");
 
-  console.log(sortOrderStates);
-
   const handleSortOrder = useCallback(
     (_input: string) => {
       setSortOrderStates(_input)
@@ -49,13 +47,6 @@ const PageCollection2: FC<PageCollection2Props> = ({ className = "" }) => {
     if(sortOrderStates === 'Newest'){
       arr.sort((a, b) => b.total_sales - a.total_sales)
     }
-
-    // if(colorsState && colorsState.length > 0){
-    //   const data = products.filter((product: any) => {
-    //     return product.attributes.some((attr: any) => attr.options.includes(...colorsState))
-    //   })
-    //   arr.push(...data);
-    // }
 
     return arr;
   }

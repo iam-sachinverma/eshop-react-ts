@@ -1,7 +1,11 @@
 import React, { FC, useState } from "react";
+
 import imageRightPng from "images/hero-right.webp";
 import imageRightPng2 from "images/hero-right-2.webp";
 import imageRightPng3 from "images/hero-right-3.webp";
+
+import desktopImg from "images/hero-right-desktop.webp"
+
 import Next from "shared/NextPrev/Next";
 import Prev from "shared/NextPrev/Prev";
 import useInterval from "react-use/lib/useInterval";
@@ -117,8 +121,7 @@ const SectionHero2: FC<SectionHero2Props> = ({ className = "" }) => {
         />
 
         <div className="relative p-0">
-          <NcImage className='w-full h-full object-contain object-center' src={item?.image}>
-          </NcImage>
+          <NcImage className='w-full h-full object-contain object-center' src={item?.image} />
         </div>
       </div>
     );

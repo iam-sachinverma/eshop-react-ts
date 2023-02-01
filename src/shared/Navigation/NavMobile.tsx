@@ -218,6 +218,18 @@ const NavMobile: React.FC<NavMobileProps> = ({
       </div>
       <ul className="flex flex-col py-6 px-2 space-y-1">
         {data.navigation.data?.map(_renderItem)}
+        <hr></hr>
+        <NavLink
+          end
+          className={({ isActive }) => isActive ? "flex text-secondary w-full items-center py-2.5 px-4 font-medium uppercase tracking-wide text-sm hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg" : "flex w-full items-center py-2.5 px-4 font-medium uppercase tracking-wide text-sm hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg"}
+          to={`b2b-offering-bulk-requests`}
+        >
+          <span
+          onClick={onClickClose}
+          >
+            Bulk Request
+          </span>
+        </NavLink>
       </ul>
     </div>
   );

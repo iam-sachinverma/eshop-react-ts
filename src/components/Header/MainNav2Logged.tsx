@@ -1,4 +1,5 @@
 import React, { FC, useState } from "react";
+import { NavLink } from 'react-router-dom'
 import Logo from "shared/Logo/Logo";
 import MenuBar from "shared/MenuBar/MenuBar";
 import AvatarDropdown from "./AvatarDropdown";
@@ -135,7 +136,7 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = (data) => {
     return (
       <nav className="bg-white border-gray-200 px-2 sm:px-4 py-1.5 dark:bg-gray-900">
         <div className="container flex flex-wrap items-center justify-center mx-auto">
-          <p className="text-xs font-medium lg:text-sm">FREE Shipping above ₹ 1000* | Delivering Across 🇮🇳</p>
+          <p className="text-xs font-medium lg:text-sm">FREE Shipping above ₹ 499* | Delivering Across 🇮🇳</p>
         </div>
       </nav>
     )
@@ -145,8 +146,18 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = (data) => {
     return (
       <nav className="bg-white border-gray-200 px-2 sm:px-4 dark:bg-gray-900">
         <div className="container flex flex-wrap items-center justify-center mx-auto">
-          <div className="hidden w-full md:block md:w-auto" id="navbar-multi-level">
+          <div className="w-full md:w-auto flex" id="navbar-multi-level">
            <Navigation navigation={data}/>
+           
+            <NavLink
+              end
+              rel="noopener noreferrer"
+              className="inline-flex items-center text-sm lg:text-[15px] font-medium text-dark dark:text-slate-300 py-2.5 px-2 rounded-md hover:text-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 dark:hover:text-slate-200"
+              to="b2b-offering-bulk-requests"
+            > 
+              Bulk Request
+            </NavLink>
+             
           </div>
         </div>
       </nav>
@@ -156,8 +167,10 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = (data) => {
   return (
     <div className="nc-MainNav2Logged relative z-10 bg-navBg dark:bg-neutral-900 border-b border-slate-100 dark:border-slate-700">
       { renderTopNavbar() }
-      <div className="container ">{renderContent()}</div>
-      { renderCategoryNavbar() }
+      <div className="container">{renderContent()}</div>
+      <div className="hidden lg:block">
+        { renderCategoryNavbar() }
+      </div>
     </div>
   );
 };

@@ -22,22 +22,22 @@ function PageHome() {
       <div className="container relative space-y-24 my-8 md:my-12 lg:space-y-20 lg:my-14">
         
         {/* SECTION */}
-
-        { isSuccess &&
-        <SectionSliderProductCard
-          data={[...products].slice(0, 5)}
-        />
-        }
-
-        <div className="mt-20 lg:mt-30">
-          <DiscoverMoreSlider />
-        </div>
-
         { isSuccess &&
         <SectionSliderProductCard
           heading="Best Sellers"
           subHeading="Best selling of the month"
-          data={[...products].reverse().slice(0, 6)}
+          data={[...products].sort((a, b) => b.total_sales - a.total_sales)}
+        />
+        }
+        
+        <div className="mt-20 lg:mt-30">
+          <DiscoverMoreSlider />
+        </div>
+
+        
+        { isSuccess &&
+        <SectionSliderProductCard
+          data={[...products].slice(0, 5)}
         />
         }
 

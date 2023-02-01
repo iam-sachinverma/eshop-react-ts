@@ -19,8 +19,6 @@ export interface LocationStates {
   "products/42"?: {},
   "products/38"?: {},
 
-
-  
   //
   "/product-detail"?: {};
   "/product-detail-2"?: {};

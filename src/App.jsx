@@ -36,6 +36,10 @@ const PageLogin = lazy(() => import("containers/PageLogin/PageLogin"));
 const BlogPage = lazy(() => import("containers/BlogPage/BlogPage"));
 const BlogSingle = lazy(() => import("containers/BlogPage/BlogSingle"));
 
+const PageBulkRequest = lazy(() =>
+  import("containers/PageBulkRequest/PageBulkRequest")
+);
+
 const PagePrivacyPolicy = lazy(() =>
   import("containers/PageKnowMore/PagePrivacyPolicy")
 );
@@ -80,6 +84,11 @@ function App() {
 
             <Route path="/blog" element={<BlogPage />}></Route>
             <Route path="/blog-single" element={<BlogSingle />}></Route>
+
+            <Route
+              path="b2b-offering-bulk-requests"
+              element={<PageBulkRequest />}
+            ></Route>
 
             <Route
               path="/privacy-policy"

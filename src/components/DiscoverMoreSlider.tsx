@@ -84,7 +84,7 @@ const DiscoverMoreSlider = () => {
         <ul className="glide__slides">
           { isSuccess && categoriesArray?.map((item:any, index:number) => (
 
-            item.parent === 0 && (
+            +item.parent === 0 && (
               <li key={index} className={`glide__slide`}>
               <CardCategory3
                 name={item.name.includes('&amp;') ? item.name.replace('&amp;', '&') : item.name}
