@@ -22,24 +22,19 @@ function PageHome() {
       <div className="container relative space-y-24 my-8 md:my-12 lg:space-y-20 lg:my-14">
         
         {/* SECTION */}
-        { isSuccess &&
         <SectionSliderProductCard
           heading="Best Sellers"
           subHeading="Best selling of the month"
-          data={[...products].sort((a, b) => b.total_sales - a.total_sales)}
+          data={products}
         />
-        }
         
         <div className="mt-20 lg:mt-30">
           <DiscoverMoreSlider />
         </div>
 
-        
-        { isSuccess &&
         <SectionSliderProductCard
-          data={[...products].slice(0, 5)}
+          data={products}
         />
-        }
 
         {/* <div className="relative py-24 lg:py-32">
           <BackgroundSection />
