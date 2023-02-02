@@ -2,6 +2,7 @@ import React, { FC, useState } from "react";
 import facebookSvg from "images/Facebook.svg";
 import twitterSvg from "images/Twitter.svg";
 import googleSvg from "images/Google.svg";
+import { Toaster } from "react-hot-toast";
 import { Helmet } from "react-helmet";
 import Input from "shared/Input/Input";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
@@ -41,12 +42,11 @@ const loginSocials = [
 const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
   const navigate = useNavigate();
 
-  const [ createCustomer, { isLoading } ] = useCreateCustomerMutation();  
+  const [ createCustomer, { isSuccess } ] = useCreateCustomerMutation();  
 
   const {register, handleSubmit, formState: { errors }} = useForm<SignUp>();
   
   const [errMsg, setErrMsg] = useState('');
-  console.log(errMsg);
   
   const onSubmit: SubmitHandler<SignUp> = async (data) => {
     try {
@@ -63,7 +63,6 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
       }else if(error.data.status === 401){
         setErrMsg(error.data.message)
       }
-
     }
   };
 
@@ -73,10 +72,11 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
         <title>Sign up || Eco Freaky</title>
       </Helmet>
       <div className="container mb-24 lg:mb-32">
-        <h2 className="my-20 flex items-center text-3xl leading-[115%] md:text-5xl md:leading-[115%] font-semibold text-neutral-900 dark:text-neutral-100 justify-center">
-          Signup
+        <h2 className="my-8 lg:my-10 flex items-center text-3xl leading-[115%] md:text-5xl md:leading-[115%] font-medium text-neutral-900 dark:text-neutral-100 justify-center">
+          Create Account
         </h2>
-        <div className="max-w-md mx-auto space-y-6 ">
+        <br></br>
+        <div className="max-w-md mx-auto space-y-6">
           {/* <div className="grid gap-3">
             {loginSocials.map((item, index) => (
               <a
@@ -112,7 +112,7 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
                 {...register("first_name", 
                   { 
                   required: true,
-                  pattern: /^[A-Za-z]+$/i
+                  pattern: /^[a-zA-Z]+ [a-zA-Z]+$/
                   }
                 )} 
                 id="first_name" 
@@ -204,7 +204,6 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
               Sign in
             </Link>
           </span>
-
 
         </div>
       </div>

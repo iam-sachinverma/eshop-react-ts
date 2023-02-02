@@ -1,13 +1,13 @@
 import { FC } from "react";
 import Radio from "shared/Radio/Radio";
 
-// DEMO DATA
-const DATA_sortOrderRadios = [
-  { name: "Newest", id: "Newest" },
-  { name: "Most Popular", id: "Most-Popular" },
+// Sort Filter Static DATA
+const sortbyDATA = [
+  { name: "Price - Low to High", id: "Price-low-high" },
+  { name: "Price - High to Low", id: "Price-high-low" },
+  { name: "Popularity", id: "Most-Popular" },
+  { name: "Newest First", id: "Newest" },
   // { name: "Best Rating", id: "Best-Rating" },
-  { name: "Price Low - High", id: "Price-low-high" },
-  { name: "Price High - Low", id: "Price-high-low" },
 ];
 
 
@@ -27,8 +27,8 @@ const SidebarFilters: FC<SidebarFiltersProps> = ({
   const renderTabsSortOrder = () => {
     return (
       <div className="relative flex flex-col py-8 space-y-4">
-        <h3 className="font-semibold mb-2.5">Sort order</h3>
-        {DATA_sortOrderRadios.map((item) => (
+        <h3 className="font-semibold mb-2.5">Sort By</h3>
+        {sortbyDATA.map((item) => (
           <Radio
             id={item.id}
             key={item.id}

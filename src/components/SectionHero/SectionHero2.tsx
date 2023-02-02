@@ -3,8 +3,13 @@ import React, { FC, useState } from "react";
 import imageRightPng from "images/hero-right.webp";
 import imageRightPng2 from "images/hero-right-2.webp";
 import imageRightPng3 from "images/hero-right-3.webp";
+import imageRightPng4 from "images/hero-right-4.webp";
 
 import desktopImg from "images/hero-right-desktop.webp"
+import desktopImg2 from "images/hero-right-desktop-2.webp"
+import desktopImg3 from "images/hero-right-desktop-3.webp"
+import desktopImg4 from "images/hero-right-desktop-4.webp"
+
 
 import Next from "shared/NextPrev/Next";
 import Prev from "shared/NextPrev/Prev";
@@ -15,6 +20,7 @@ import NcImage from "shared/NcImage/NcImage";
 
 interface Hero2DataType {
   image: string;
+  imageDesktop?: string;
   alt: string;
 }
 
@@ -22,20 +28,28 @@ export interface SectionHero2Props {
   className?: string;
 }
 
+// Hero Image Static Data
 const DATA: Hero2DataType[] = [
   {
+    image: imageRightPng,
+    imageDesktop: desktopImg,
+    alt: "bamboo products"
+  },
+  {
     image: imageRightPng2,
+    imageDesktop: desktopImg2,
     alt: "body-care product category"
   },
   {
     image: imageRightPng3,
+    imageDesktop: desktopImg3,
     alt: "eco-friendly recycled stationary"
   },
   {
-    image: imageRightPng,
-    alt: "bamboo products"
+    image: imageRightPng4,
+    imageDesktop: desktopImg4,
+    alt: "eco-friendly recycled stationary"
   },
-  
 ];
 
 let TIME_OUT: NodeJS.Timeout | null = null;
@@ -120,9 +134,14 @@ const SectionHero2: FC<SectionHero2Props> = ({ className = "" }) => {
           onClickNext={handleClickNext}
         />
 
-        <div className="relative p-0">
+        <div className="lg:hidden block relative p-0">
           <NcImage className='w-full h-full object-contain object-center' src={item?.image} />
         </div>
+        
+        <div className="hidden lg:block relative p-0">
+         <NcImage className='w-full h-full object-contain object-center' src={item?.imageDesktop} /> 
+        </div>
+
       </div>
     );
   };
