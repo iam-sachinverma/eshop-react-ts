@@ -61,6 +61,7 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
       dispatch(setCredentials(userData));
       navigate('/')
       toast.success('Login Successfully Continue Shopping', {
+        duration: 4000,
         position: 'bottom-center'
       })
       
