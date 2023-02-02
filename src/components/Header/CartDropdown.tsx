@@ -1,13 +1,14 @@
 import { Popover, Transition } from "@headlessui/react";
 import Prices from "components/Prices";
-import { Product, PRODUCTS } from "data/data";
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
 import ButtonSecondary from "shared/Button/ButtonSecondary";
 
+import emptybox from "images/empty.png"
+
 import {useAppSelector, useAppDispatch} from 'app/hooks';
-import { removeProduct } from "app/cartSlice"
+import { emptyCart, removeProduct } from "app/cartSlice"
 
 export default function CartDropdown() {
   const dispatch = useAppDispatch();
@@ -49,17 +50,19 @@ export default function CartDropdown() {
                     {item?.name}
                   </Link>
                 </h3>
-                { item.attributes.map((attr: any, index:number) => (
-                        <div className="flex items-center space-x-1.5 text-sm" key={index}>
-                        
-                        <span className="font-medium">{`${attr.name} :`}</span>
-              
-                        <span>{`${attr.option}`}</span>
+                { 
+                  item.attributes.map((attr: any, index:number) => (
+                    <div className="flex items-center space-x-1.5 text-sm" key={index}>
+                    
+                    <span className="font-medium">{`${attr.name} :`}</span>
+          
+                    <span>{`${attr.option}`}</span>
 
-                        <span className="mx-4 border-l border-slate-200 dark:border-slate-700 "></span>
+                    <span className="mx-4 border-l border-slate-200 dark:border-slate-700 "></span>
 
-                        </div>
-                      )) }
+                    </div>
+                  )) 
+                }
               </div>
               <Prices price={+item?.price} className="mt-0.5" />
             </div>
@@ -148,41 +151,65 @@ export default function CartDropdown() {
             <Popover.Panel className="hidden md:block absolute z-10 w-screen max-w-xs sm:max-w-md px-4 mt-3.5 -right-28 sm:right-0 sm:px-0">
               <div className="overflow-hidden rounded-2xl shadow-lg ring-1 ring-black/5 dark:ring-white/10">
                 <div className="relative bg-white dark:bg-neutral-800">
-                  <div className="max-h-[60vh] p-5 overflow-y-auto hiddenScrollbar">
-                    <h3 className="text-xl font-semibold">Shopping cart</h3>
-                    <div className="divide-y divide-slate-100 dark:divide-slate-700">
-                      {cartItems?.products.map(
-                        (item, index) => renderProduct(item, index, close)
-                      )}
-                    </div>
-                  </div>
-                  <div className="bg-neutral-50 dark:bg-slate-900 p-5">
-                    <p className="flex justify-between font-semibold text-slate-900 dark:text-slate-100">
-                      <span>
-                        <span>Subtotal</span>
-                        <span className="block text-sm text-slate-500 dark:text-slate-400 font-normal">
-                          Shipping and taxes calculated at checkout.
-                        </span>
-                      </span>
-                      <span className="">₹ {cartItems?.total}</span>
-                    </p>
-                    <div className="flex space-x-2 mt-5">
-                      <ButtonSecondary
-                        href="/cart"
-                        className="flex-1 border border-slate-200 dark:border-slate-700"
-                        onClick={close}
-                      >
-                        View cart
-                      </ButtonSecondary>
-                      <ButtonPrimary
-                        href="/checkout"
-                        onClick={close}
-                        className="flex-1"
-                      >
-                        Check out
-                      </ButtonPrimary>
-                    </div>
-                  </div>
+
+                  {
+                    cartItems?.products?.length !== 0 ? (
+                      <>
+                        <div className="max-h-[60vh] p-5 overflow-y-auto hiddenScrollbar">
+                          <h3 className="text-xl font-semibold">Shopping cart</h3>
+                          <div className="divide-y divide-slate-100 dark:divide-slate-700">
+                            {cartItems?.products.map(
+                              (item, index) => renderProduct(item, index, close)
+                            )}
+                          </div>
+                        </div>
+                        <div className="bg-neutral-50 dark:bg-slate-900 p-5">
+                          <p className="flex justify-between font-semibold text-slate-900 dark:text-slate-100">
+                            <span>
+                              <span>Subtotal</span>
+                              <span className="block text-sm text-slate-500 dark:text-slate-400 font-normal">
+                                Shipping and taxes calculated at checkout.
+                              </span>
+                            </span>
+                            <span className="">₹ {cartItems?.total}</span>
+                          </p>
+                          <div className="flex space-x-2 mt-5">
+                            <ButtonSecondary
+                              href="/cart"
+                              className="flex-1 border border-slate-200 dark:border-slate-700"
+                              onClick={close}
+                            >
+                              View cart
+                            </ButtonSecondary>
+                            <ButtonPrimary
+                              href="/checkout"
+                              onClick={close}
+                              className="flex-1"
+                            >
+                              Check out
+                            </ButtonPrimary>
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="bg-neutral-50 dark:bg-slate-900 p-5 grid gap-6 place-content-center place-items-center">
+                          
+                          <p>Spend ₹499 more to get FREE Shipping</p>
+                           
+                          <img src={`${emptybox}`} className="w-28 h-28 object-contain mt-4" alt="Empty Cart Add Some Products" /> 
+                          
+                          <p className="mb-4">Your EcoFreaky Cart is Empty</p>
+                        
+                          <ButtonPrimary
+                            href="/"
+                            onClick={close}
+                          >
+                            Shop Eco-Friendly Products
+                          </ButtonPrimary>
+                      </div>
+                    )
+                  }
+                  
                 </div>
               </div>
             </Popover.Panel>

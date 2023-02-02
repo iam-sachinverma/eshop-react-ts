@@ -9,6 +9,8 @@ import ButtonPrimary from "shared/Button/ButtonPrimary";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { removeProduct, decreaseProduct, addProductToCart } from "app/cartSlice";
 
+import EmptyCartPage from "./EmptyCartPage";
+
 const MAX_SHIPPING = 499;
 
 const CartPage = () => {
@@ -33,31 +35,6 @@ const CartPage = () => {
       </div>
     );
   };
-
-  // const calculateTaxes = () => {
-  //   cartItems?.products?.map((item: any) => {
-
-  //    if(item.tax_status !== "taxable"){
-  //     return;
-  //    }
-
-  //    let max_tax = 0;
-
-
-  //    console.log( +item.price, +item.tax_class);
-     
-  //    const tax = +item.price - ( +item.price / ( ( +item.tax_class / 100 ) + 1 ) );
-  //    max_tax += tax;     
-
-  //    return max_tax;
-
-  //   })
-  // }
-
-  // const total_tax = useMemo(() => calculateTaxes(),[cartItems])
-
-  // console.log(total_tax);
-  
 
   const renderProduct = (item: any, index: number) => {
     const { image, price, name } = item;
@@ -209,126 +186,133 @@ const CartPage = () => {
         <title>Your Shopping Cart - EcoFreaky</title>
       </Helmet>
 
-      <main className="container py-8 md:py-14 lg:pb-28 lg:pt-10 ">
-        <div className="mb-12 sm:mb-16">
-          <h2 className="block text-2xl sm:text-3xl lg:text-4xl font-semibold">
-            My Cart
-          </h2>
-          <p className="text-sm md:text-md mt-4">{ 
-            cartItems.total < MAX_SHIPPING ? 
-             (`Spend  ₹${MAX_SHIPPING - cartItems.total} more to get FREE Shipping`) : 
-             (`You are eligible for FREE SHIPPING!`)}
-          </p>
-          {/* <div className="block mt-3 sm:mt-5 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-400">
-            <Link to={"/#"} className="">
-              Homepage
-            </Link>
-            <span className="text-xs mx-1 sm:mx-1.5">/</span>
-            <Link to={"/#"} className="">
-              Clothing Categories
-            </Link>
-            <span className="text-xs mx-1 sm:mx-1.5">/</span>
-            <span className="underline">Shopping Cart</span>
-          </div> */}
-        </div>
-
-        <hr className="border-slate-200 dark:border-slate-700 my-10 xl:my-12" />
-
-        <div className="flex flex-col lg:flex-row">
-          
-          <div className="w-full lg:w-[60%] xl:w-[55%] divide-y divide-slate-200 dark:divide-slate-700 ">
-            {cartItems?.products?.map(renderProduct)}
-          </div>
-
-          <div className="border-t lg:border-t-0 lg:border-l border-slate-200 dark:border-slate-700 my-10 lg:my-0 lg:mx-10 xl:mx-16 2xl:mx-20 flex-shrink-0"></div>
-          
-          <div className="flex-1">
-            <div className="sticky top-28">
-              <h3 className="text-lg font-semibold ">Order Summary</h3>
-              <div className="mt-7 text-sm text-slate-500 dark:text-slate-400 divide-y divide-slate-200/70 dark:divide-slate-700/80">
-                <div className="flex justify-between pb-4">
-                  <span>Subtotal</span>
-                  <span className="font-semibold text-slate-900 dark:text-slate-200">
-                    ₹ {cartItems?.total}
-                  </span>
-                </div>
-                {/* <div className="flex justify-between py-4">
-                  <span>Shpping estimate</span>
-                  <span className="font-semibold text-slate-900 dark:text-slate-200">
-                    ₹ 0.00
-                  </span>
-                </div>
-                <div className="flex justify-between py-4">
-                  <span>Tax estimate</span>
-                  <span className="font-semibold text-slate-900 dark:text-slate-200">
-                    ₹ {`${total_tax}`}
-                  </span>
-                </div> */}
-                <div className="flex justify-between text-slate-900 dark:text-slate-200 text-base pt-4">
-                  <span>Order total</span>
-                  <span>₹ {cartItems?.total}</span>
-                </div>
-              </div>
-              <Link to={`/checkout`}>
-               <ButtonPrimary className="mt-8 w-full">Checkout</ButtonPrimary>
-              </Link>
-              <div className="mt-5 text-sm text-slate-500 dark:text-slate-400 flex items-center justify-center">
-                <p className="block relative pl-5">
-                  <svg
-                    className="w-4 h-4 absolute -left-1 top-0.5"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                  >
-                    <path
-                      d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M12 8V13"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M11.9945 16H12.0035"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                  Tax Included.{` `}
-                  {/* <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href="##"
-                    className="text-slate-900 dark:text-slate-200 underline font-medium"
-                  >
-                    Taxes
-                  </a>
-                  <span>
-                    {` `}and{` `}
-                  </span> */}
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href="##"
-                    className="text-slate-900 dark:text-slate-200 underline font-medium"
-                  >
-                    Shipping
-                  </a>
-                  {` `} calculated at checkout
-                </p>
-              </div>
+      {
+        cartItems?.products?.length === 0 ? (
+          <EmptyCartPage/>
+        ) : (
+          <main className="container py-8 md:py-14 lg:pb-28 lg:pt-10 ">
+            <div className="mb-12 sm:mb-16">
+              <h2 className="block text-2xl sm:text-3xl lg:text-4xl font-semibold">
+                My Cart
+              </h2>
+              <p className="text-sm md:text-md mt-4">{ 
+                cartItems.total < MAX_SHIPPING ? 
+                (`Spend  ₹${MAX_SHIPPING - cartItems.total} more to get FREE Shipping`) : 
+                (`You are eligible for FREE SHIPPING!`)}
+              </p>
+              {/* <div className="block mt-3 sm:mt-5 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-400">
+                <Link to={"/#"} className="">
+                  Homepage
+                </Link>
+                <span className="text-xs mx-1 sm:mx-1.5">/</span>
+                <Link to={"/#"} className="">
+                  Clothing Categories
+                </Link>
+                <span className="text-xs mx-1 sm:mx-1.5">/</span>
+                <span className="underline">Shopping Cart</span>
+              </div> */}
             </div>
-          </div>
 
-        </div>
-      </main>
+           <hr className="border-slate-200 dark:border-slate-700 my-10 xl:my-12" />
+
+            <div className="flex flex-col lg:flex-row">
+              
+              <div className="w-full lg:w-[60%] xl:w-[55%] divide-y divide-slate-200 dark:divide-slate-700 ">
+                {cartItems?.products?.map(renderProduct)}
+              </div>
+
+              <div className="border-t lg:border-t-0 lg:border-l border-slate-200 dark:border-slate-700 my-10 lg:my-0 lg:mx-10 xl:mx-16 2xl:mx-20 flex-shrink-0"></div>
+              
+              <div className="flex-1">
+                <div className="sticky top-28">
+                  <h3 className="text-lg font-semibold ">Order Summary</h3>
+                  <div className="mt-7 text-sm text-slate-500 dark:text-slate-400 divide-y divide-slate-200/70 dark:divide-slate-700/80">
+                    <div className="flex justify-between pb-4">
+                      <span>Subtotal</span>
+                      <span className="font-semibold text-slate-900 dark:text-slate-200">
+                        ₹ {cartItems?.total}
+                      </span>
+                    </div>
+                    {/* <div className="flex justify-between py-4">
+                      <span>Shpping estimate</span>
+                      <span className="font-semibold text-slate-900 dark:text-slate-200">
+                        ₹ 0.00
+                      </span>
+                    </div>
+                    <div className="flex justify-between py-4">
+                      <span>Tax estimate</span>
+                      <span className="font-semibold text-slate-900 dark:text-slate-200">
+                        ₹ {`${total_tax}`}
+                      </span>
+                    </div> */}
+                    <div className="flex justify-between text-slate-900 dark:text-slate-200 text-base pt-4">
+                      <span>Order total</span>
+                      <span>₹ {cartItems?.total}</span>
+                    </div>
+                  </div>
+                  <Link to={`/checkout`}>
+                  <ButtonPrimary className="mt-8 w-full">Checkout</ButtonPrimary>
+                  </Link>
+                  <div className="mt-5 text-sm text-slate-500 dark:text-slate-400 flex items-center justify-center">
+                    <p className="block relative pl-5">
+                      <svg
+                        className="w-4 h-4 absolute -left-1 top-0.5"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                      >
+                        <path
+                          d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M12 8V13"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M11.9945 16H12.0035"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      Tax Included.{` `}
+                      {/* <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="##"
+                        className="text-slate-900 dark:text-slate-200 underline font-medium"
+                      >
+                        Taxes
+                      </a>
+                      <span>
+                        {` `}and{` `}
+                      </span> */}
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="##"
+                        className="text-slate-900 dark:text-slate-200 underline font-medium"
+                      >
+                        Shipping
+                      </a>
+                      {` `} calculated at checkout
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </main>
+        )
+      }
+
     </div>
   );
 };

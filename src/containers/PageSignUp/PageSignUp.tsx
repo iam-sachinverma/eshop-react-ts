@@ -2,7 +2,7 @@ import React, { FC, useState } from "react";
 import facebookSvg from "images/Facebook.svg";
 import twitterSvg from "images/Twitter.svg";
 import googleSvg from "images/Google.svg";
-import { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { Helmet } from "react-helmet";
 import Input from "shared/Input/Input";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
@@ -52,6 +52,10 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
     try {
       await createCustomer(data).unwrap();
       navigate('/login')
+      toast.success('SignUp Successfully Login To Start Shopping', {
+        duration: 5000,
+        position: 'bottom-center'
+      })
     } catch (error:any) {
       
       if(error.status === 400){

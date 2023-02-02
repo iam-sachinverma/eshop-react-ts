@@ -14,7 +14,6 @@ import { persistor, store } from "app/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { BrowserRouter } from "react-router-dom";
 
-
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
