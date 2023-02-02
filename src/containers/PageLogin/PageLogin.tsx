@@ -1,14 +1,15 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useState } from "react";
 import facebookSvg from "images/Facebook.svg";
 import twitterSvg from "images/Twitter.svg";
 import googleSvg from "images/Google.svg";
 import { Helmet } from "react-helmet";
 import Input from "shared/Input/Input";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
+import toast from "react-hot-toast";
 
 import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { useAppDispatch, useAppSelector } from "app/hooks";
+import { useAppDispatch } from "app/hooks";
 
 // 
 import { useRef } from "react";
@@ -51,14 +52,18 @@ const PageLogin: FC<PageLoginProps> = ({ className = "" }) => {
 
   const [errMsg, setErrMsg] = useState('');
 
-  const [login, {isLoading}] = useLoginMutation()
+  const [ login ] = useLoginMutation()
 
   const onSubmit: SubmitHandler<LogIn> = async (data) => {
     try {
       const userData = await login(data).unwrap()
-      console.log(userData);
+      
       dispatch(setCredentials(userData));
       navigate('/')
+      toast.success('Login Successfully Continue Shopping', {
+        position: 'bottom-center'
+      })
+      
     } catch (error:any) {
 
       if(error.status === 403){
