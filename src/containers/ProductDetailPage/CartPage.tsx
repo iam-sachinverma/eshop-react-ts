@@ -192,7 +192,7 @@ const CartPage = () => {
         ) : (
           <main className="container py-8 md:py-14 lg:pb-28 lg:pt-10 ">
             <div className="mb-12 sm:mb-16">
-              <h2 className="block text-2xl sm:text-3xl lg:text-4xl font-semibold">
+              <h2 className="block text-2xl sm:text-3xl lg:text-4xl font-medium">
                 My Cart
               </h2>
               <p className="text-sm md:text-md mt-4">{ 
@@ -200,20 +200,9 @@ const CartPage = () => {
                 (`Spend  ₹${MAX_SHIPPING - cartItems.total} more to get FREE Shipping`) : 
                 (`You are eligible for FREE SHIPPING!`)}
               </p>
-              {/* <div className="block mt-3 sm:mt-5 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-400">
-                <Link to={"/#"} className="">
-                  Homepage
-                </Link>
-                <span className="text-xs mx-1 sm:mx-1.5">/</span>
-                <Link to={"/#"} className="">
-                  Clothing Categories
-                </Link>
-                <span className="text-xs mx-1 sm:mx-1.5">/</span>
-                <span className="underline">Shopping Cart</span>
-              </div> */}
             </div>
 
-           <hr className="border-slate-200 dark:border-slate-700 my-10 xl:my-12" />
+            {/* <hr className="border-slate-200 dark:border-slate-700 my-10 xl:my-12" /> */}
 
             <div className="flex flex-col lg:flex-row">
               

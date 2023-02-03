@@ -15,8 +15,6 @@ import SectionSliderProductCard from "components/SectionSliderProductCard";
 import Policy from "./Policy";
 import NotifyAddTocart from "components/NotifyAddTocart";
 
-import Photos from "./Photos";
-
 //
 import FiveStartIconForRate from "components/FiveStartIconForRate"; 
 import Label from "components/Label/Label";
@@ -68,8 +66,6 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
   // Variations State
   const [quantitySelected, setQuantitySelected] = React.useState(1);
   const [selectedVariant, setSelectedVariant] = useState<VariantAttribute[]>([]);
-
-  console.log(selectedVariant);
   
   const addRemoveVariant = (variant: VariantAttribute) => {
     
@@ -169,7 +165,12 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
       return 
     }
   
-    dispatch(addProductToCart({...variant[0], name:`${product?.name}`,  quantitySelected}));
+    dispatch(addProductToCart({
+      ...variant[0], 
+      product_id: product?.id,
+      name:`${product?.name}`,  
+      quantitySelected, 
+    }));
       toast.custom(
         (t) => (
           <NotifyAddTocart

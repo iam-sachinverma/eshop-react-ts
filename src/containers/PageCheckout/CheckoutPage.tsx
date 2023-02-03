@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { removeProduct, decreaseProduct, addProductToCart, emptyCart } from "app/cartSlice";
 import { useGetCustomerQuery } from "features/customer/customerApiSlice";
@@ -14,6 +14,7 @@ import ContactInfo from "./ContactInfo";
 import PaymentMethod from "./PaymentMethod";
 import ShippingAddress from "./ShippingAddress";
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/solid";
+import toast from "react-hot-toast";
 
 
 const CheckoutPage = () => {
@@ -21,22 +22,23 @@ const CheckoutPage = () => {
   const navigate = useNavigate();
 
   const user:any = useAppSelector((state) => state.auth.user)
+  console.log('User:', user);
   
   const { data:customer, refetch, isSuccess  } = useGetCustomerQuery(user?.user_email);
-  console.log(customer);
+  console.log('Customer', customer);
   
-  const [createOrder] = useCreateOrderMutation();
+  const [ createOrder ] = useCreateOrderMutation();
 
   const cartItems = useAppSelector((state) => state.cart);  
 
   const [ orderItems, setOrderItems ] = useState<any>([]);
 
   const createLineItems = (products: any) => {
+
     let arr = [...orderItems];
 
     products?.map((product: any) => {
       if(product?.type === 'simple'){
-        console.log('simple');
         
         const item = {
           product_id: product?.id,
@@ -45,10 +47,8 @@ const CheckoutPage = () => {
         arr.push(item)
       }else{
 
-        console.log('variable');
-
         const item = {
-          product_id: product?.id,
+          product_id: product?.product_id,
           variation_id: product?.id,
           quantity: product?.quantitySelected,
         }
@@ -56,20 +56,38 @@ const CheckoutPage = () => {
       }
     })
 
+    console.log(arr);
+    
     return arr;
   }
 
   const lineItems = useMemo(() => createLineItems(cartItems?.products),[cartItems]);
   console.log(lineItems);
   
+  
   const createOrderHandler = async () => {
+    
     refetch()
     
     if(isSuccess){
       if(customer?.[0]?.billing?.address_1 === ''){
-        alert('Please Enter Shipping Address');
+        
+        toast.error('Please Enter Shipping Address',{
+          duration: 4000,
+          position: "bottom-center"
+        })
+
+        return
+
       }else if(customer?.[0]?.billing?.phone === ''){
-        alert('Please Enter Contact Details')
+        
+        toast.error('Please Enter Contact Details',{
+          duration: 4000,
+          position: "bottom-center"
+        })
+
+        return
+
       }else{
   
         const orderData = {
@@ -84,13 +102,17 @@ const CheckoutPage = () => {
           },
           line_items: lineItems,
         }
-  
-        console.log('Order',orderData);
-  
+
+        console.log('Order Data', orderData);
+    
         try {
           await createOrder(orderData);
           dispatch(emptyCart());
           navigate('/');
+          toast.success('Your Order has been placed successfully',{
+            duration: 5000,
+            position: "bottom-center"
+          })
         } catch (error) {
           console.log(error);
         }
