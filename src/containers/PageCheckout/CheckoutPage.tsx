@@ -64,60 +64,62 @@ const CheckoutPage = () => {
   const lineItems = useMemo(() => createLineItems(cartItems?.products),[cartItems]);
   console.log(lineItems);
   
-  
   const createOrderHandler = async () => {
     
-    refetch()
+    refetch();
+
+    if(!isSuccess){
+      return;
+    }
     
-    if(isSuccess){
-      if(customer?.[0]?.billing?.address_1 === ''){
-        
-        toast.error('Please Enter Shipping Address',{
-          duration: 4000,
-          position: "bottom-center"
-        })
+    if(customer?.[0]?.billing?.address_1 === ''){
+      
+      toast.error('Please Enter Shipping Address',{
+        duration: 4000,
+        position: "bottom-center"
+      })
 
-        return
+      return
 
-      }else if(customer?.[0]?.billing?.phone === ''){
-        
-        toast.error('Please Enter Contact Details',{
-          duration: 4000,
-          position: "bottom-center"
-        })
+    }else if(customer?.[0]?.billing?.phone === ''){
+      
+      toast.error('Please Enter Contact Details',{
+        duration: 4000,
+        position: "bottom-center"
+      })
 
-        return
+      return
 
-      }else{
+    }else{
+
+      const orderData = {
+        payment_method: "bacs",
+        payment_method_title: "Direct Bank Transfer",
+        set_paid: true,
+        billing: {
+          ...customer[0]?.billing
+        },
+        shipping: {
+          ...customer[0]?.shipping
+        },
+        line_items: lineItems,
+      }
+
+      console.log('Order Data', orderData);
   
-        const orderData = {
-          payment_method: "bacs",
-          payment_method_title: "Direct Bank Transfer",
-          set_paid: true,
-          billing: {
-            ...customer[0]?.billing
-          },
-          shipping: {
-            ...customer[0]?.shipping
-          },
-          line_items: lineItems,
-        }
-
-        console.log('Order Data', orderData);
-    
-        try {
-          await createOrder(orderData);
-          dispatch(emptyCart());
-          navigate('/');
-          toast.success('Your Order has been placed successfully',{
-            duration: 5000,
-            position: "bottom-center"
-          })
-        } catch (error) {
-          console.log(error);
-        }
+      try {
+        await createOrder(orderData);
+        dispatch(emptyCart());
+        navigate('/');
+        toast.success('Your Order has been placed successfully',{
+          duration: 5000,
+          position: "bottom-center"
+        })
+      } catch (error) {
+        console.log(error);
       }
     }
+  
   }
 
   const quantitySelected = 1;
@@ -340,6 +342,7 @@ const CheckoutPage = () => {
     return (
       <div className="space-y-8">
         <div id="ContactInfo" className="scroll-mt-24">
+
           <ContactInfo
             isMail={isSuccess && customer[0]?.email}
             customerID={isSuccess && customer[0]?.id}
@@ -353,6 +356,7 @@ const CheckoutPage = () => {
               handleScrollToEl("ShippingAddress");
             }}
           />
+
         </div>
 
         <div id="ShippingAddress" className="scroll-mt-24">

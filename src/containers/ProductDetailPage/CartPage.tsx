@@ -1,4 +1,3 @@
-import React, { useMemo } from "react";
 import { NoSymbolIcon, CheckIcon } from "@heroicons/react/24/outline";
 import Prices from "components/Prices";
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/solid";
@@ -60,7 +59,7 @@ const CartPage = () => {
             />
             )} 
             
-            <Link to={`/product/${item?.id}`} className="absolute inset-0"></Link>
+            <Link to={`/product/${item?.product_id}`} className="absolute inset-0"></Link>
           </div>
   
           <div className="ml-3 sm:ml-6 flex flex-1 flex-col">
@@ -162,9 +161,8 @@ const CartPage = () => {
             </div>
   
             <div className="flex mt-auto pt-4 items-end justify-between text-sm">
-              {item?.stock_quantity <= 0
-                ? renderStatusSoldout()
-                : renderStatusInstock()
+              {
+               item?.stock_status === 'instock' ? renderStatusInstock() :renderStatusSoldout() 
               }
   
               <a

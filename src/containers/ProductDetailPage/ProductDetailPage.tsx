@@ -171,19 +171,20 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
       name:`${product?.name}`,  
       quantitySelected, 
     }));
-      toast.custom(
-        (t) => (
-          <NotifyAddTocart
-            productName={product?.name}
-            productImage={variant[0].image.src}
-            qualitySelected={quantitySelected}
-            productPrice={+variant[0].price}
-            productVariant={selectedVariant}
-            show={t.visible}
-          />
-        ),
-        { position: "top-right", id: "nc-product-notify", duration: 1000 }
-      );
+
+    toast.custom(
+      (t) => (
+        <NotifyAddTocart
+          productName={product?.name}
+          productImage={variant[0].image.src}
+          qualitySelected={quantitySelected}
+          productPrice={+variant[0].price}
+          productVariant={selectedVariant}
+          show={t.visible}
+        />
+      ),
+      { position: "top-right", id: "nc-product-notify", duration: 1000 }
+    );
 
   };
 
