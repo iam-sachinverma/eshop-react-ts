@@ -1,9 +1,10 @@
+import React from "react";
 import ProductDetailPage from "./ProductDetailPage";
 import SimpleProductDetailPage from "./SimpleProductDetailPage"
-
-import { useParams } from "react-router-dom";
-import { useGetProductQuery } from "features/product/productApiSlice";
 import Loader from "components/Loader/Loader";
+
+import { useGetProductQuery } from "features/product/productApiSlice";
+import { useParams } from "react-router-dom";
 
 const ProductType = () => {
 

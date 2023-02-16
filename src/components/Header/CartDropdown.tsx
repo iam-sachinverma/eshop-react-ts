@@ -1,3 +1,4 @@
+import React from "react";
 import { Popover, Transition } from "@headlessui/react";
 import Prices from "components/Prices";
 import { Fragment } from "react";
@@ -171,7 +172,7 @@ export default function CartDropdown() {
                                 Shipping and taxes calculated at checkout.
                               </span>
                             </span>
-                            <span className="">₹ {cartItems?.total}</span>
+                            <span>₹ {cartItems?.total}</span>
                           </p>
                           <div className="flex space-x-2 mt-5">
                             <ButtonSecondary

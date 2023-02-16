@@ -1,4 +1,4 @@
-import { FC, useId } from "react";
+import React, { FC, useId } from "react";
 import Glide from "@glidejs/glide";
 import Heading from "components/Heading/Heading";
 import { useEffect } from "react";

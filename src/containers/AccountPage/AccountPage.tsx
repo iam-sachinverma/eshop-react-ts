@@ -1,5 +1,4 @@
 import React, { FC } from "react";
-
 import { useGetCustomerQuery } from "features/customer/customerApiSlice";
 import { useAppSelector } from "app/hooks";
 

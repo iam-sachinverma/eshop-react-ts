@@ -1,4 +1,6 @@
 import ReactDOM from "react-dom/client";
+import React from "react";
+
 //
 import "./styles/index.scss";
 import "./index.css";
