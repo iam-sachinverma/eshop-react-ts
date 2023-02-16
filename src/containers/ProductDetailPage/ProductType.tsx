@@ -9,18 +9,18 @@ const ProductType = () => {
 
   const params = useParams();
 
-  const { data:productData, isSuccess:productFullfilled, isLoading, isFetching } = useGetProductQuery(params?.id);
+  const { data:productData, isSuccess:productFullfilled } = useGetProductQuery(params?.id);
 
   let content;
 
-  if(isLoading || isFetching) {
+  if(!productFullfilled) {
     content = (
       <main className="">
         <Loader></Loader>
       </main>
     )
   }else{
-    content = productData.type === 'variable' ? (
+    content = productData?.type === 'variable' ? (
       <ProductDetailPage product={productData}/>
     ) : (
       <SimpleProductDetailPage product={productData}/>

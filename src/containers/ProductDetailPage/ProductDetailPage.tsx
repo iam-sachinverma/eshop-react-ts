@@ -61,7 +61,7 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
   const dispatch = useAppDispatch();
 
   // Rtk query hook
-  const { data:productVariants } = useGetProductVariationsQuery(params?.id);
+  const { data:productVariants, isSuccess:productVariantsFullfilled } = useGetProductVariationsQuery(params?.id);
 
   // Variations State
   const [quantitySelected, setQuantitySelected] = React.useState(1);
@@ -88,6 +88,7 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
   }
 
   const getProductVariant = () => {
+    if(!productVariantsFullfilled) return;
     const product = productVariants?.filter((item:any) => JSON.stringify(item.attributes) == JSON.stringify(selectedVariant));
     return product;
   }
