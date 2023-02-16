@@ -1,4 +1,4 @@
-import { FC, useState, useCallback, useMemo } from "react";
+import React, { FC, useState, useCallback, useMemo } from "react";
 import { Helmet } from "react-helmet";
 import ProductCard from "components/ProductCard";
 import SidebarFilters from "./SidebarFilters";

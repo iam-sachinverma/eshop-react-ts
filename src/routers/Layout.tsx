@@ -1,3 +1,4 @@
+import React from "react";
 import { Outlet } from "react-router-dom";
 import SiteHeader from "containers/SiteHeader";
 import Footer from "shared/Footer/Footer";

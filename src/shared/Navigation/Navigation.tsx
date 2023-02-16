@@ -1,4 +1,4 @@
-import { FC } from "react";
+import react, { FC } from "react";
 import NavigationItem from "./NavigationItem";
 
 interface NavigationProps {

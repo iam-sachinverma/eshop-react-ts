@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Switch } from "@headlessui/react";
 import Label from "./Label/Label";
 

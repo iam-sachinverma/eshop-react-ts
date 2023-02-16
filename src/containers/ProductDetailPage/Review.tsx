@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import ReviewItem from "components/ReviewItem";
 import ButtonSecondary from "shared/Button/ButtonSecondary";
 import { StarIcon } from "@heroicons/react/24/solid";

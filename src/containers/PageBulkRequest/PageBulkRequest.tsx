@@ -1,3 +1,4 @@
+import React from "react";
 import { Helmet } from "react-helmet";
 import backgroundLineSvg from "images/Moon.svg";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
