@@ -1,3 +1,4 @@
+import React from "react";
 import { Helmet } from "react-helmet";
 import SectionHero2 from "components/SectionHero/SectionHero2";
 import SectionSliderProductCard from "components/SectionSliderProductCard";

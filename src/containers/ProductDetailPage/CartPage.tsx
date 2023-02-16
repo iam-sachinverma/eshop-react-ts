@@ -1,3 +1,4 @@
+import React from "react";
 import { NoSymbolIcon, CheckIcon } from "@heroicons/react/24/outline";
 import Prices from "components/Prices";
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/solid";

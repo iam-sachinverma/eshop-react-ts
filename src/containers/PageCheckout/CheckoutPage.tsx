@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { removeProduct, decreaseProduct, addProductToCart, emptyCart } from "app/cartSlice";
 import { useGetCustomerQuery } from "features/customer/customerApiSlice";
