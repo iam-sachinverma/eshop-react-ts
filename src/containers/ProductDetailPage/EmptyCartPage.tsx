@@ -17,7 +17,7 @@ const EmptyCartPage = () => {
                     <span className="block text-xl text-neutral-800 dark:text-neutral-200 tracking-wider font-medium">
                      Your EcoFreaky Cart is empty.{" "}
                     </span>
-                    <span className="text-sm">Spend ₹1,500 more to get FREE Shipping</span>
+                    <span className="text-sm">Spend ₹499 more to get FREE Shipping</span>
                     <div className="pt-6">
                      <ButtonPrimary href="/" className="mx-2">Shop Eco-Friendly Products</ButtonPrimary>
                     </div>

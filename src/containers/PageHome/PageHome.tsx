@@ -19,13 +19,13 @@ function PageHome() {
       {/* SECTION HERO */}
       <SectionHero2 />
 
-      <div className="container relative space-y-24 my-8 md:my-12 lg:space-y-20 lg:my-14">
+      <div className="container relative space-y-24 my-8 md:my-12 lg:space-y-28 lg:my-14">
         
         {/* SECTION */}
         <SectionSliderProductCard
           heading="Best Sellers"
           subHeading="Best selling of the month"
-          data={products}
+          data={products?.filter((product: any) => product.featured === true)}
         />
         
         <div className="mt-20 lg:mt-30">

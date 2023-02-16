@@ -39,7 +39,7 @@ const PageBulkRequest = () => {
               </span>
             </div>
 
-            <CallTo phone={"+917048947169"}>
+            <CallTo email={"team@ecofreaky.com"}>
               <br></br><br></br>
               <ButtonPrimary
                 className="nc-SectionHero2Item__button dark:bg-slate-900"

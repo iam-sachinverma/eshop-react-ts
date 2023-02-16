@@ -81,18 +81,17 @@ const ProductCard: FC<ProductCardProps> = ({
     <>
       <div
         className={`nc-ProductCard relative flex flex-col bg-transparent ${className}`}
-        data-nc-id="ProductCard"
+        data-nc-id="ProductCard" 
       >
         <Link  to={`/product/${id}`} className="absolute inset-0" aria-label={`Open Product ${data?.name}`}></Link>
 
-        <div className="relative flex-shrink-0 bg-slate-50 dark:bg-slate-300 rounded-3xl overflow-hidden z-1 group">
+        <div className="relative flex-shrink-0 bg-slate-50 dark:bg-slate-300 rounded overflow-hidden z-1 group">
           <Link to={`/product/${id}`} className="block" aria-label={`Open Product ${data?.name}`}>
             <NcImage
               containerClassName="flex aspect-w-11 aspect-h-10 w-full h-0"
               src={data?.images?.[0]?.src}
               className="object-cover w-full h-full drop-shadow-xl"
             />
-            
           </Link>
 
           { renderStatus() }
@@ -100,29 +99,30 @@ const ProductCard: FC<ProductCardProps> = ({
           { renderGroupButtons() }
         </div>  
 
-        <div className="space-y-4 px-2.5 pt-5 pb-2.5">
+        <div className="space-y-4 px-1 pt-5 pb-2.5">
 
           <div>
             <h2
-              className={`nc-ProductCard__title text-base font-semibold transition-colors`}
+              className={`nc-ProductCard__title text-sm md:text-base lg:text-lg font-medium transition-colors`}
             >
               {name}
             </h2>
-            {/* <p className={`text-sm text-slate-500 dark:text-slate-400 mt-1 `} 
-            dangerouslySetInnerHTML={{__html: short_description}}>
-            </p> */}
           </div>
 
-          <div className="flex justify-between items-end ">
-            <Prices price={+price} />
-            <div className="flex items-center mb-0.5">
-              <StarIcon className="w-5 h-5 pb-[1px] text-amber-400" />
-              <span className="text-sm ml-1 text-slate-500 dark:text-slate-400">
-                {(Math.random() * 1 + 4).toFixed(1)} (
-                {Math.floor(Math.random() * 70 + 20)} reviews)
-              </span>
-            </div>
+          <div className="flex justify-between items-start">
+            {/* <Prices price={+price} /> */}
+            <p className="text-sm md:text-base lg:text-lg font-medium text-green-500" dangerouslySetInnerHTML={{ __html: data?.price_html }}></p>
           </div>
+          {/* <Link to={`/product/${id}`}>
+                <ButtonPrimary
+                  className="shadow-lg"
+                  fontSize="text-xs"
+                  sizeClass="py-2 px-4"
+                >
+                  <BagIcon className="w-3.5 h-3.5 mb-0.5" />
+                  <span className="ml-1">View Product</span>
+                </ButtonPrimary>
+              </Link> */}
         </div>
       </div>
     </>

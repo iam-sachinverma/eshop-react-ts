@@ -95,13 +95,11 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
   const variant = useMemo(() => getProductVariant(),[selectedVariant]);
 
   const renderProductAttributes = (item : ProductAttributes, indexAttr:number) => {
-    if(product.attributes.length === 0 ){
+    if(product.attributes.visible === false){
       return;
     }
 
     const { id, name, options } = item;
-
-    console.log(options);
 
     return (
       <div key={indexAttr}>

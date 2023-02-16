@@ -1,12 +1,12 @@
 import React, { FC } from "react";
 
 interface CallToProps {
-   phone: string,
+   email: string,
    children: React.ReactNode
 }
 
-const CallTo: FC<CallToProps> = ({ phone, children }) => (
-    <a href={`tel:${phone}`}>{children}</a>
+const CallTo: FC<CallToProps> = ({ email, children }) => (
+    <a href={`mailto:${email}?subject=B2B Offering Bulk Requests`}>{children}</a>
 )
    
 export default CallTo

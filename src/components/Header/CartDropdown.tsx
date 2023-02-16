@@ -98,7 +98,7 @@ export default function CartDropdown() {
               <span className="mt-[2px]">{cartItems?.quantity}</span>
             </div>
             <svg
-              className="w-6 h-6 text-white"
+              className="w-7 h-7 text-white"
               viewBox="0 0 24 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"

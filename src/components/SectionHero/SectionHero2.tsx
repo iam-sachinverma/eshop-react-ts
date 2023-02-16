@@ -121,7 +121,7 @@ const SectionHero2: FC<SectionHero2Props> = ({ className = "" }) => {
         key={index}
       >
 
-        <Prev
+        {/* <Prev
           className="absolute left-1 sm:left-5 top-1/4 sm:top-1/2 sm:-translate-y-1/2 z-10 !text-slate-700"
           btnClassName="w-12 h-12 hover:border-slate-400 dark:hover:border-slate-400"
           svgSize="w-6 h-6"
@@ -132,13 +132,13 @@ const SectionHero2: FC<SectionHero2Props> = ({ className = "" }) => {
           btnClassName="w-12 h-12 hover:border-slate-400 dark:hover:border-slate-400"
           svgSize="w-6 h-6"
           onClickNext={handleClickNext}
-        />
+        /> */}
 
-        <div className="lg:hidden block relative p-0">
+        <div className="lg:hidden block p-0">
           <NcImage className='w-full h-full object-contain object-center' src={item?.image} />
         </div>
         
-        <div className="hidden lg:block relative p-0">
+        <div className="hidden lg:block p-0">
          <NcImage className='w-full h-full object-contain object-center' src={item?.imageDesktop} /> 
         </div>
 

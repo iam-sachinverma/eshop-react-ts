@@ -63,7 +63,7 @@ const MenuBar: React.FC<MenuBarProps> = (navigation) => {
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-7 w-7 text-white"
+          className="h-8 w-8 text-white"
           viewBox="0 0 20 20"
           fill="currentColor"
         >

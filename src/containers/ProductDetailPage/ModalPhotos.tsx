@@ -124,7 +124,6 @@ const ModalPhotos: FC<ModalPhotosProps> = ({
           <div className="relative inline-block w-full max-w-5xl py-5 sm:py-8 h-screen align-middle mx-auto">
             {renderSlider()}
           </div>
-          
         </div>
       </Dialog>
     );

@@ -28,7 +28,7 @@ export default function AvatarDropdown() {
               className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full text-slate-700 dark:text-slate-300  dark:hover:bg-slate-800 focus:outline-none flex items-center justify-center`}
             >
               <svg
-                className=" w-6 h-6 text-white"
+                className="w-7 h-7 text-white"
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"

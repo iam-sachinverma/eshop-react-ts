@@ -1,6 +1,5 @@
 import React, { FC } from "react";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
-import LikeButton from "components/LikeButton";
 import AccordionInfo from "./AccordionInfo";
 import { StarIcon } from "@heroicons/react/24/solid";
 import BagIcon from "components/BagIcon";
@@ -228,8 +227,7 @@ const SimpleProductDetailPage: FC<SimpleProductDetailPageProps> = ({ className =
               {/* Render Status */}
               {renderStatus()}
 
-              {/* META FAVORITES */}
-              <LikeButton className="absolute right-3 top-3 " />
+         
             </div>
             <div className="grid grid-cols-2 gap-3 mt-3 sm:gap-6 sm:mt-6 xl:gap-8 xl:mt-8">
               {product?.images?.map((item: any, index: number) => {

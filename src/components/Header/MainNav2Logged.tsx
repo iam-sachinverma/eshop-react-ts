@@ -22,8 +22,6 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = (data) => {
 
   const navigate = useNavigate();
 
-  const [showSearchForm, setShowSearchForm] = useState(false);
-
   const {register, handleSubmit} = useForm<SearchValue>();
 
   const onSubmit: SubmitHandler<SearchValue> = async (data) => {
@@ -46,7 +44,7 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = (data) => {
   const renderMagnifyingGlassIcon = () => {
     return (
       <svg
-        className="text-white"
+        className="text-black"
         width={22}
         height={22}
         viewBox="0 0 24 24"
@@ -78,7 +76,6 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = (data) => {
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="bg-slate-50 dark:bg-slate-800 flex items-center space-x-1.5 px-5 h-full rounded">
-          {renderMagnifyingGlassIcon()}
           <input
             {...register("search")} 
             // ref={inputRef}
@@ -86,10 +83,10 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = (data) => {
             type="search"
             placeholder="Search for products"
             className="border-none bg-transparent focus:outline-none focus:ring-0 w-full text-base"
-            autoFocus
+            
           />
-          <button type="button" onClick={() => setShowSearchForm(false)}>
-            <XMarkIcon className="w-5 h-5" />
+          <button type="submit">
+           {renderMagnifyingGlassIcon()}
           </button>
         </div>
         <input type="submit" hidden />
@@ -109,22 +106,13 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = (data) => {
         </div>
 
         <div className="flex-[3] hidden lg:flex justify-center">
-          { showSearchForm && renderSearchForm() }
+          { renderSearchForm() }
         </div>
         
-        <div className="flex-1 flex items-center justify-end text-slate-700 dark:text-slate-100">
-          {!showSearchForm && (
-            <button
-              className="hidden lg:flex w-10 h-10 sm:w-12 sm:h-12 rounded-full text-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none items-center justify-center"
-              onClick={() => setShowSearchForm(!showSearchForm)}
-              aria-label="search button"
-            >
-              {renderMagnifyingGlassIcon()}
-            </button>
-          )}
+        <div className="flex-1 flex items-center gap-2 justify-end text-slate-700 dark:text-slate-100">
 
           <AvatarDropdown />
-
+          
           <CartDropdown />
           
         </div>

@@ -34,7 +34,7 @@ const DEMO_DATA = [
     image: client3,
     clientName: "Yogesh Shinde",
     content:
-      "This marketplace will easily provide a guilt-free shopping experience to consumers because other marketplaces generate a lot of waste in deliveries",
+      "This website will easily provide a guilt-free shopping experience to consumers because some other platforms generate a lot of waste in deliveries",
     designation: "Bamboo Man of India",
   },
   {
@@ -42,7 +42,7 @@ const DEMO_DATA = [
     image: client4,
     clientName: "Binish Desai",
     content:
-      "I have always wanted a one-stop marketplace for sustainable products to cut down the hassle of scouring the internet for sustainable products. And Ecofreaky is just that.",
+      "I have always wanted a one-stop ecommerce store for sustainable products to cut down the hassle of scouring the internet for sustainable products. And Ecofreaky is just that.",
     designation: "Recycle Man Of India",
   },
 ];
