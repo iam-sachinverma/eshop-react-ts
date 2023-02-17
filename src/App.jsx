@@ -19,7 +19,7 @@ import PageHome from "containers/PageHome/PageHome";
 //   import(/* webpackPrefetch: true */ "containers/PageCollection2")
 // );
 
-const PageCollection2 = React.lazy(() =>
+const PageCollection2 = lazy(() =>
   lazyRetry(
     () =>
       import(
