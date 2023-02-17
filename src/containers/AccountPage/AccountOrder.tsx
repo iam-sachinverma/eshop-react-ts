@@ -1,13 +1,11 @@
 import React from "react";
 import Prices from "components/Prices";
-import { PRODUCTS } from "data/data";
 import ButtonSecondary from "shared/Button/ButtonSecondary";
 import CommonLayout from "./CommonLayout";
 
 import { useGetOrderQuery } from "features/order/orderApiSlice";
 import { useGetCustomerQuery, useUpdateCustomerMutation } from "features/customer/customerApiSlice";
 import { useAppDispatch, useAppSelector } from "app/hooks";
-
 
 const AccountOrder = () => {
   

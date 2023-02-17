@@ -4,7 +4,7 @@ const orderApiSlice = apiSlice.injectEndpoints({
   endpoints: (build) => ({
     getOrder: build.query({
       query: (customerID) => ({
-        url: `orders?${customerID}`,
+        url: `orders?customer=${customerID}`,
         credentials: "include",
       }),
     }),
