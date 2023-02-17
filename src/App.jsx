@@ -7,31 +7,17 @@ import Loader from "components/Loader/Loader";
 import Layout from "routers/Layout";
 import RequireAuth from "routers/RequiredAuth";
 
-import lazyRetry from "utils/lazyRetry";
-
 import PageHome from "containers/PageHome/PageHome";
-// import PageCollection2 from "containers/PageCollection2";
-// import ProductType from "containers/ProductDetailPage/ProductType";
+import PageCollection2 from "containers/PageCollection2";
+import ProductType from "containers/ProductDetailPage/ProductType";
 
 // Lazy Load Components
 
-// const PageCollection2 = lazy(() =>
-//   import(/* webpackPrefetch: true */ "containers/PageCollection2")
+// const PageCollection2 = lazy(() => import("containers/PageCollection2"));
+
+// const ProductType = lazy(() =>
+//   import("containers/ProductDetailPage/ProductType")
 // );
-
-const PageCollection2 = lazy(() =>
-  lazyRetry(
-    () =>
-      import(
-        /* webpackChunkName: "PageCollection2" */ "containers/PageCollection2"
-      ),
-    "PageCollection2"
-  )
-);
-
-const ProductType = lazy(() =>
-  import(/* webpackPrefetch: true */ "containers/ProductDetailPage/ProductType")
-);
 
 const PageSearch = lazy(() => import("containers/PageSearch"));
 
