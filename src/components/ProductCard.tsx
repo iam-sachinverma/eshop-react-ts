@@ -113,16 +113,21 @@ const ProductCard: FC<ProductCardProps> = ({
             {/* <Prices price={+price} /> */}
             <p className="text-sm md:text-base lg:text-lg font-medium text-green-500" dangerouslySetInnerHTML={{ __html: data?.price_html }}></p>
           </div>
-          {/* <Link to={`/product/${id}`}>
-                <ButtonPrimary
-                  className="shadow-lg"
-                  fontSize="text-xs"
-                  sizeClass="py-2 px-4"
-                >
-                  <BagIcon className="w-3.5 h-3.5 mb-0.5" />
-                  <span className="ml-1">View Product</span>
-                </ButtonPrimary>
-              </Link> */}
+
+          <div className="mx-auto flex content-center">
+            <Link to={`/product/${id}`}>
+              <ButtonPrimary
+                className=""
+                fontSize="text-xs"
+                sizeClass="py-2 px-4"
+              >
+                <BagIcon className="w-3.5 h-3.5 mb-0.5" />
+                <span className="ml-1">View Product</span>
+              </ButtonPrimary>
+            </Link>
+          </div>
+          
+
         </div>
       </div>
     </>

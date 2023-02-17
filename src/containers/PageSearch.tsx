@@ -28,7 +28,7 @@ const PageSearch: FC<PageSearchProps> = ({ className = "" }) => {
     content = 'Loading products....'
   }else if(isSuccess) {
     content = (
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-10 mt-8 lg:mt-10">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-x-4 gap-y-10">
         {searchedProducts.map((item: any, index: number) => (
           <ProductCard data={item} key={index} />
         ))}
