@@ -26,7 +26,7 @@ function PageHome() {
         <SectionSliderProductCard
           heading="Best Sellers"
           subHeading="Best selling of the month"
-          data={products?.filter((product: any) => product.featured === true)}
+          data={products?.filter((product: any) => product.featured)}
         />
         
         <div className="mt-20 lg:mt-30">
