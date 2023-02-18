@@ -17,6 +17,9 @@ const productApiSlice = apiSlice.injectEndpoints({
     getSearchedProducts: build.query({
       query: (search) => `products?search=${search}`,
     }),
+    getUpsellsProducts: build.query({
+      query: (upsell_ids) => `products?include=${upsell_ids}`,
+    }),
   }),
 });
 
@@ -26,4 +29,5 @@ export const {
   useGetProductVariationsQuery,
   useGetAttributeTermsQuery,
   useGetSearchedProductsQuery,
+  useGetUpsellsProductsQuery,
 } = productApiSlice;

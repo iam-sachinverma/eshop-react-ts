@@ -11,17 +11,9 @@ import {
 import IconDiscount from "components/IconDiscount";
 import Prices from "components/Prices";
 import toast from "react-hot-toast";
-import SectionSliderProductCard from "components/SectionSliderProductCard";
 import Policy from "./Policy";
 import NotifyAddTocart from "components/NotifyAddTocart";
 
-//
-import FiveStartIconForRate from "components/FiveStartIconForRate"; 
-import Label from "components/Label/Label";
-import Textarea from "shared/Textarea/Textarea";
-import Review from "./Review"
-
-// 
 import { addProductToCart } from "app/cartSlice";
 import { useParams } from "react-router-dom";
 import { useAppDispatch } from "app/hooks";
@@ -46,14 +38,6 @@ export interface VariantAttribute {
   id: string,
   name: string,
   option: string,
-}
-
-type ReviewForm = {
-  product_id: string,
-  review: string,
-  reviewer?: string,
-  reviewer_email: string,
-  rating: number,
 }
 
 const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product }) => {
@@ -380,7 +364,6 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
 
           <hr className="border-slate-200 dark:border-slate-700" />
 
-          <Review/>
 
           <hr className="border-slate-200 dark:border-slate-700" />
 

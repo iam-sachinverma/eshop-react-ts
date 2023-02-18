@@ -2,10 +2,11 @@ import React, { FC } from "react";
 import { Link } from "react-router-dom";
 import NcImage from "shared/NcImage/NcImage";
 import Prices from "./Prices";
-import { StarIcon } from "@heroicons/react/24/solid";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
 import BagIcon from "./BagIcon";
 import IconDiscount from "./IconDiscount";
+import { StarIcon } from "@heroicons/react/24/solid";
+import calcDiscount from "utils/discountCalc";
 
 import {
   NoSymbolIcon,
@@ -36,13 +37,17 @@ const ProductCard: FC<ProductCardProps> = ({
     if (!data) {
       return null;
     }
+
     const CLASSES = `nc-shadow-lg rounded-full flex items-center justify-center absolute top-3 left-3 px-2.5 py-1.5 text-xs bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300`;
 
-    if (data?.on_sale === true) {
+    if (data?.on_sale === true && data.type === 'simple') {
+
+      const percentage = calcDiscount(+data.regular_price, +data.sale_price);
+      
       return (
-        <div className={CLASSES}>
-          <IconDiscount className="w-3.5 h-3.5" />
-          <span className="ml-1 leading-none">On Sale</span>
+        <div className={`${CLASSES}`}>
+          <span className="ml-1 leading-none text-green-500 text-sm">{percentage}% Off</span>
+          {/* <IconDiscount className="w-3.5 h-3.5" /> */}
         </div>
       );
     }

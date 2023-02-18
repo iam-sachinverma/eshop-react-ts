@@ -14,11 +14,11 @@ import toast from "react-hot-toast";
 import SectionSliderProductCard from "components/SectionSliderProductCard";
 import Policy from "./Policy";
 import NotifyAddTocart from "components/NotifyAddTocart";
-import Review from "./Review"
 
 // 
 import { addProductToCart } from "app/cartSlice";
 import { useAppDispatch } from "app/hooks";
+import { useGetUpsellsProductsQuery } from "features/product/productApiSlice";
 
 export interface SimpleProductDetailPageProps {
   className?: string;
@@ -28,7 +28,12 @@ export interface SimpleProductDetailPageProps {
 const SimpleProductDetailPage: FC<SimpleProductDetailPageProps> = ({ className = "", product }) => {
   const dispatch = useAppDispatch();
 
-  const [quantitySelected, setQuantitySelected] = React.useState(1);  
+  const [quantitySelected, setQuantitySelected] = React.useState(1); 
+
+  // let upsell_ids = product.upsell_ids.toString();
+  // console.log(upsell_ids);
+  
+  // const { data:realtedProducts, isSuccess:realtedProductsFullfilled } = useGetUpsellsProductsQuery(upsell_ids);
   
   const DescriptionData = [
     {
@@ -68,7 +73,7 @@ const SimpleProductDetailPage: FC<SimpleProductDetailPageProps> = ({ className =
         </div>
       );
     }
-    if (product?.on_sale === true) {
+    if (product.on_sale === true) {
       return (
         <div className={CLASSES}>
           <IconDiscount className="w-3.5 h-3.5" />
@@ -76,7 +81,7 @@ const SimpleProductDetailPage: FC<SimpleProductDetailPageProps> = ({ className =
         </div>
       );
     }
-    if (product?.stock_status === 'outstock') {
+    if (product.stock_status === 'outstock') {
       return (
         <div className={CLASSES}>
           <NoSymbolIcon className="w-3.5 h-3.5" />
@@ -84,14 +89,7 @@ const SimpleProductDetailPage: FC<SimpleProductDetailPageProps> = ({ className =
         </div>
       );
     }
-    // if (status === "limited edition") {
-    //   return (
-    //     <div className={CLASSES}>
-    //       <ClockIcon className="w-3.5 h-3.5" />
-    //       <span className="ml-1 leading-none">{status}</span>
-    //     </div>
-    //   );
-    // }
+  
     return null;
   };
 
@@ -176,42 +174,10 @@ const SimpleProductDetailPage: FC<SimpleProductDetailPageProps> = ({ className =
     );
   };
 
-  // const renderReviewForm = () => {
-  //   return (
-  //     <div>
-  //       <form className="grid grid-cols-1 gap-12" onSubmit={handleSubmit(onSubmit)}>
-          
-  //         <input type="text" {...register("product_id")} id="product_id" hidden value={product?.id}/>
-
-  //         <div className="">
-  //          <Label>Rate this product</Label>
-  //          <FiveStartIconForRate defaultPoint={point} setPoint={setPoints}/>
-  //         </div>
-          
-  //         <div className="">
-  //           <Label>Review this product</Label>
-  //           <Textarea {...register("review")} id="review"  className="mt-1.5"  placeholder="Your review should be about your experience with the product" />
-  //         </div>
-
-  //         <input type="text" hidden {...register("reviewer")} id="reviewer" value={user?.user_email}/>
-  //         <input type="text" hidden {...register("reviewer_email")} id="reviewer_email" value={user?.user_nicename}/>
-          
-  //         <ButtonPrimary
-  //           type="submit"
-  //           className="flex-1"
-  //           >
-  //           Submit
-  //         </ButtonPrimary>
-           
-  //       </form>
-  //     </div>
-  //   )
-  // }
-
   return (
     <div className={`nc-ProductDetailPage ${className}`}>
       {/* Main */}
-      <main className="container mt-5 lg:mt-11">
+      <main className="container my-5 lg:my-11">
         <div className="lg:flex">
           {/* CONTENT */}
           <div className="w-full lg:w-[55%] ">
@@ -265,19 +231,14 @@ const SimpleProductDetailPage: FC<SimpleProductDetailPageProps> = ({ className =
 
           <hr className="border-slate-200 dark:border-slate-700" />
 
-          <hr className="border-slate-200 dark:border-slate-700" />
-
-          <Review/>
-
-          <hr className="border-slate-200 dark:border-slate-700" />
-
           {/* OTHER SECTION */}
+
           <SectionSliderProductCard
             heading="Customers also purchased"
             subHeading=""
             headingFontClassName="text-2xl font-semibold"
             headingClassName="mb-10 text-neutral-900 dark:text-neutral-50"
-            // data={relatedProducts}
+            // data={realtedProducts}
           />
 
         </div>
