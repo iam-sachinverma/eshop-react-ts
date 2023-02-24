@@ -14,6 +14,7 @@ import toast from "react-hot-toast";
 import SectionSliderProductCard from "components/SectionSliderProductCard";
 import Policy from "./Policy";
 import NotifyAddTocart from "components/NotifyAddTocart";
+import calcDiscount from "utils/discountCalc";
 
 // 
 import { addProductToCart } from "app/cartSlice";
@@ -30,10 +31,11 @@ const SimpleProductDetailPage: FC<SimpleProductDetailPageProps> = ({ className =
 
   const [quantitySelected, setQuantitySelected] = React.useState(1); 
 
-  // let upsell_ids = product.upsell_ids.toString();
-  // console.log(upsell_ids);
+  let upsell_ids = product.upsell_ids.toString();
+  console.log(upsell_ids);
   
-  // const { data:realtedProducts, isSuccess:realtedProductsFullfilled } = useGetUpsellsProductsQuery(upsell_ids);
+  const { data:realtedProducts, isSuccess:realtedProductsFullfilled } = useGetUpsellsProductsQuery(upsell_ids);
+  console.log(realtedProducts);
   
   const DescriptionData = [
     {
@@ -60,46 +62,51 @@ const SimpleProductDetailPage: FC<SimpleProductDetailPageProps> = ({ className =
   };
 
   const renderStatus = () => {
+
     if (!product) {
       return null;
     }
+
     const CLASSES =
-      "absolute top-3 left-3 px-2.5 py-1.5 text-xs bg-white dark:bg-slate-900 nc-shadow-lg rounded-full flex items-center justify-center text-slate-700 text-slate-900 dark:text-slate-300";
-    if (product?.featured === true) {
-      return (
-        <div className={CLASSES}>
-          <SparklesIcon className="w-3.5 h-3.5" />
-          <span className="ml-1 leading-none">Best Seller</span>
-        </div>
-      );
-    }
-    if (product.on_sale === true) {
-      return (
-        <div className={CLASSES}>
-          <IconDiscount className="w-3.5 h-3.5" />
-          <span className="ml-1 leading-none">On Sale</span>
-        </div>
-      );
-    }
-    if (product.stock_status === 'outstock') {
-      return (
-        <div className={CLASSES}>
-          <NoSymbolIcon className="w-3.5 h-3.5" />
-          <span className="ml-1 leading-none">Sold Out</span>
-        </div>
-      );
-    }
+      "absolute top-3 left-3 px-3.5 py-2.5 text-xs bg-white dark:bg-slate-900 nc-shadow-lg rounded-full flex items-center justify-center text-slate-700 text-slate-900 dark:text-slate-300";
+    
+      if (product.stock_status === 'outofstock') {
+      
+        return (
+          <div className={CLASSES}>
+            <NoSymbolIcon className="w-3.5 h-3.5" />
+            <span className="ml-1 leading-none">Sold Out</span>
+          </div>
+        );
+        
+      }else if(product.on_sale === true && product.type === 'simple') {
+  
+        const percentage = calcDiscount(+product.regular_price, +product.sale_price);
+  
+        return (
+          <div className={`${CLASSES}`}>
+            <span className="ml-1 leading-none text-green-500 text-sm">{percentage}% Off</span>
+          </div>
+        );
+  
+      }
   
     return null;
+  
   };
 
   const renderSectionContent = () => {
+
+    if (!product) {
+      return null;
+    }
+
     return (
       <div className="space-y-7 2xl:space-y-8">
         {/* ---------- 1 HEADING ----------  */}
         <div>
           <h2 className="text-2xl sm:text-3xl font-semibold">
-            {product?.name}
+            {product.name}
           </h2>
 
           <div className="flex items-center mt-5 space-x-4 sm:space-x-5">
@@ -107,7 +114,7 @@ const SimpleProductDetailPage: FC<SimpleProductDetailPageProps> = ({ className =
             
             <Prices
               contentClass="py-1 px-2 md:py-1.5 md:px-3 text-lg font-semibold"
-              price={+product?.price}
+              price={+product.price}
             />
             
             <div className="h-7 border-l border-slate-300 dark:border-slate-700"></div>
@@ -164,11 +171,16 @@ const SimpleProductDetailPage: FC<SimpleProductDetailPageProps> = ({ className =
   };
 
   const renderDetailSection = () => {
+
+    if(!product){
+      return;
+    }
+
     return (
       <div className="">
         <h2 className="text-2xl font-semibold">Product Details</h2>
 
-        <div className="prose prose-sm sm:prose dark:prose-invert sm:max-w-4xl mt-7"  dangerouslySetInnerHTML={{__html: product?.description}}>
+        <div className="prose prose-sm sm:prose dark:prose-invert sm:max-w-4xl mt-7"  dangerouslySetInnerHTML={{__html: product.description}}>
         </div>
       </div>
     );
@@ -190,10 +202,10 @@ const SimpleProductDetailPage: FC<SimpleProductDetailPageProps> = ({ className =
                   alt="product detail 1"
                 />
               </div>
+
               {/* Render Status */}
               {renderStatus()}
 
-         
             </div>
             <div className="grid grid-cols-2 gap-3 mt-3 sm:gap-6 sm:mt-6 xl:gap-8 xl:mt-8">
               {product?.images?.map((item: any, index: number) => {

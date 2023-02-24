@@ -8,6 +8,14 @@ const productApiSlice = apiSlice.injectEndpoints({
     getProduct: build.query({
       query: (productID) => `products/${productID}`,
     }),
+    getFeaturedProducts: build.query({
+      query: (feature) => {
+        return {
+          url: `products`,
+          params: { featured: feature },
+        }
+      }
+    }),
     getProductVariations: build.query({
       query: (productID) => `products/${productID}/variations`,
     }),
@@ -18,14 +26,22 @@ const productApiSlice = apiSlice.injectEndpoints({
       query: (search) => `products?search=${search}`,
     }),
     getUpsellsProducts: build.query({
-      query: (upsell_ids) => `products?include=${upsell_ids}`,
+      query: (upsell_ids) => {
+        return {
+          url: 'products',
+          params: {include: upsell_ids}
+        }
+      }
+      // query: (upsell_ids) => `products?include=${upsell_ids}`,
     }),
   }),
+  overrideExisting: false,
 });
 
 export const {
   useGetAllProductsQuery,
   useGetProductQuery,
+  useGetFeaturedProductsQuery,
   useGetProductVariationsQuery,
   useGetAttributeTermsQuery,
   useGetSearchedProductsQuery,

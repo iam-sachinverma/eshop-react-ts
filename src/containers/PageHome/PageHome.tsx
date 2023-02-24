@@ -4,11 +4,14 @@ import SectionHero2 from "components/SectionHero/SectionHero2";
 import SectionSliderProductCard from "components/SectionSliderProductCard";
 import DiscoverMoreSlider from "components/DiscoverMoreSlider";
 import SectionClientSay from "components/SectionClientSay/SectionClientSay";
-import { useGetAllProductsQuery } from "features/product/productApiSlice";
+import { useGetAllProductsQuery, useGetFeaturedProductsQuery } from "features/product/productApiSlice";
 
 function PageHome() {
   
   const { data:products, isSuccess } = useGetAllProductsQuery(null);
+  const { data:featuredProducts, isSuccess:featuredProductsFullfilled } = useGetFeaturedProductsQuery(true);
+  
+  console.log(featuredProducts);
   
   return (
     <div className="nc-PageHome relative overflow-hidden">
@@ -26,7 +29,7 @@ function PageHome() {
         <SectionSliderProductCard
           heading="Best Sellers"
           subHeading="Best selling of the month"
-          data={products?.filter((product: any) => product.featured)}
+          data={featuredProducts}
         />
         
         <div className="mt-20 lg:mt-30">

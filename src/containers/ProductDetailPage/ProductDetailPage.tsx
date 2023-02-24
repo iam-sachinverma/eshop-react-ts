@@ -172,17 +172,15 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
   };
 
   const renderStatus = () => {
+
+    if(!product){
+      return;
+    }
+
     const CLASSES =
       "absolute top-3 left-3 px-2.5 py-1.5 text-xs bg-white dark:bg-slate-900 nc-shadow-lg rounded-full flex items-center justify-center text-slate-700 text-slate-900 dark:text-slate-300";
-    if (product?.featured === true) {
-      return (
-        <div className={CLASSES}>
-          <SparklesIcon className="w-3.5 h-3.5" />
-          <span className="ml-1 leading-none">Best Seller</span>
-        </div>
-      );
-    }
-    if (product?.on_sale === true) {
+
+    if (product.on_sale === true) {
       return (
         <div className={CLASSES}>
           <span className="ml-1 leading-none">On Sale</span>
@@ -190,7 +188,7 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
         </div>
       );
     }
-    if (product?.stock_status === 'outstock') {
+    if (product.stock_status === 'outofstock') {
       return (
         <div className={CLASSES}>
           <NoSymbolIcon className="w-3.5 h-3.5" />
@@ -203,12 +201,17 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
   };
 
   const renderSectionContent = () => {
+
+    if(!product){
+      return;
+    }
+
     return (
       <div className="space-y-7 2xl:space-y-8">
         {/* ---------- 1 HEADING ----------  */}
         <div>
           <h2 className="text-2xl sm:text-3xl font-semibold">
-            {product?.name}
+            {product.name}
           </h2>
 
           <div className="flex items-center mt-5 space-x-4 sm:space-x-5">
@@ -221,7 +224,7 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
             ) : (
               <Prices
                contentClass="py-1 px-2 md:py-1.5 md:px-3 text-lg font-semibold"
-               price={+product?.price}
+               price={+product.price}
               />
             ) }
             
@@ -281,11 +284,16 @@ const ProductDetailPage: FC<ProductDetailPageProps> = ({ className = "", product
   };
 
   const renderDetailSection = () => {
+
+    if(!product){
+      return;
+    }
+
     return (
       <div className="">
         <h2 className="text-2xl font-semibold">Product Details</h2>
 
-        <div className="prose prose-sm sm:prose dark:prose-invert sm:max-w-4xl mt-7"  dangerouslySetInnerHTML={{__html: product?.description}}>
+        <div className="prose prose-sm sm:prose dark:prose-invert sm:max-w-4xl mt-7"  dangerouslySetInnerHTML={{__html: product.description}}>
         </div>
       </div>
     );
